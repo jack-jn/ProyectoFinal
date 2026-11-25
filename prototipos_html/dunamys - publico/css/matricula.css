@@ -1,0 +1,771 @@
+
+/* =========================================
+   DUNAMYS - SISTEMA DE MATRÍCULA
+========================================= */
+
+.enrollment-page {
+    background:
+        radial-gradient(circle at 10% 20%, rgba(237,16,45,.12), transparent 30%),
+        #090909;
+    min-height: 100vh;
+}
+
+.enrollment-page .navbar {
+    position: sticky;
+    top: 0;
+}
+
+.back-home {
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    transition: .3s;
+}
+
+.back-home:hover {
+    color: var(--red);
+}
+
+.enrollment-main {
+    max-width: 1120px;
+    margin: auto;
+    padding: 55px 25px 30px;
+}
+
+.enrollment-heading {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.enrollment-heading .eyebrow {
+    letter-spacing: 4px;
+}
+
+.enrollment-heading h1 {
+    font-size: clamp(27px,4vw,43px);
+    font-weight: 900;
+    margin: 16px 0;
+}
+
+.enrollment-heading h1 span {
+    color: var(--red);
+}
+
+.enrollment-heading p {
+    color: #aaa;
+    font-size: 13px;
+}
+
+/* PASOS */
+
+.steps-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin: 0 auto 35px;
+    max-width: 850px;
+}
+
+.steps-container::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 7%;
+    right: 7%;
+    height: 2px;
+    background: #383838;
+}
+
+.step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    color: #777;
+}
+
+.step span {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 2px solid #555;
+    background: #151515;
+    font-size: 14px;
+    font-weight: 800;
+    transition: .3s;
+}
+
+.step small {
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.step.active {
+    color: white;
+}
+
+.step.active span,
+.step.completed span {
+    background: var(--red);
+    border-color: var(--red);
+    color: white;
+    box-shadow: 0 0 20px rgba(237,16,45,.35);
+}
+
+/* TARJETA PRINCIPAL */
+
+.enrollment-card {
+    background: #fff;
+    color: #171717;
+    border-radius: 22px;
+    padding: 38px;
+    box-shadow: 0 15px 55px rgba(0,0,0,.3);
+}
+
+.form-step {
+    display: none;
+    animation: formEnter .4s ease;
+}
+
+.form-step.active {
+    display: block;
+}
+
+@keyframes formEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 27px;
+}
+
+.form-icon {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    background: #fff0f2;
+    color: var(--red);
+    border-radius: 15px;
+    font-size: 25px;
+}
+
+.form-title h2 {
+    font-size: 21px;
+    font-weight: 900;
+}
+
+.form-title p {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #777;
+}
+
+/* SELECCIÓN DE CURSOS */
+
+.enroll-course-grid {
+    display: grid;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 18px;
+}
+
+.enroll-course {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #eee;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.enroll-course:hover {
+    border-color: #f5a3ae;
+    transform: translateY(-3px);
+}
+
+.enroll-course:has(input:checked) {
+    border-color: var(--red);
+    box-shadow: 0 6px 20px rgba(237,16,45,.12);
+}
+
+.enroll-course input {
+    position: absolute;
+    opacity: 0;
+}
+
+.enroll-course > img {
+    width: 100%;
+    height: 125px;
+    object-fit: cover;
+}
+
+.enroll-course-info {
+    padding: 13px;
+}
+
+.enroll-course-info h3 {
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.enroll-course-info p {
+    color: #777;
+    font-size: 11px;
+    margin: 6px 0;
+}
+
+.enroll-course-info strong {
+    display: block;
+    color: var(--red);
+    font-size: 16px;
+}
+
+.course-selected {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    background: var(--red);
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(.5);
+    transition: .25s;
+}
+
+.enroll-course:has(input:checked) .course-selected {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.selection-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    padding: 17px;
+    background: #fff2f4;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+.selection-summary strong {
+    color: var(--red);
+}
+
+/* HORARIOS */
+
+.schedule-list {
+    display: grid;
+    gap: 17px;
+}
+
+.schedule-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 15px;
+    padding: 19px;
+    border: 1px solid #eee;
+    border-radius: 13px;
+}
+
+.schedule-item h3 {
+    font-size: 15px;
+}
+
+.schedule-item p {
+    color: #777;
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+.schedule-item select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    background: white;
+}
+
+.schedule-price {
+    grid-column: 1/-1;
+    color: var(--red);
+    font-weight: 900;
+    font-size: 15px;
+}
+
+.total-box,
+.payment-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px;
+    margin-top: 25px;
+    border-radius: 12px;
+    background: #fff0f2;
+}
+
+.total-box span,
+.payment-total span {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.total-box strong,
+.payment-total strong {
+    font-size: 25px;
+    color: var(--red);
+    font-weight: 900;
+}
+
+/* FORMULARIOS */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 22px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.field label {
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.field input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    outline: none;
+    font-family: inherit;
+    font-size: 12px;
+    transition: .3s;
+}
+
+.field input:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(237,16,45,.09);
+}
+
+.minor-notice {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 25px;
+    padding: 17px;
+    background: #fff5e9;
+    color: #805313;
+    border-radius: 10px;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.minor-notice i {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 12px;
+    line-height: 1.7;
+    margin-top: 24px;
+}
+
+.consent-label input {
+    accent-color: var(--red);
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* RESUMEN */
+
+.summary-person,
+.summary-courses {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.summary-person h3,
+.summary-courses h3 {
+    font-size: 14px;
+    margin-bottom: 17px;
+}
+
+.summary-person h3 i,
+.summary-courses h3 i {
+    color: var(--red);
+    margin-right: 7px;
+}
+
+.summary-data {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 15px;
+}
+
+.summary-data p {
+    font-size: 11px;
+    color: #777;
+    overflow-wrap: anywhere;
+}
+
+.summary-data strong {
+    display: block;
+    color: #222;
+    margin-top: 5px;
+}
+
+.summary-course-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 13px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 12px;
+}
+
+.summary-course-row strong {
+    color: var(--red);
+    white-space: nowrap;
+}
+
+.final-total {
+    background: #161616;
+    color: white;
+}
+
+/* MÉTODOS DE PAGO */
+
+.payment-options {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 20px;
+}
+
+.payment-option {
+    position: relative;
+    cursor: pointer;
+}
+
+.payment-option input {
+    position: absolute;
+    opacity: 0;
+}
+
+.payment-content {
+    min-height: 185px;
+    padding: 25px;
+    text-align: center;
+    border: 2px solid #eee;
+    border-radius: 15px;
+    transition: .3s;
+}
+
+.payment-option:has(input:checked) .payment-content {
+    border-color: var(--red);
+    background: #fff7f8;
+    box-shadow: 0 5px 20px rgba(237,16,45,.12);
+}
+
+.yape-logo {
+    color: #7b2cbf;
+    font-size: 32px;
+    font-weight: 900;
+    font-style: italic;
+    margin-bottom: 13px;
+}
+
+.card-symbol {
+    display: block;
+    color: #263d5b;
+    font-size: 37px;
+    margin-bottom: 13px;
+}
+
+.payment-content h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.payment-content p {
+    color: #777;
+    font-size: 11px;
+}
+
+.payment-check {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--red);
+    opacity: 0;
+    font-size: 21px;
+}
+
+.payment-option:has(input:checked) .payment-check {
+    opacity: 1;
+}
+
+.payment-message {
+    margin-top: 18px;
+    padding: 15px;
+    background: #f4f4f4;
+    border-radius: 10px;
+    color: #777;
+    font-size: 12px;
+    text-align: center;
+}
+
+.security-note {
+    margin-top: 20px;
+    color: #888;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* BOTONES */
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-next,
+.btn-back,
+.btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    transition: .3s;
+}
+
+.btn-next {
+    background: var(--red);
+    color: white;
+}
+
+.btn-next:hover {
+    background: var(--red-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 18px rgba(237,16,45,.25);
+}
+
+.btn-back,
+.btn-cancel {
+    background: #eee;
+    color: #333;
+}
+
+.btn-back:hover,
+.btn-cancel:hover {
+    background: #ddd;
+}
+
+.enrollment-footer {
+    color: #777;
+    text-align: center;
+    font-size: 11px;
+    padding: 30px 10px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px) {
+    .enrollment-main {
+        padding: 35px 15px;
+    }
+
+    .enrollment-card {
+        padding: 22px 16px;
+    }
+
+    .enroll-course-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 12px;
+    }
+
+    .enroll-course > img {
+        height: 110px;
+    }
+
+    .steps-container {
+        margin-bottom: 28px;
+    }
+
+    .step span {
+        width: 33px;
+        height: 33px;
+        font-size: 11px;
+    }
+
+    .steps-container::before {
+        top: 16px;
+    }
+
+    .step small {
+        font-size: 8px;
+    }
+
+    .form-grid,
+    .summary-data {
+        grid-template-columns: 1fr;
+    }
+
+    .schedule-item {
+        grid-template-columns: 1fr;
+    }
+
+    .schedule-price {
+        grid-column: auto;
+    }
+}
+
+@media(max-width:480px) {
+    .enrollment-heading h1 {
+        font-size: 27px;
+    }
+
+    .form-title h2 {
+        font-size: 17px;
+    }
+
+    .form-title p {
+        font-size: 10px;
+    }
+
+    .form-icon {
+        width: 43px;
+        height: 43px;
+    }
+
+    .enroll-course-info {
+        padding: 10px;
+    }
+
+    .enroll-course-info h3 {
+        font-size: 12px;
+    }
+
+    .enroll-course-info p {
+        font-size: 9px;
+    }
+
+    .enroll-course-info strong {
+        font-size: 14px;
+    }
+
+    .payment-options {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-wrap: wrap;
+    }
+
+    .btn-next,
+    .btn-back,
+    .btn-cancel {
+        padding: 13px 15px;
+        font-size: 11px;
+    }
+}
+
+/* =========================================
+   CORRECCIÓN CHECKBOX DE APODERADO
+========================================= */
+
+.full-field {
+    width: 100%;
+    grid-column: 1 / -1;
+}
+
+.field .consent-label {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 12px;
+
+    width: 100%;
+    padding: 16px;
+
+    background: #fff5f6;
+    border: 1px solid #f5d5da;
+    border-radius: 10px;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.7;
+    color: #333;
+}
+
+.field .consent-label input[type="checkbox"] {
+    appearance: auto;
+
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+
+    padding: 0;
+    margin: 3px 0 0;
+
+    border: none;
+    box-shadow: none;
+
+    flex: 0 0 18px;
+    accent-color: #ed102d;
+    cursor: pointer;
+}
+
+.field .consent-label input:focus {
+    box-shadow: none;
+}
+
+.field .consent-label:hover {
+    border-color: #ed102d;
+}

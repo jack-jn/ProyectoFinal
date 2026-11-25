@@ -1,0 +1,3554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portal del Estudiante | Academia de Música Dunamys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#CE2127; --red-dark:#A9171D; --red-soft:#FCEBEC; --red-border:#F6C6C8; --red-on-dark:#FF6B70;
+  --ink:#191718; --ink-2:#2B2729; --ink-3:#443F42;
+  --muted:#6B6568; --line:#E7E3E4; --bg:#F4F2F3; --surface:#FAF9F9; --white:#fff;
+  --green:#168854; --green-dark:#0F683F; --green-soft:#E3F6ED; --green-border:#B4E6CE;
+  --gold:#D9900D; --gold-dark:#855400; --gold-soft:#FEF3DC; --gold-border:#F7D794;
+  --blue:#2563EB; --blue-dark:#1D4ED8; --blue-soft:#EFF6FF; --blue-border:#BFDBFE;
+  --shadow-sm:0 2px 8px rgba(25,23,24,.04);
+  --shadow-md:0 10px 28px rgba(25,23,24,.08);
+  --shadow-lg:0 24px 60px rgba(25,23,24,.24);
+  --font-display:'Sora','Figtree',system-ui,sans-serif;
+  --font-body:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 var(--font-body)}
+body.no-scroll{overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+[hidden]{display:none !important}
+:focus-visible{outline:3px solid rgba(206,33,39,.4);outline-offset:2px}
+.i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- Layout Principal ---------- */
+.app{display:grid;grid-template-columns:272px 1fr;min-height:100vh}
+.sidebar{background:var(--ink);color:#fff;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:20px 16px 18px;z-index:40}
+.scrim{display:none}
+.main{padding:26px 36px 48px;min-width:0;max-width:1580px;width:100%}
+
+/* ---------- Barra Lateral ---------- */
+.brand{background:#fff;border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:10px;min-height:60px}
+.brand-mark{width:38px;height:38px;flex:none}
+.brand-name{font:700 20px/1 var(--font-display);color:var(--ink);letter-spacing:-.02em}
+.user{display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 0 18px;border-bottom:1px solid rgba(255,255,255,.1)}
+.avatar{width:64px;height:64px;border-radius:50%;border:2px solid var(--red);display:grid;place-items:center;background:var(--ink-2);color:#fff;font:700 22px/1 var(--font-display)}
+.user small{margin-top:10px;font-size:12px;letter-spacing:.06em;color:#BDB6B9}
+.user strong{font:700 16px/1.3 var(--font-display);color:var(--red-on-dark)}
+.nav{display:flex;flex-direction:column;gap:6px;padding:18px 0;flex:1}
+.nav-item{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:0;border-radius:12px;background:transparent;color:#D3CDCF;text-align:left;font-weight:500;line-height:1.25;transition:.16s}
+.nav-item .i{width:20px;height:20px}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-item.is-active{background:var(--red);color:#fff;font-weight:600;box-shadow:0 6px 18px rgba(206,33,39,.35)}
+.nav-item .chev{margin-left:auto;width:16px;height:16px}
+.sidebar-foot{border-top:1px solid rgba(255,255,255,.1);padding-top:14px;text-align:center;font:600 13px/1.4 var(--font-body);margin-bottom:12px}
+.sidebar-foot span{display:block;color:var(--red-on-dark)}
+.sidebar-logout{
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.06);
+  color:#EDEAEB;
+  border-radius:10px;
+  padding:9px 12px;
+  font-size:13px;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:.15s;
+}
+.sidebar-logout:hover{
+  background:rgba(206,33,39,.25);
+  border-color:var(--red-on-dark);
+  color:#fff;
+}
+
+/* ---------- Encabezados (Títulos ~26px según especificación) ---------- */
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.page-head h1{margin:0;font:700 26px/1.2 var(--font-display);letter-spacing:-.02em}
+.page-head h1 span{color:var(--red)}
+.page-head p{margin:5px 0 0;color:var(--muted);font-size:14px}
+.head-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.btn.menu-btn{display:none}
+
+.course-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 14px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:999px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink);
+  box-shadow:var(--shadow-sm);
+}
+.course-chip__dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--red);
+}
+
+/* ---------- Botones y Controles ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:10px;border:1px solid transparent;font-weight:600;font-size:13.5px;white-space:nowrap;transition:all .16s;text-decoration:none}
+.btn .i{width:16px;height:16px}
+.btn:disabled{opacity:.48;cursor:not-allowed;transform:none !important}
+.btn--primary{background:var(--red);color:#fff;box-shadow:0 4px 12px rgba(206,33,39,.22)}
+.btn--primary:hover:not(:disabled){background:var(--red-dark);transform:translateY(-1px)}
+.btn--dark{background:var(--ink);color:#fff}
+.btn--dark:hover:not(:disabled){background:#000;transform:translateY(-1px)}
+.btn--green{background:var(--green);color:#fff;box-shadow:0 4px 12px rgba(22,136,84,.22)}
+.btn--green:hover:not(:disabled){background:var(--green-dark);transform:translateY(-1px)}
+.btn--outline{background:#fff;border-color:#D4CFD1;color:var(--ink)}
+.btn--outline:hover:not(:disabled){border-color:var(--ink);background:var(--surface)}
+.btn--ghost{background:#EFEBEC;color:var(--ink)}
+.btn--ghost:hover:not(:disabled){background:#E2DCDD}
+.btn--soft-red{background:var(--red-soft);color:var(--red-dark);border-color:var(--red-border)}
+.btn--soft-red:hover:not(:disabled){background:#F9D7D9}
+.btn--sm{height:34px;padding:0 12px;font-size:12.5px;border-radius:8px}
+
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:600;border:1px solid #D4CFD1;background:#fff;white-space:nowrap}
+.pill.green{background:var(--green-soft);border-color:var(--green-border);color:var(--green-dark)}
+.pill.gold{background:var(--gold-soft);border-color:var(--gold-border);color:var(--gold-dark)}
+.pill.red{background:var(--red-soft);border-color:var(--red-border);color:var(--red-dark)}
+.pill.blue{background:var(--blue-soft);border-color:var(--blue-border);color:var(--blue-dark)}
+.pill.dark{background:var(--ink);border-color:var(--ink);color:#fff}
+.pill.neutral{background:#EFEBEC;border-color:#DDD8DA;color:var(--muted)}
+
+/* ---------- Layout Maestro-Detalle ---------- */
+.est-master-detail{
+  display:grid;
+  grid-template-columns:320px minmax(0,1fr);
+  gap:22px;
+  align-items:start;
+}
+
+/* Columna Izquierda: Lista de Sesiones / Tareas */
+.est-side-list{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:var(--shadow-sm);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  position:sticky;
+  top:20px;
+  max-height:calc(100vh - 40px);
+  overflow-y:auto;
+}
+.est-side-list__head{
+  padding:4px 6px 12px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:4px;
+}
+.est-side-list__head h2{
+  margin:0;
+  font:700 17px/1.2 var(--font-display);
+  color:var(--ink);
+}
+.est-side-list__head p{
+  margin:3px 0 0;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.est-item-card{
+  background:var(--surface);
+  border:1.5px solid var(--line);
+  border-radius:13px;
+  padding:12px 14px;
+  text-align:left;
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  transition:all .16s;
+  cursor:pointer;
+  position:relative;
+}
+.est-item-card:hover{
+  background:#fff;
+  border-color:#CFC8CB;
+  transform:translateY(-1px);
+  box-shadow:var(--shadow-sm);
+}
+.est-item-card.is-active{
+  border-color:var(--red);
+  background:linear-gradient(180deg,#FFF9F9 0%,#FFFFFF 100%);
+  box-shadow:0 6px 16px rgba(206,33,39,.12);
+}
+.est-item-card.is-active::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:12px;
+  bottom:12px;
+  width:4px;
+  border-radius:0 4px 4px 0;
+  background:var(--red);
+}
+.est-item-card.is-locked{
+  opacity:.65;
+  background:#F2EFF0;
+}
+.est-item-card__badge{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:#EAE6E7;
+  color:var(--ink);
+  font:700 13px/1 var(--font-display);
+  display:grid;
+  place-items:center;
+  flex:none;
+}
+.est-item-card.is-active .est-item-card__badge{
+  background:var(--red);
+  color:#fff;
+}
+.est-item-card__info{
+  min-width:0;
+  flex:1;
+}
+.est-item-card__top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  margin-bottom:2px;
+}
+.est-item-card__num{
+  font-size:11.5px;
+  font-weight:700;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.est-item-card__title{
+  font:700 14px/1.3 var(--font-display);
+  color:var(--ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:block;
+}
+.est-item-card__status{
+  margin-left:auto;
+  flex:none;
+}
+
+/* Columna Derecha: Detalle de Sesión / Tarea */
+.est-detail-panel{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:var(--shadow-sm);
+  overflow:hidden;
+}
+.est-detail-hero{
+  padding:24px 28px;
+  background:linear-gradient(180deg,#FFFFFF 0%,#FAF8F9 100%);
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.est-detail-hero__main h2{
+  margin:4px 0 6px;
+  font:700 22px/1.25 var(--font-display);
+  color:var(--ink);
+}
+.est-detail-hero__meta{
+  font-size:12.5px;
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.est-detail-body{
+  padding:26px 28px;
+}
+
+.est-desc-box{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px 18px;
+  font-size:14px;
+  line-height:1.6;
+  color:var(--ink-2);
+  margin-bottom:26px;
+}
+
+/* Lista de Materiales / Lecciones */
+.est-section-title{
+  margin:0 0 16px;
+  font:700 17px/1.2 var(--font-display);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.est-materials-grid{
+  display:grid;
+  gap:14px;
+}
+.est-material-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px 18px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:16px;
+  align-items:center;
+  transition:all .16s;
+  box-shadow:0 2px 6px rgba(25,23,24,.02);
+}
+.est-material-card:hover{
+  border-color:#CFC8CB;
+  box-shadow:var(--shadow-sm);
+}
+.est-mat-icon{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  flex:none;
+}
+.est-mat-icon.video{background:var(--red-soft);color:var(--red)}
+.est-mat-icon.pdf{background:var(--blue-soft);color:var(--blue-dark)}
+.est-mat-icon.partitura{background:var(--gold-soft);color:var(--gold-dark)}
+
+.est-mat-info strong{
+  display:block;
+  font:700 15px/1.3 var(--font-display);
+  color:var(--ink);
+  margin-bottom:3px;
+}
+.est-mat-info p{
+  margin:0 0 6px;
+  font-size:13px;
+  color:var(--ink-3);
+  line-height:1.45;
+}
+.est-mat-meta{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:12px;
+  color:var(--muted);
+  flex-wrap:wrap;
+}
+.est-mat-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* Tarjetas de Lección en Detalle de Sesión */
+.est-lesson-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  transition:all .16s;
+  box-shadow:0 2px 6px rgba(25,23,24,.02);
+}
+.est-lesson-card:hover{
+  border-color:#CFC8CB;
+  box-shadow:var(--shadow-sm);
+}
+.est-lesson-card__head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+  flex-wrap:wrap;
+}
+.est-lesson-card__num{
+  font:700 15px/1.3 var(--font-display);
+  color:var(--ink);
+  letter-spacing:-.01em;
+}
+.est-lesson-card__meta{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.est-lesson-card__dur{
+  font-size:12px;
+  font-weight:600;
+  color:var(--muted);
+}
+.est-lesson-card__body{
+  display:grid;
+  grid-template-columns:240px 1fr;
+  gap:20px;
+  align-items:start;
+}
+.est-lesson-card__media{
+  width:240px;
+  flex:none;
+}
+.est-lesson-card__media .est-video-player{
+  width:100%;
+  aspect-ratio:16/9;
+  max-height:140px;
+}
+.est-lesson-doc-thumb{
+  width:100%;
+  aspect-ratio:16/9;
+  max-height:140px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  cursor:pointer;
+  transition:all .16s;
+}
+.est-lesson-doc-thumb:hover{
+  background:#fff;
+  border-color:var(--red-border);
+  box-shadow:var(--shadow-sm);
+}
+.est-lesson-doc-thumb:focus-visible{
+  outline:3px solid var(--red);
+  outline-offset:2px;
+}
+.est-lesson-card__content{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-width:0;
+}
+.est-lesson-field{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.est-lesson-label{
+  font-size:11px;
+  font-weight:700;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.est-lesson-title{
+  font:700 14.5px/1.35 var(--font-display);
+  color:var(--ink);
+  word-break:break-word;
+}
+.est-lesson-desc{
+  margin:0;
+  font-size:13px;
+  line-height:1.5;
+  color:var(--ink-2);
+  word-break:break-word;
+}
+.est-lesson-file{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:2px;
+  word-break:break-all;
+}
+.est-lesson-card__content .est-mat-actions{
+  margin-top:6px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+@media (max-width:720px){
+  .est-lesson-card__body{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .est-lesson-card__media{
+    width:100%;
+  }
+  .est-lesson-card__media .est-video-player,
+  .est-lesson-doc-thumb{
+    max-height:220px;
+  }
+}
+@media (max-width:480px){
+  .est-lesson-card{
+    padding:14px 14px;
+  }
+}
+
+/* ===================================================================
+   BARRA DE PROGRESO DEL ESTUDIANTE (CAMBIO 2)
+   =================================================================== */
+.est-course-progress{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px 18px;
+  margin-bottom:22px;
+  box-shadow:var(--shadow-sm);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:8px;
+  max-height:60px;
+}
+.est-course-progress__info{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink-2);
+  line-height:1.2;
+}
+.est-course-progress__text{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.est-course-progress__percent{
+  font-weight:700;
+  font-size:13px;
+  color:var(--ink);
+  font-feature-settings:"tnum";
+  flex:none;
+}
+.est-course-progress__track{
+  width:100%;
+  height:7px;
+  background:#EAE6E7;
+  border-radius:999px;
+  overflow:hidden;
+}
+.est-course-progress__fill{
+  height:100%;
+  border-radius:999px;
+  background:var(--red);
+  width:0%;
+  transition:width .6s cubic-bezier(0.4, 0, 0.2, 1), background-color .4s ease;
+}
+.est-course-progress.is-completed .est-course-progress__fill{
+  background:var(--green);
+}
+.est-course-progress.is-completed .est-course-progress__percent{
+  color:var(--green-dark);
+}
+@media (prefers-reduced-motion: reduce){
+  .est-course-progress__fill{
+    transition:none !important;
+  }
+}
+
+/* ===================================================================
+   REPRODUCTOR DE VIDEO Y MINIATURAS (CAMBIOS 1 Y 3)
+   =================================================================== */
+.est-material-card--video{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:14px;
+  padding:16px 18px;
+}
+.est-material-card__body{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+  width:100%;
+}
+.est-material-card__body .est-mat-info{
+  min-width:0;
+  flex:1 1 280px;
+}
+.est-material-card__body .est-mat-actions{
+  flex:none;
+}
+
+.est-video-player{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  max-height:260px;
+  background:linear-gradient(135deg, #181516 0%, #0d0c0c 50%, #1c1819 100%);
+  border-radius:12px;
+  overflow:hidden;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.est-video-player:focus-visible{
+  outline:3px solid var(--red);
+  outline-offset:2px;
+}
+.est-video-player__media{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  pointer-events:none;
+}
+.est-video-player__scrim{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.25);
+  transition:background .2s;
+  pointer-events:none;
+}
+.est-video-player:hover .est-video-player__scrim{
+  background:rgba(0,0,0,.12);
+}
+.est-video-player__play{
+  position:relative;
+  z-index:2;
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:var(--red);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  box-shadow:0 6px 20px rgba(206,33,39,.45);
+  transition:transform .18s cubic-bezier(.16,1,.3,1), background-color .16s;
+  pointer-events:none;
+}
+.est-video-player:hover .est-video-player__play{
+  transform:scale(1.08);
+  background:var(--red-dark);
+}
+.est-video-player__play-tri{
+  width:22px;
+  height:22px;
+  margin-left:3px;
+  fill:#fff;
+}
+.est-video-player__duration{
+  position:absolute;
+  right:12px;
+  bottom:14px;
+  z-index:3;
+  background:rgba(0,0,0,.75);
+  color:#fff;
+  font-size:11.5px;
+  font-weight:600;
+  padding:3px 7px;
+  border-radius:6px;
+  letter-spacing:.03em;
+  backdrop-filter:blur(4px);
+  pointer-events:none;
+}
+.est-video-player__timeline{
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:8px;
+  height:3px;
+  background:rgba(255,255,255,.24);
+  border-radius:999px;
+  z-index:2;
+  pointer-events:none;
+}
+.est-video-player__timeline-bar{
+  height:100%;
+  width:32%;
+  background:#fff;
+  border-radius:999px;
+}
+.est-modal-video-wrap{
+  position:relative;
+  background:#000;
+  border-radius:14px;
+  overflow:hidden;
+  margin-bottom:16px;
+  aspect-ratio:16/9;
+  max-height:360px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.est-modal-video{
+  width:100%;
+  height:100%;
+  max-height:360px;
+  object-fit:contain;
+  background:#000;
+}
+.est-video-fallback{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#181516 0%,#0d0c0c 50%,#1c1819 100%);
+  color:#fff;
+  padding:24px;
+  text-align:center;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+@media (max-width:480px){
+  .est-course-progress{padding:10px 14px;margin-bottom:16px}
+  .est-course-progress__info{font-size:11.5px}
+  .est-detail-hero, .est-detail-body{padding:16px 14px}
+  .est-material-card--video{padding:12px 14px}
+  .est-video-player{max-height:200px}
+  .est-video-player__play{width:48px;height:48px}
+  .est-video-player__play-tri{width:18px;height:18px}
+}
+
+/* Panel de Sesión Bloqueada / Sin Autorización */
+.est-state-panel{
+  padding:60px 24px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.est-state-icon{
+  width:64px;
+  height:64px;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  margin-bottom:18px;
+}
+.est-state-icon.lock{background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+.est-state-icon.danger{background:var(--red-soft);color:var(--red)}
+.est-state-panel h3{
+  margin:0 0 8px;
+  font:700 20px/1.3 var(--font-display);
+  color:var(--ink);
+}
+.est-state-panel p{
+  margin:0 0 20px;
+  max-width:440px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.55;
+}
+
+/* ===================================================================
+   VISTA DE DETALLE DE TAREA Y ZONA DE SUBIDA
+   =================================================================== */
+.est-task-consigna{
+  background:linear-gradient(135deg,#FFFDFD 0%,#FAF7F8 100%);
+  border:1px solid var(--red-border);
+  border-left:5px solid var(--red);
+  border-radius:14px;
+  padding:20px 22px;
+  margin-bottom:24px;
+}
+.est-task-consigna__head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+  flex-wrap:wrap;
+}
+.est-deadline-badge{
+  font-size:12.5px;
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--red-dark);
+}
+.est-deadline-badge.ontime{color:var(--ink-2)}
+
+.est-upload-area{
+  border:2px dashed #CFC9CB;
+  border-radius:14px;
+  background:var(--surface);
+  padding:26px 20px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .18s;
+  margin-top:14px;
+}
+.est-upload-area:hover, .est-upload-area.is-dragover{
+  border-color:var(--red);
+  background:var(--red-soft);
+}
+.est-upload-area__icon{
+  width:46px;
+  height:46px;
+  border-radius:12px;
+  background:#fff;
+  color:var(--red);
+  display:grid;
+  place-items:center;
+  margin:0 auto 10px;
+  box-shadow:var(--shadow-sm);
+}
+.est-upload-area strong{
+  display:block;
+  font-size:14.5px;
+  color:var(--ink);
+  margin-bottom:4px;
+}
+.est-upload-area small{
+  display:block;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.est-files-staged{
+  margin-top:18px;
+  display:grid;
+  gap:8px;
+}
+.est-staged-file{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:9px 14px;
+  font-size:13px;
+}
+.est-staged-file strong{
+  font-weight:600;
+  color:var(--ink);
+}
+.est-staged-file span{
+  color:var(--muted);
+  font-size:12px;
+}
+.est-remove-file-btn{
+  border:0;
+  background:none;
+  color:var(--muted);
+  width:26px;
+  height:26px;
+  border-radius:6px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  transition:.15s;
+}
+.est-remove-file-btn:hover{
+  background:var(--red-soft);
+  color:var(--red);
+}
+
+/* Apartado O pega un enlace */
+.est-link-section{
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px dashed var(--line);
+}
+.est-link-section-title{
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink-2);
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.est-link-input-group{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.est-link-input{
+  flex:1 1 200px;
+  height:38px;
+  padding:0 12px;
+  border:1.5px solid var(--line);
+  border-radius:8px;
+  background:#fff;
+  font-size:13.5px;
+  color:var(--ink);
+  transition:border-color .15s;
+}
+.est-link-input:focus{
+  outline:none;
+  border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(206,33,39,.12);
+}
+.est-input-error{
+  color:var(--red-dark);
+  font-size:12.5px;
+  font-weight:500;
+  margin-top:6px;
+  display:none;
+}
+.est-error{
+  color:var(--red-dark);
+  font-size:13px;
+  font-weight:500;
+  background:var(--red-soft);
+  border:1px solid var(--red-border);
+  border-radius:8px;
+  padding:8px 12px;
+  display:none;
+}
+
+.est-task-actions-row{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  margin-top:20px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+  flex-wrap:wrap;
+}
+
+/* ===================================================================
+   PANTALLA DEDICADA "VER DETALLES" (#/tarea/ID/detalle)
+   =================================================================== */
+.est-full-detail{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+.est-detail-backbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--ink);
+  color:#fff;
+  padding:14px 20px;
+  border-radius:14px;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.est-detail-backbar a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  font-size:13.5px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.est-detail-backbar a:hover{
+  color:var(--red-on-dark);
+}
+
+.est-stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0,1fr));
+  gap:16px;
+}
+.est-stat-box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px 18px;
+  box-shadow:var(--shadow-sm);
+}
+.est-stat-box small{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.est-stat-box strong{
+  font:700 18px/1.2 var(--font-display);
+  color:var(--ink);
+}
+.est-stat-box.highlight small{
+  color:var(--red);
+}
+
+/* Línea de Progreso de Estado */
+.est-progress-box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px 24px;
+  box-shadow:var(--shadow-sm);
+}
+.est-progress-box h3{
+  margin:0 0 16px;
+  font:700 15px/1.2 var(--font-display);
+  color:var(--ink);
+}
+.est-stepper{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  position:relative;
+  gap:10px;
+}
+.est-stepper::before{
+  content:"";
+  position:absolute;
+  top:18px;
+  left:15%;
+  right:15%;
+  height:3px;
+  background:#EAE6E7;
+  z-index:1;
+}
+.est-step-node{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  position:relative;
+  z-index:2;
+}
+.est-step-circle{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid #D4CFD1;
+  color:var(--muted);
+  display:grid;
+  place-items:center;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:8px;
+  transition:all .2s;
+}
+.est-step-label{
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--muted);
+}
+.est-step-node.completed .est-step-circle{
+  background:var(--green);
+  border-color:var(--green-dark);
+  color:#fff;
+}
+.est-step-node.completed .est-step-label{
+  color:var(--green-dark);
+  font-weight:700;
+}
+.est-step-node.observed .est-step-circle{
+  background:var(--red);
+  border-color:var(--red-dark);
+  color:#fff;
+}
+.est-step-node.observed .est-step-label{
+  color:var(--red-dark);
+  font-weight:700;
+}
+.est-step-node.current .est-step-circle{
+  border-color:var(--gold);
+  color:var(--gold-dark);
+  background:var(--gold-soft);
+}
+
+.est-detail-split{
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);
+  gap:20px;
+  align-items:start;
+}
+.est-content-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px 24px;
+  box-shadow:var(--shadow-sm);
+}
+.est-content-card h3{
+  margin:0 0 14px;
+  font:700 17px/1.2 var(--font-display);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* Retroalimentación docente */
+.est-feedback-card{
+  background:linear-gradient(180deg,#FFFFFF 0%,#FBF9FA 100%);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px 24px;
+  box-shadow:var(--shadow-sm);
+}
+.est-teacher-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+}
+.est-teacher-avatar{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:var(--red-soft);
+  color:var(--red-dark);
+  font:700 15px/1 var(--font-display);
+  display:grid;
+  place-items:center;
+}
+.est-teacher-header strong{
+  display:block;
+  font:700 15px/1.2 var(--font-display);
+  color:var(--ink);
+}
+.est-teacher-header small{
+  color:var(--muted);
+  font-size:12px;
+}
+.est-feedback-text{
+  font-size:14px;
+  line-height:1.6;
+  color:var(--ink-2);
+  margin:0;
+  padding:14px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+
+/* Modales */
+.overlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(25,23,24,.65);
+  backdrop-filter:blur(6px);
+  z-index:60;
+}
+.overlay.is-open{display:flex}
+.dialog{
+  background:#fff;
+  border-radius:20px;
+  width:min(660px,100%);
+  max-height:calc(100vh - 40px);
+  overflow:auto;
+  box-shadow:var(--shadow-lg);
+  animation:pop .18s cubic-bezier(.16,1,.3,1);
+}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.dialog__head{display:flex;align-items:center;gap:12px;padding:20px 24px 14px;border-bottom:1px solid var(--line)}
+.dialog__title{margin:0;font:700 18px/1.2 var(--font-display);color:var(--ink)}
+.dialog__close{margin-left:auto;border:0;background:none;color:var(--muted);width:32px;height:32px;border-radius:8px;display:grid;place-items:center}
+.dialog__close:hover{background:var(--surface);color:var(--ink)}
+.dialog__body{padding:20px 24px}
+.dialog__foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px 20px;border-top:1px solid var(--line);background:var(--surface);border-radius:0 0 20px 20px}
+
+/* Toasts */
+.toasts{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:90;pointer-events:none}
+.toast{pointer-events:auto;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;width:min(390px,calc(100vw - 32px));background:#fff;border-radius:12px;padding:13px 14px;border-left:5px solid var(--green);box-shadow:0 12px 32px rgba(25,23,24,.22);animation:slide .2s ease-out}
+.toast--error{border-color:var(--red)}
+.toast--info{border-color:var(--ink)}
+.toast p{margin:0;font-size:13.5px}
+.toast__x{border:0;background:none;color:var(--muted);padding:2px 6px}
+@keyframes slide{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+
+/* Pantalla de Selección de Cursos */
+.est-courses-section{
+  margin-bottom:34px;
+}
+.est-group-title{
+  font:700 18px/1.2 var(--font-display);
+  color:var(--ink);
+  margin:24px 0 14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.est-group-count{
+  font-size:13px;
+  font-weight:600;
+  color:var(--muted);
+}
+.est-courses-grid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:20px;
+}
+.est-course-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-top:4px solid var(--red);
+  border-radius:16px;
+  padding:20px 22px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  box-shadow:var(--shadow-sm);
+  transition:transform .16s, box-shadow .16s, border-color .16s;
+  text-decoration:none;
+  color:inherit;
+  position:relative;
+}
+.est-course-card:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-md);
+  border-color:#CFC8CB;
+}
+.est-course-card:focus-visible{
+  outline:3px solid var(--red);
+  outline-offset:2px;
+}
+.est-course-card--concluido{
+  border-top-color:var(--green);
+  background:linear-gradient(180deg,#FFFFFF 0%,#FAF9F9 100%);
+}
+.est-course-card__top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.est-course-card__code{
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--red);
+  letter-spacing:.04em;
+}
+.est-course-card--concluido .est-course-card__code{
+  color:var(--green-dark);
+}
+.est-course-card__title{
+  margin:0;
+  font:700 17px/1.25 var(--font-display);
+  color:var(--ink);
+}
+.est-course-card__meta{
+  font-size:12.5px;
+  color:var(--muted);
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.est-course-card__meta-item{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.est-course-card__progress{
+  margin-top:auto;
+  padding-top:12px;
+  border-top:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.est-course-card__progress-info{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink-2);
+}
+.est-course-card__progress-track{
+  width:100%;
+  height:6px;
+  border-radius:999px;
+  background:#EAE6E7;
+  overflow:hidden;
+}
+.est-course-card__progress-fill{
+  height:100%;
+  border-radius:999px;
+  background:var(--red);
+}
+.est-course-card--concluido .est-course-card__progress-fill{
+  background:var(--green);
+}
+
+/* Responsive */
+@media (max-width:1080px){
+  .est-courses-grid{grid-template-columns:repeat(2, minmax(0, 1fr));}
+  .est-master-detail{grid-template-columns:1fr}
+  .est-side-list{position:static;max-height:none}
+  .est-detail-split{grid-template-columns:1fr}
+  .est-stats-grid{grid-template-columns:1fr}
+}
+@media (max-width:680px){
+  .est-courses-grid{grid-template-columns:1fr;}
+}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:280px;transform:translateX(-102%);transition:transform .22s}
+  body.nav-open .sidebar{transform:none}
+  body.nav-open .scrim{display:block;position:fixed;inset:0;background:rgba(25,23,24,.5);z-index:35}
+  .btn.menu-btn{display:inline-flex}
+  .main{padding:20px 16px 36px}
+}
+
+/* ===== Selección de cursos ===== */
+.est-course-card{ text-align:left; font:inherit; cursor:pointer; width:100%; }
+.est-course-card__cta{ font-weight:700; font-size:13.5px; color:var(--red); margin-top:2px; }
+.est-course-card--concluido .est-course-card__cta{ color:var(--green-dark); }
+.est-section-label{ font:700 15px/1.2 var(--font-display); color:var(--muted); margin:0 0 2px; }
+.est-empty-courses{ padding:18px 20px; border:1px dashed var(--line); border-radius:14px; background:#fff; color:var(--muted); margin-top:12px; }
+@media (max-width:1100px){ .est-courses-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:680px){ .est-courses-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></symbol>
+</svg>
+
+<div class="app">
+  <!-- ================= BARRA LATERAL ================= -->
+  <aside class="sidebar" id="estSidebar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 48 48">
+        <rect width="48" height="48" rx="12" fill="#CE2127"/>
+        <path d="M19 33V15l15-3v18" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="15.5" cy="33" r="4.2" fill="#fff"/>
+        <circle cx="30.5" cy="30" r="4.2" fill="#fff"/>
+      </svg>
+      <span class="brand-name">Dunamys</span>
+    </div>
+
+    <div class="user">
+      <div class="avatar" id="estUserAvatar">L</div>
+      <small>USUARIO: Alumno</small>
+      <strong id="estUserName">Lucía Mendoza</strong>
+    </div>
+
+    <nav class="nav" aria-label="Menú principal del estudiante">
+      <button type="button" class="nav-item" id="estNavCursos">
+        <svg class="i"><use href="#i-grid"/></svg>
+        <span>Mis cursos</span>
+        <svg class="i chev"><use href="#i-right"/></svg>
+      </button>
+      <button type="button" class="nav-item" id="estNavSesiones">
+        <svg class="i"><use href="#i-book"/></svg>
+        <span>Sesiones</span>
+        <svg class="i chev"><use href="#i-right"/></svg>
+      </button>
+      <button type="button" class="nav-item" id="estNavTareas">
+        <svg class="i"><use href="#i-pencil"/></svg>
+        <span>Tareas</span>
+        <svg class="i chev"><use href="#i-right"/></svg>
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      La música<span>transforma vidas</span>
+    </div>
+
+    <button type="button" class="sidebar-logout" id="estLogoutBtn">
+      <svg class="i"><use href="#i-logout"/></svg>
+      <span>Cerrar sesión</span>
+    </button>
+  </aside>
+  <div class="scrim" id="estScrim"></div>
+
+  <!-- ================= CONTENIDO PRINCIPAL ================= -->
+  <main class="main">
+    <!-- Cabecera de Página -->
+    <header class="page-head">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button type="button" class="btn btn--outline menu-btn" id="estMenuBtn" aria-label="Abrir menú de navegación">
+          <svg class="i"><use href="#i-menu"/></svg>
+        </button>
+        <div>
+          <h1 id="estPageTitle">Mis <span>Sesiones</span></h1>
+          <p id="estPageSubtitle">Accede a tus lecciones, materiales de estudio y tareas de práctica.</p>
+        </div>
+      </div>
+
+      <div class="head-actions" id="estHeadActions">
+        <div class="course-chip" id="estCourseChip" title="Curso matriculado">
+          <span class="course-chip__dot"></span>
+          <span id="estCourseChipText">C-001 · Teclado Básico</span>
+        </div>
+        <a href="#/cursos" class="btn btn--outline btn--sm" id="estChangeCourseBtn" title="Volver a la selección de cursos">
+          <svg class="i"><use href="#i-left"/></svg> Cambiar de curso
+        </a>
+      </div>
+    </header>
+
+    <!-- Barra de progreso del curso (CAMBIO 2) -->
+    <div class="est-course-progress" id="estCourseProgress">
+      <div class="est-course-progress__info">
+        <span class="est-course-progress__text" id="estProgressText">Progreso del curso · 0 de 0 sesiones completadas</span>
+        <span class="est-course-progress__percent" id="estProgressPercent">0%</span>
+      </div>
+      <div class="est-course-progress__track" role="progressbar" id="estProgressBar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progreso general del curso">
+        <div class="est-course-progress__fill" id="estProgressFill" style="width:0%;"></div>
+      </div>
+    </div>
+
+    <!-- Contenedor dinámico según Hash -->
+    <div id="estAppContent"></div>
+  </main>
+</div>
+
+<!-- ================= MODALES ================= -->
+<!-- Modal de Vista Previa de Material -->
+<div class="overlay" id="estModalPreview" role="dialog" aria-modal="true" aria-labelledby="estPreviewTitle">
+  <div class="dialog">
+    <div class="dialog__head">
+      <h3 class="dialog__title" id="estPreviewTitle">Vista previa</h3>
+      <button type="button" class="dialog__close" id="estClosePreview" aria-label="Cerrar vista previa">
+        <svg class="i"><use href="#i-x"/></svg>
+      </button>
+    </div>
+    <div class="dialog__body" id="estPreviewBody"></div>
+    <div class="dialog__foot">
+      <button type="button" class="btn btn--outline" id="estPreviewCloseBtn">Cerrar</button>
+      <button type="button" class="btn btn--primary" id="estPreviewDownloadBtn">
+        <svg class="i"><use href="#i-download"/></svg> Descargar archivo
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toasts flotantes accesibles -->
+<div class="toasts" id="estToasts" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+
+  // ===================================================================
+  // 1. GUARDIA DE SESIÓN (RF034, RF050)
+  // ===================================================================
+  let sessionData = null;
+  try {
+    const raw = sessionStorage.getItem('dunamys_sesion');
+    if (raw) sessionData = JSON.parse(raw);
+  } catch (e) {
+    console.error('Error leyendo sesión:', e);
+  }
+
+  if (!sessionData || sessionData.rol !== 'Alumno') {
+    // Redirección inmediata si no hay sesión válida de Alumno
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // Sanitización de textos dinámicos
+  function esc(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // ===================================================================
+  // 2. MODELO DE DATOS Y CONSTANTES (RF035–RF041)
+  // ===================================================================
+  const CURRENT_STUDENT = {
+    correo: sessionData.correo || 'lucia.mendoza@dunamys.pe',
+    nombre: sessionData.nombre || 'Lucía Mendoza'
+  };
+
+  const STORAGE_KEY_ENTREGAS = `dunamys_entregas_${CURRENT_STUDENT.correo}`;
+
+  // Extensiones permitidas y peso máximo (200 MB)
+  const ALLOWED_EXTENSIONS = ['mp4','webm','mov','mp3','wav','pdf','png','jpg','jpeg','doc','docx','ppt','pptx','zip','musicxml','mxl'];
+  const MAX_FILE_BYTES = 200 * 1024 * 1024; // 200 MB
+
+  // Matrículas registradas para los alumnos (RF035)
+  const MATRICULAS = [
+    { correo: 'lucia.mendoza@dunamys.pe', cursoId: 1, estado: 'activa' },
+    { correo: 'lucia.mendoza@dunamys.pe', cursoId: 4, estado: 'activa' },
+    { correo: 'lucia.mendoza@dunamys.pe', cursoId: 6, estado: 'finalizada' }
+  ];
+
+  // Cursos del sistema: C-001 (Activa), C-004 (Activa), C-006 (Finalizada) y C-002 (Sin matrícula, RF035 CA02)
+  const COURSES = [
+    {
+      id: 1,
+      codigo: 'C-001',
+      nombre: 'Teclado Básico',
+      instrumento: 'Teclado',
+      nivel: 'Básico',
+      modalidad: 'Presencial y virtual',
+      horario: 'Lun y Mié 16:00 - 17:30',
+      docente: 'Prof. Dunamys',
+      sesiones: [
+        {
+          id: 101, numero: 1, titulo: 'Bienvenida al curso', fecha: '2026-10-05',
+          descripcion: 'En esta primera sesión se da la bienvenida al aula virtual y se establecen las bases de postura, altura del banco y digitación inicial.',
+          lecciones: [
+            { id: 1, tipo: 'Video HD', titulo: 'Presentación del curso y postura frente al teclado', desc: 'Conoce la posición correcta de muñecas, banco y relajación de hombros.', ref: 'bienvenida-postura.mp4 · 14.2 MB', duracion: '01:45' },
+            { id: 2, tipo: 'Guía PDF', titulo: 'Guía de inducción al teclado', desc: 'Resumen ilustrado de las 88 teclas y recomendaciones de estudio diario.', ref: 'guia-induccion.pdf · 2.1 MB', duracion: 'PDF' }
+          ],
+          tarea: {
+            id: 201, titulo: 'Presentación y postura inicial',
+            desc: 'Realiza los primeros ejercicios básicos frente al teclado cuidando la espalda y muñecas, tal como se muestra en la lección, y adjunta tu evidencia.',
+            publicada: '2026-10-05', limite: '2026-10-12',
+            archivoDocente: 'pautas_postura_inicial.pdf · 1.4 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 102, numero: 2, titulo: 'Conociendo el teclado', fecha: '2026-10-12',
+          descripcion: 'Identificación de notas naturales (blancas) y notas alteradas (negras: sostenidos y bemoles), con ejercicios auditivos y visuales.',
+          lecciones: [
+            { id: 3, tipo: 'Video HD', titulo: 'Notas naturales', desc: 'Las notas naturales en el teclado son todas aquellas teclas blancas, son naturales ya que la nota no tiene ninguna alteración.', ref: 'notas-naturales.mp4 · 18.4 MB', duracion: '02:10' },
+            { id: 4, tipo: 'Video HD', titulo: 'Notas alteradas', desc: 'Las notas alteradas en el teclado son aquellas teclas negras, que sube un semitono (sostenidos) y baja un semitono (bemol), según en la escala que se encuentre.', ref: 'notas-alteradas.mp4 · 21.0 MB', duracion: '02:45' },
+            { id: 5, tipo: 'Video HD', titulo: 'Escalas mayores y menores', desc: 'Las escalas son clave en la música, estas pueden expresar distintas emociones, si son mayores tienden a ser más alegres, las menores en cambio, transmiten tristeza.', ref: 'escalas-mayores-menores.mp4 · 24.5 MB', duracion: '03:30' }
+          ],
+          tarea: {
+            id: 202, titulo: 'Escalas mayores y menores',
+            desc: 'Realiza ejercicios de digitación en escalas mayores y menores a 80 BPM, tal como se muestra en el video demostrativo, y sube tu evidencia.',
+            publicada: '2026-10-12', limite: '2026-10-19',
+            archivoDocente: 'ejercicios_escalas.pdf · 1.8 MB',
+            enlace: 'https://dunamys.pe/aula/guia-escalas'
+          }
+        },
+        {
+          id: 103, numero: 3, titulo: 'Digitación', fecha: '2026-10-19',
+          descripcion: 'Desarrollo de fuerza, flexibilidad y total independencia en los dedos del 1 al 5 en ambas manos mediante ejercicios progresivos.',
+          lecciones: [
+            { id: 6, tipo: 'Guía PDF', titulo: 'Independencia de dedos 1 al 5 (Hanon)', desc: 'Ejercicios progresivos de coordinación simétrica para ambas manos.', ref: 'digitacion-hanon.pdf · 2.4 MB', duracion: 'PDF' },
+            { id: 7, tipo: 'Video HD', titulo: 'Demostración de ejercicios Hanon con metrónomo', desc: 'Técnica de articulación de yemas y paso suave sin tensión.', ref: 'hanon-demostracion.mp4 · 22.5 MB', duracion: '03:15' }
+          ],
+          tarea: {
+            id: 203, titulo: 'Ejercicio Hanon N° 1',
+            desc: 'Realiza ejercicios de digitación en escalas mayores y menores, tal como se muestra en el video y sube tu evidencia.',
+            publicada: '2026-10-19', limite: '2026-10-26',
+            archivoDocente: 'partitura_hanon_1.pdf · 1.6 MB',
+            enlace: null,
+            videoDocente: {
+              titulo: 'Demostración de ejercicios de digitación',
+              duracion: '03:15',
+              archivoUrl: 'assets/videos/oda-alegria-tutorial.mp4',
+              ref: 'ejemplo_digitacion_docente.mp4 · 22.5 MB'
+            }
+          }
+        },
+        {
+          id: 104, numero: 4, titulo: 'Acordes y acompañamiento', fecha: '2026-10-26',
+          descripcion: 'Construcción de tríadas mayores y menores en estado fundamental e iniciación a los patrones rítmicos de acompañamiento.',
+          lecciones: [
+            { id: 8, tipo: 'Video HD', titulo: 'Tríadas básicas y posiciones de la mano', desc: 'Formación de acordes de Do, Fa, Sol y Lam con digitación recomendada.', ref: 'triadas-basicas.mp4 · 24.1 MB', duracion: '03:40' },
+            { id: 9, tipo: 'Partitura', titulo: 'Progresiones de acordes pop/balada', desc: 'Esquema de cifrado y notas para práctica con ambas manos.', ref: 'progresiones-balada.pdf · 2.0 MB', duracion: 'Partitura' }
+          ],
+          tarea: {
+            id: 204, titulo: 'Acompañamiento en 4/4',
+            desc: 'Toca la secuencia de acordes Do - Lam - Fa - Sol siguiendo el pulso de 4 tiempos por compás.',
+            publicada: '2026-10-26', limite: '2026-11-02',
+            archivoDocente: 'guia_acordes_4_4.pdf · 1.3 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 105, numero: 5, titulo: 'Lectura de partituras', fecha: '2026-11-02',
+          descripcion: 'Lectura simultánea en Clave de Sol (mano derecha) y Clave de Fa (mano izquierda). Ejercicios a primera vista.',
+          lecciones: [
+            { id: 10, tipo: 'Guía PDF', titulo: 'Lectura en dos pentagramas', desc: 'Guía de relación espacial entre notas del pentagrama y teclas físicas.', ref: 'lectura-dos-pentagramas.pdf · 3.1 MB', duracion: 'PDF' },
+            { id: 11, tipo: 'Video HD', titulo: 'Coordinación visual-motriz en partitura', desc: 'Estrategias para anticipar la lectura sin mirar las teclas.', ref: 'coordinacion-partituras.mp4 · 19.3 MB', duracion: '02:50' }
+          ],
+          tarea: {
+            id: 205, titulo: 'Lectura de partituras',
+            desc: 'Realiza ejercicios de lectura de partituras en escalas mayores y menores, tal como se muestra en el video, y sube tu evidencia.',
+            publicada: '2026-11-02', limite: '2026-11-20',
+            archivoDocente: 'partitura_ejercicio_5.pdf · 1.2 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 106, numero: 6, titulo: 'Practicando melodías', fecha: '2026-11-09',
+          descripcion: 'Ensamble de melodía y armonía: interpretación de tu primera pieza musical completa al piano.',
+          lecciones: [
+            { id: 12, tipo: 'Video HD', titulo: 'Interpretación de "Oda a la Alegría"', desc: 'Paso a paso para unir melodía con bajo continuo.', ref: 'oda-alegria-tutorial.mp4 · 28.0 MB', duracion: '04:10', archivoUrl: 'assets/videos/oda-alegria-tutorial.mp4' },
+            { id: 13, tipo: 'Partitura', titulo: 'Partitura completa de ensamble', desc: 'Arreglo para teclado básico en dos sistemas.', ref: 'oda-alegria-partitura.pdf · 2.5 MB', duracion: 'Partitura' }
+          ],
+          tarea: {
+            id: 206, titulo: 'Interpretación de pieza completa',
+            desc: 'Graba tu ejecución de la pieza con ambas manos a tempo uniforme y con articulación clara.',
+            publicada: '2026-11-09', limite: '2026-11-30',
+            archivoDocente: 'rubrica_evaluacion_final.pdf · 1.1 MB',
+            enlace: null,
+            videoDocente: {
+              titulo: 'Demostración: Interpretación de "Oda a la Alegría"',
+              duracion: '04:10',
+              archivoUrl: 'assets/videos/oda-alegria-tutorial.mp4',
+              ref: 'oda-alegria-tutorial.mp4 · 28.0 MB'
+            }
+          }
+        }
+      ]
+    },
+    {
+      id: 4,
+      codigo: 'C-004',
+      nombre: 'Guitarra Básico',
+      instrumento: 'Guitarra',
+      nivel: 'Básico',
+      modalidad: 'Virtual',
+      horario: 'Mar y Jue 18:00 - 19:30',
+      docente: 'Prof. Mario',
+      sesiones: [
+        {
+          id: 401, numero: 1, titulo: 'Afinación y postura', fecha: '2026-10-06',
+          descripcion: 'Fundamentos ergonómicos de la guitarra acústica y uso del afinador cromático digital.',
+          lecciones: [
+            { id: 41, tipo: 'Video HD', titulo: 'Postura y sujeción de la guitarra', desc: 'Posición correcta del cuerpo, ángulo del mástil y relajación del hombro izquierdo.', ref: 'postura_guitarra.mp4 · 18.2 MB', duracion: '02:30' },
+            { id: 42, tipo: 'Guía PDF', titulo: 'Guía de afinación estándar', desc: 'Esquema de cuerdas al aire (Mi, Si, Sol, Re, La, Mi) y afinador por frecuencias.', ref: 'guia_afinacion.pdf · 1.8 MB', duracion: 'PDF' }
+          ],
+          tarea: {
+            id: 451, titulo: 'Afinación y postura inicial',
+            desc: 'Graba un breve video afinando tu guitarra y mostrando la postura correcta de ambas manos.',
+            publicada: '2026-10-06', limite: '2026-10-13',
+            archivoDocente: 'pautas_afinacion.pdf · 1.1 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 402, numero: 2, titulo: 'Primeros acordes: Mi menor y La menor', fecha: '2026-10-13',
+          descripcion: 'Digitación de los acordes de Em y Am en posición abierta y cambio rítmico.',
+          lecciones: [
+            { id: 43, tipo: 'Video HD', titulo: 'Digitación limpia de Em y Am', desc: 'Colocación precisa de dedos 1 y 2 en trastes iniciales sin rozar cuerdas vecinas.', ref: 'acordes_em_am.mp4 · 20.4 MB', duracion: '03:10' },
+            { id: 44, tipo: 'Partitura', titulo: 'Diagramas de acordes abiertos', desc: 'Diagramas de digitación y tablatura básica para práctica diaria.', ref: 'diagramas_acordes.pdf · 1.5 MB', duracion: 'Partitura' }
+          ],
+          tarea: {
+            id: 452, titulo: 'Transición entre Em y Am',
+            desc: 'Toca 4 compases alternando Em y Am manteniendo un pulso constante a 70 BPM con metrónomo.',
+            publicada: '2026-10-13', limite: '2026-10-20',
+            archivoDocente: 'ejercicio_em_am.pdf · 1.2 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 403, numero: 3, titulo: 'Rasgueos rítmicos en 4/4', fecha: '2026-10-20',
+          descripcion: 'Patrón rítmico estándar de balada con acentuación en segundo y cuarto pulso.',
+          lecciones: [
+            { id: 45, tipo: 'Video HD', titulo: 'Patrón de rasgueo pop/balada', desc: 'Movimiento uniforme de muñeca y técnica de púa o dedos.', ref: 'rasgueo_4_4.mp4 · 22.0 MB', duracion: '02:50' }
+          ],
+          tarea: {
+            id: 453, titulo: 'Práctica de rasgueo en 4/4',
+            desc: 'Interpreta el patrón de rasgueo sobre la secuencia Em - Am - C - G con metrónomo.',
+            publicada: '2026-10-20', limite: '2026-10-27',
+            archivoDocente: 'patrones_ritmicos.pdf · 1.3 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 404, numero: 4, titulo: 'Secuencia melódica y arpegio', fecha: '2026-10-27',
+          descripcion: 'Independencia de mano derecha con arpegios p-i-m-a en compás compuesto.',
+          lecciones: [
+            { id: 46, tipo: 'Video HD', titulo: 'Arpegio básico p-i-m-a', desc: 'Distribución de dedos por cuerda para lograr arpegios limpios y fluidos.', ref: 'arpegios_guitarra.mp4 · 25.0 MB', duracion: '03:20' }
+          ],
+          tarea: {
+            id: 454, titulo: 'Arpegio en acordes abiertos',
+            desc: 'Graba la ejecución del arpegio completo enlazando Em y Am sin pausas intermedias.',
+            publicada: '2026-10-27', limite: '2026-11-03',
+            archivoDocente: 'guia_arpegios.pdf · 1.4 MB',
+            enlace: null
+          }
+        }
+      ]
+    },
+    {
+      id: 6,
+      codigo: 'C-006',
+      nombre: 'Bajo Eléctrico',
+      instrumento: 'Bajo',
+      nivel: 'Básico',
+      modalidad: 'Presencial',
+      horario: 'Sáb 09:00 - 11:30',
+      docente: 'Prof. Carlos',
+      sesiones: [
+        {
+          id: 601, numero: 1, titulo: 'Técnica de apoyo y pulsación', fecha: '2026-09-05',
+          descripcion: 'Fundamentos de la mano derecha con técnica de apoyo (rest stroke) y pulsación de cuerdas al aire.',
+          lecciones: [
+            { id: 61, tipo: 'Video HD', titulo: 'Técnica de apoyo en cuerdas E y A', desc: 'Alternancia de dedos índice y medio (i-m) apoyando en la cuerda superior.', ref: 'tecnica_apoyo_bajo.mp4 · 19.5 MB', duracion: '02:40' },
+            { id: 62, tipo: 'Guía PDF', titulo: 'Guía de afinación y cuerdas del bajo', desc: 'Afinación estándar E-A-D-G y ergonomía del instrumento.', ref: 'guia_bajo_inicio.pdf · 1.6 MB', duracion: 'PDF' }
+          ],
+          tarea: {
+            id: 651, titulo: 'Pulsación alternada',
+            desc: 'Toca secuencias de redondas y blancas con alternancia i-m a 75 BPM.',
+            publicada: '2026-09-05', limite: '2026-09-12',
+            archivoDocente: 'ejercicios_pulsacion.pdf · 1.2 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 602, numero: 2, titulo: 'Escala pentatónica menor', fecha: '2026-09-12',
+          descripcion: 'El patrón fundamental en el bajo eléctrico para construcción de grooves en rock, funk y blues.',
+          lecciones: [
+            { id: 63, tipo: 'Video HD', titulo: 'Digitación de la pentatónica de La menor', desc: 'Patrón de dedos 1-4, 1-3, 1-3 en el diapasón.', ref: 'pentatonica_bajo.mp4 · 21.3 MB', duracion: '03:00' },
+            { id: 64, tipo: 'Partitura', titulo: 'Tablatura y pentagrama de pentatónicas', desc: 'Patrón ascendente y descendente en 4 cuerdas.', ref: 'partitura_pentatonica.pdf · 1.4 MB', duracion: 'Partitura' }
+          ],
+          tarea: {
+            id: 652, titulo: 'Ejecución de pentatónica menor',
+            desc: 'Graba la escala de Am ascendente y descendente a 80 BPM con metrónomo.',
+            publicada: '2026-09-12', limite: '2026-09-19',
+            archivoDocente: 'tablatura_pentatonica.pdf · 1.0 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 603, numero: 3, titulo: 'Líneas de bajo y acompañamiento de blues', fecha: '2026-09-19',
+          descripcion: 'Construcción de líneas de walking bass usando fundamental, tercera, quinta y séptima menor.',
+          lecciones: [
+            { id: 65, tipo: 'Video HD', titulo: 'Walking bass de blues en 12 compases', desc: 'Desplazamiento rítmico continuo sobre la estructura I-IV-V.', ref: 'groove_blues_bajo.mp4 · 24.0 MB', duracion: '03:30' }
+          ],
+          tarea: {
+            id: 653, titulo: 'Groove de blues en Do',
+            desc: 'Toca la línea de walking bass de 12 compases sobre la pista de acompañamiento.',
+            publicada: '2026-09-19', limite: '2026-09-26',
+            archivoDocente: 'blues_12_compases.pdf · 1.3 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 604, numero: 4, titulo: 'Ensamble final y grabación de bajo', fecha: '2026-09-26',
+          descripcion: 'Integración del bajo con batería y teclado en una pieza instrumental completa.',
+          lecciones: [
+            { id: 66, tipo: 'Video HD', titulo: 'Sincronización rítmica con la batería', desc: 'Alineación de transientes y dinámica en el ensamble.', ref: 'ensamble_bajo_bateria.mp4 · 26.5 MB', duracion: '03:45' }
+          ],
+          tarea: {
+            id: 654, titulo: 'Pieza final de ensamble',
+            desc: 'Graba la pieza completa junto a la pista de batería y percusión.',
+            publicada: '2026-09-26', limite: '2026-10-03',
+            archivoDocente: 'partitura_ensamble_final.pdf · 1.7 MB',
+            enlace: null
+          }
+        }
+      ]
+    },
+    {
+      id: 2,
+      codigo: 'C-002',
+      nombre: 'Teclado Intermedio',
+      instrumento: 'Teclado',
+      nivel: 'Intermedio',
+      modalidad: 'Presencial y virtual',
+      horario: 'Vie 17:00 - 19:30',
+      docente: 'Prof. Dunamys',
+      sesiones: [
+        {
+          id: 301, numero: 1, titulo: 'Inversiones de tríadas y armonía aplicada', fecha: '2026-11-01',
+          descripcion: 'Primera y segunda inversión de acordes mayores y menores en ambas manos.',
+          lecciones: [],
+          tarea: { id: 351, titulo: 'Inversiones a cuatro voces', desc: 'Realiza la práctica de inversiones.', publicada: '2026-11-01', limite: '2026-11-08' }
+        },
+        {
+          id: 302, numero: 2, titulo: 'Escalas modales y armonía avanzada', fecha: '2026-11-08',
+          descripcion: 'Modos griegos (Dórico, Mixolidio) y arpegios con séptimas.',
+          lecciones: [],
+          tarea: { id: 352, titulo: 'Ejercicios modales', desc: 'Realiza la práctica de modos griegos.', publicada: '2026-11-08', limite: '2026-11-15' }
+        }
+      ]
+    }
+  ];
+
+  // Entregas iniciales por defecto de Lucía (se cargan si no hay nada en localStorage)
+  const DEFAULT_ENTREGAS = {
+    101: {
+      sesionId: 101,
+      tareaId: 201,
+      fecha: '2026-10-09T20:14:00',
+      archivos: [{ nombre: 'evidencia_postura_lucia.mp4', tamano: '24.5 MB', tipo: 'video/mp4' }],
+      enlaces: [],
+      estado: 'Aprobada',
+      nota: 18,
+      comentario: 'Excelente postura de manos y espalda recta. Buen pulso constante durante todo el ejercicio.',
+      revisadaEl: '10 oct 2026, 11:30 am',
+      conRetraso: false
+    },
+    102: {
+      sesionId: 102,
+      tareaId: 202,
+      fecha: '2026-10-16T17:20:00',
+      archivos: [{ nombre: 'escalas_lucia_mendoza.mp4', tamano: '32.1 MB', tipo: 'video/mp4' }],
+      enlaces: [],
+      estado: 'Aprobada',
+      nota: 19,
+      comentario: 'Muy buena fluidez en el paso del pulgar en Do Mayor y Sol Mayor. Gran progreso.',
+      revisadaEl: '17 oct 2026, 09:15 am',
+      conRetraso: false
+    },
+    103: {
+      sesionId: 103,
+      tareaId: 203,
+      fecha: '2026-10-24T19:00:00',
+      archivos: [{ nombre: 'hanon_lucia_intento1.mp4', tamano: '28.0 MB', tipo: 'video/mp4' }],
+      enlaces: [],
+      estado: 'Observada',
+      nota: 13,
+      comentario: 'Mantén los dedos curvos al tocar las teclas negras y cuida el tempo con metrónomo. Corrige la rigidez del hombro derecho.',
+      revisadaEl: '25 oct 2026, 15:40 pm',
+      conRetraso: false
+    },
+    104: {
+      sesionId: 104,
+      tareaId: 204,
+      fecha: '2026-10-31T16:45:00',
+      archivos: [{ nombre: 'acordes_acompanamiento_lucia.mp4', tamano: '41.2 MB', tipo: 'video/mp4' }],
+      enlaces: [],
+      estado: 'Pendiente',
+      nota: null,
+      comentario: '',
+      revisadaEl: null,
+      conRetraso: false
+    },
+    105: {
+      sesionId: 105,
+      tareaId: 205,
+      fecha: '2026-11-06T18:30:00',
+      archivos: [{ nombre: 'lectura_escalas_lucia.mp4', tamano: '35.4 MB', tipo: 'video/mp4' }],
+      enlaces: [],
+      estado: 'Aprobada',
+      nota: 17,
+      comentario: 'Buena precisión rítmica en la lectura simultánea de ambas claves.',
+      revisadaEl: '07 nov 2026, 10:20 am',
+      conRetraso: false
+    },
+    // Sesión 106: En proceso (tarea 6 por entregar para completar Teclado Básico al 100%)
+
+    // Entregas de C-004 Guitarra Básico (4 sesiones: 2 completadas = 50%)
+    401: {
+      sesionId: 401,
+      tareaId: 451,
+      fecha: '2026-10-10T15:30:00',
+      archivos: [{ nombre: 'afinacion_guitarra_lucia.mp4', tamano: '22.0 MB', tipo: 'video/mp4' }],
+      enlaces: [],
+      estado: 'Aprobada',
+      nota: 18,
+      comentario: 'Excelente afinación y buena colocación de la muñeca izquierda.',
+      revisadaEl: '11 oct 2026, 10:15 am',
+      conRetraso: false
+    },
+    402: {
+      sesionId: 402,
+      tareaId: 452,
+      fecha: '2026-10-18T16:45:00',
+      archivos: [{ nombre: 'cambio_acordes_em_am.mp4', tamano: '29.3 MB', tipo: 'video/mp4' }],
+      enlaces: [],
+      estado: 'Aprobada',
+      nota: 17,
+      comentario: 'Buen pulso al cambiar entre Mi menor y La menor. Continúa practicando el ritmo constante.',
+      revisadaEl: '19 oct 2026, 14:00 pm',
+      conRetraso: false
+    },
+
+    // Entregas de C-006 Bajo Eléctrico (4 sesiones: 4 completadas = 100%, curso concluido)
+    601: {
+      sesionId: 601,
+      tareaId: 651,
+      fecha: '2026-09-10T18:00:00',
+      archivos: [{ nombre: 'pulsacion_apoyo_bajo.mp4', tamano: '21.5 MB', tipo: 'video/mp4' }],
+      enlaces: [],
+      estado: 'Aprobada',
+      nota: 19,
+      comentario: 'Pulsación limpia y uniforme. Muy buen apoyo de los dedos.',
+      revisadaEl: '11 sep 2026, 11:20 am',
+      conRetraso: false
+    },
+    602: {
+      sesionId: 602,
+      tareaId: 652,
+      fecha: '2026-09-17T17:10:00',
+      archivos: [{ nombre: 'escala_pentatonica_bajo.mp4', tamano: '26.0 MB', tipo: 'video/mp4' }],
+      enlaces: [],
+      estado: 'Aprobada',
+      nota: 18,
+      comentario: 'Digitación correcta y buen sonido con metrónomo a 80 BPM.',
+      revisadaEl: '18 sep 2026, 09:30 am',
+      conRetraso: false
+    },
+    603: {
+      sesionId: 603,
+      tareaId: 653,
+      fecha: '2026-09-24T19:20:00',
+      archivos: [{ nombre: 'walking_bass_blues.mp4', tamano: '31.4 MB', tipo: 'video/mp4' }],
+      enlaces: [],
+      estado: 'Aprobada',
+      nota: 20,
+      comentario: '¡Groove impecable! Excelente tempo y comprensión armónica del blues.',
+      revisadaEl: '25 sep 2026, 16:45 pm',
+      conRetraso: false
+    },
+    604: {
+      sesionId: 604,
+      tareaId: 654,
+      fecha: '2026-10-01T20:15:00',
+      archivos: [{ nombre: 'ensamble_final_bajo.mp4', tamano: '38.2 MB', tipo: 'video/mp4' }],
+      enlaces: [],
+      estado: 'Aprobada',
+      nota: 19,
+      comentario: 'Felicitaciones por completar el curso con tan alto nivel interpretativo y precisión rítmica.',
+      revisadaEl: '02 oct 2026, 12:00 pm',
+      conRetraso: false
+    }
+  };
+
+  // Cargar entregas de localStorage o inicializar con defaults
+  function getEntregas() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY_ENTREGAS);
+      if (raw) {
+        const stored = JSON.parse(raw);
+        let modified = false;
+        // Asegurar que las entregas iniciales de demostración estén cargadas
+        Object.keys(DEFAULT_ENTREGAS).forEach(k => {
+          if (!stored[k]) {
+            stored[k] = DEFAULT_ENTREGAS[k];
+            modified = true;
+          }
+        });
+        if (modified) {
+          saveEntregas(stored);
+        }
+        return stored;
+      }
+    } catch (e) {
+      console.warn('Error leyendo entregas guardadas:', e);
+    }
+    saveEntregas(DEFAULT_ENTREGAS);
+    return { ...DEFAULT_ENTREGAS };
+  }
+
+  function saveEntregas(data) {
+    try {
+      localStorage.setItem(STORAGE_KEY_ENTREGAS, JSON.stringify(data));
+    } catch (e) {
+      console.error('Error persistiendo entregas:', e);
+    }
+  }
+
+  // ===================================================================
+  // 3. ESTADOS DE SESIÓN Y TAREA (RF038, RF040, RF041)
+  // ===================================================================
+  // Calcula el estado de cada sesión de un curso para el alumno
+  function calculateSessionStates(course, entregas) {
+    const states = {};
+    const sesiones = course.sesiones;
+
+    for (let i = 0; i < sesiones.length; i++) {
+      const s = sesiones[i];
+      const hasEntrega = !!entregas[s.id];
+
+      if (hasEntrega) {
+        states[s.id] = 'Completada';
+      } else {
+        if (i === 0) {
+          states[s.id] = 'En proceso';
+        } else {
+          const prevSession = sesiones[i - 1];
+          const prevDone = !!entregas[prevSession.id];
+          states[s.id] = prevDone ? 'En proceso' : 'Bloqueada';
+        }
+      }
+    }
+    return states;
+  }
+
+  // ===================================================================
+  // 4. ELEMENTOS DE UI Y SISTEMA DE TOASTS
+  // ===================================================================
+  const appContent = document.getElementById('estAppContent');
+  const pageTitle = document.getElementById('estPageTitle');
+  const pageSubtitle = document.getElementById('estPageSubtitle');
+  const navSesiones = document.getElementById('estNavSesiones');
+  const navTareas = document.getElementById('estNavTareas');
+  const sidebar = document.getElementById('estSidebar');
+  const scrim = document.getElementById('estScrim');
+  const menuBtn = document.getElementById('estMenuBtn');
+  const logoutBtn = document.getElementById('estLogoutBtn');
+  const toastsWrap = document.getElementById('estToasts');
+
+  // Modal preview
+  const modalPreview = document.getElementById('estModalPreview');
+  const previewTitle = document.getElementById('estPreviewTitle');
+  const previewBody = document.getElementById('estPreviewBody');
+  const closePreviewBtn = document.getElementById('estClosePreview');
+  const previewCloseBtn = document.getElementById('estPreviewCloseBtn');
+  const previewDownloadBtn = document.getElementById('estPreviewDownloadBtn');
+  let currentPreviewMat = null;
+
+  // Barra de progreso del estudiante (CAMBIO 2)
+  const courseProgressWrap = document.getElementById('estCourseProgress');
+  const progressText = document.getElementById('estProgressText');
+  const progressPercent = document.getElementById('estProgressPercent');
+  const progressBar = document.getElementById('estProgressBar');
+  const progressFill = document.getElementById('estProgressFill');
+
+  function updateCourseProgress() {
+    const userCourse = getActiveCourse();
+    if (!userCourse) return;
+    const entregas = getEntregas();
+    const m = userCourse.sesiones.length;
+    let n = 0;
+    userCourse.sesiones.forEach(s => {
+      if (entregas[s.id]) n++;
+    });
+
+    const percent = m > 0 ? Math.round((n / m) * 100) : 0;
+    const isCompleted = percent >= 100 && n === m;
+
+    if (courseProgressWrap) {
+      courseProgressWrap.classList.toggle('is-completed', isCompleted);
+    }
+    if (progressText) {
+      if (m === 0) {
+        progressText.textContent = 'Aún no hay sesiones';
+      } else if (isCompleted) {
+        progressText.textContent = 'Curso completado';
+      } else {
+        progressText.textContent = `Progreso del curso · ${n} de ${m} sesiones completadas`;
+      }
+    }
+    if (progressText && m > 0 && isReadOnly()) {
+      progressText.textContent = `Curso concluido · solo lectura · ${n} de ${m} sesiones completadas`;
+    }
+    if (progressPercent) {
+      progressPercent.textContent = `${percent}%`;
+    }
+    if (progressBar) {
+      progressBar.setAttribute('aria-valuenow', String(percent));
+      progressBar.setAttribute('aria-label', m === 0 ? 'Aún no hay sesiones' : (isCompleted ? 'Curso completado' : `Progreso del curso: ${percent}%`));
+    }
+    if (progressFill) {
+      progressFill.style.width = `${percent}%`;
+    }
+  }
+
+  // Actualizar datos del usuario en la barra lateral
+  document.getElementById('estUserName').textContent = CURRENT_STUDENT.nombre;
+  const initial = (CURRENT_STUDENT.nombre || 'A').charAt(0).toUpperCase();
+  document.getElementById('estUserAvatar').textContent = initial;
+
+  // Toggle menú responsive móvil
+  menuBtn.addEventListener('click', () => {
+    document.body.classList.toggle('nav-open');
+  });
+  scrim.addEventListener('click', () => {
+    document.body.classList.remove('nav-open');
+  });
+
+  // Cerrar sesión
+  logoutBtn.addEventListener('click', () => {
+    sessionStorage.removeItem('dunamys_sesion');
+    sessionStorage.removeItem(ACTIVE_COURSE_KEY);
+    window.location.href = 'login.html';
+  });
+
+  // Notificaciones Toast accesibles
+  function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast--${type}`;
+    toast.setAttribute('role', 'status');
+
+    let icon = '#i-check';
+    if (type === 'error') icon = '#i-alert';
+    if (type === 'info') icon = '#i-clock';
+
+    toast.innerHTML = `
+      <svg class="i"><use href="${icon}"/></svg>
+      <p>${esc(message)}</p>
+      <button type="button" class="toast__x" aria-label="Cerrar notificación">✕</button>
+    `;
+
+    toast.querySelector('.toast__x').addEventListener('click', () => {
+      toast.remove();
+    });
+
+    toastsWrap.appendChild(toast);
+    setTimeout(() => {
+      if (toast.parentNode) toast.remove();
+    }, 4500);
+  }
+
+  // Descarga real de archivos dummy con Blob (RF037)
+  function triggerRealDownload(filename, textContent = '') {
+    const dummyData = textContent || `Contenido de demostración de la Academia de Música Dunamys.\nArchivo: ${filename}\nFecha de generación: ${new Date().toLocaleString('es-PE')}\n`;
+    const blob = new Blob([dummyData], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast(`Descargando "${filename}"...`, 'info');
+  }
+
+  // ===================================================================
+  // 5. MODAL DE VISTA PREVIA (RF037, CAMBIO 1 Y CAMBIO 3)
+  // ===================================================================
+  function openMaterialPreview(mat) {
+    currentPreviewMat = mat;
+    previewTitle.textContent = mat.titulo;
+
+    let mediaHtml = '';
+    if (mat.tipo.includes('Video')) {
+      if (mat.archivoUrl) {
+        mediaHtml = `
+          <div class="est-modal-video-wrap">
+            <video controls playsinline src="${esc(mat.archivoUrl)}" class="est-modal-video" onerror="this.style.display='none'; const fb = this.parentElement.querySelector('.est-video-fallback'); if(fb) fb.style.display='flex';"></video>
+            <div class="est-video-fallback">
+              <div style="width:56px;height:56px;border-radius:50%;background:var(--red);display:grid;place-items:center;margin:0 auto 12px;font-size:22px;color:#fff;">
+                <svg style="width:20px;height:20px;margin-left:3px;fill:#fff;" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
+              </div>
+              <strong style="display:block;font-size:15px;margin-bottom:4px;">${esc(mat.titulo)}</strong>
+              <small style="color:#D3CDCF;">Archivo de video no disponible localmente (${esc(mat.ref || mat.archivoUrl)})</small>
+            </div>
+          </div>
+        `;
+      } else {
+        mediaHtml = `
+          <div class="est-modal-video-wrap" style="background:linear-gradient(135deg,#181516 0%,#0d0c0c 50%,#1c1819 100%);padding:36px 20px;text-align:center;color:#fff;">
+            <div style="width:56px;height:56px;border-radius:50%;background:var(--red);display:grid;place-items:center;margin:0 auto 12px;font-size:22px;color:#fff;">
+              <svg style="width:20px;height:20px;margin-left:3px;fill:#fff;" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
+            </div>
+            <strong style="display:block;font-size:16px;margin-bottom:4px;">Reproducción simulada: ${esc(mat.ref)}</strong>
+            <small style="color:#D3CDCF;">Duración: ${esc(mat.duracion)} · Video HD 1080p Cinema Dunamys</small>
+          </div>
+        `;
+      }
+    } else {
+      mediaHtml = `
+        <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:32px 20px;text-align:center;margin-bottom:16px;">
+          <div style="width:54px;height:54px;border-radius:14px;background:var(--blue-soft);color:var(--blue-dark);display:grid;place-items:center;margin:0 auto 12px;">
+            <svg class="i" style="width:28px;height:28px;"><use href="#i-file"/></svg>
+          </div>
+          <strong style="display:block;font-size:16px;color:var(--ink);margin-bottom:4px;">Documento: ${esc(mat.ref)}</strong>
+          <small style="color:var(--muted);">Visualizador de documento interactivo (Guía / Partitura oficial Dunamys)</small>
+        </div>
+      `;
+    }
+
+    previewBody.innerHTML = `
+      ${mediaHtml}
+      <div style="font-size:14px;line-height:1.6;color:var(--ink-2);">
+        <strong style="display:block;margin-bottom:4px;color:var(--ink);">Descripción de la lección:</strong>
+        <p style="margin:0 0 12px;">${esc(mat.desc)}</p>
+        <span class="pill ${mat.tipo.includes('Video') ? 'red' : 'blue'}">${esc(mat.tipo)}</span>
+      </div>
+    `;
+
+    modalPreview.classList.add('is-open');
+    document.body.classList.add('no-scroll');
+    previewCloseBtn.focus();
+  }
+
+  function closeMaterialPreview() {
+    const vid = previewBody.querySelector('video');
+    if (vid) {
+      try {
+        vid.onerror = null;
+        vid.pause();
+        vid.removeAttribute('src');
+        vid.load();
+      } catch (e) {}
+    }
+    modalPreview.classList.remove('is-open');
+    document.body.classList.remove('no-scroll');
+    currentPreviewMat = null;
+  }
+
+  closePreviewBtn.addEventListener('click', closeMaterialPreview);
+  previewCloseBtn.addEventListener('click', closeMaterialPreview);
+  modalPreview.addEventListener('click', (e) => {
+    if (e.target === modalPreview) closeMaterialPreview();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalPreview.classList.contains('is-open')) {
+      closeMaterialPreview();
+    }
+  });
+
+  previewDownloadBtn.addEventListener('click', () => {
+    if (currentPreviewMat) {
+      const rawRef = currentPreviewMat.ref || currentPreviewMat.archivoUrl || 'video.mp4';
+      const fileName = rawRef.split('·')[0].trim();
+      triggerRealDownload(fileName, `Lección: ${currentPreviewMat.titulo}\n${currentPreviewMat.desc}`);
+    }
+  });
+
+  // ===================================================================
+  // 6. EN RUTAMIENTO Y RENDERIZADO (HASH ROUTING)
+  // ===================================================================
+  // ===================================================================
+  // CURSO ACTIVO Y SELECCIÓN DE CURSOS (RF035)
+  // ===================================================================
+  const ACTIVE_COURSE_KEY = 'dunamys_curso_activo';
+  const INSTRUMENT_ORDER = ['Teclado', 'Guitarra', 'Bajo'];
+
+  function enrolledMats() {
+    return MATRICULAS.filter(m => m.correo === CURRENT_STUDENT.correo);
+  }
+  function getActiveCourse() {
+    const id = parseInt(sessionStorage.getItem(ACTIVE_COURSE_KEY), 10);
+    return enrolledMats().some(m => m.cursoId === id) ? (COURSES.find(c => c.id === id) || null) : null;
+  }
+  // Curso concluido (matrícula finalizada) = solo lectura
+  function isReadOnly() {
+    const id = parseInt(sessionStorage.getItem(ACTIVE_COURSE_KEY), 10);
+    const m = enrolledMats().find(x => x.cursoId === id);
+    return !!m && m.estado === 'finalizada';
+  }
+
+  function renderCursosView(entregas) {
+    pageTitle.innerHTML = 'Mis <span>cursos</span>';
+    pageSubtitle.textContent = 'Elige el curso al que quieres entrar. También puedes revisar tus cursos concluidos.';
+    const items = enrolledMats()
+      .map(m => ({ m, c: COURSES.find(c => c.id === m.cursoId) }))
+      .filter(x => x.c);
+
+    const card = ({ m, c }) => {
+      const total = c.sesiones.length;
+      const concl = m.estado === 'finalizada';
+      const hechas = concl ? total : c.sesiones.filter(s => entregas[s.id]).length;
+      const pct = total ? Math.round((hechas / total) * 100) : 0;
+      return `
+        <button type="button" class="est-course-card${concl ? ' est-course-card--concluido' : ''}" data-curso="${c.id}">
+          <div class="est-course-card__top">
+            <span class="est-course-card__code">${esc(c.codigo)}</span>
+            <span class="pill ${concl ? 'green' : 'neutral'}">${concl ? 'Concluido' : esc(c.modalidad)}</span>
+          </div>
+          <h3 class="est-course-card__title">${esc(c.nombre)}</h3>
+          <div class="est-course-card__meta">
+            <span class="est-course-card__meta-item">${esc(c.nivel)}</span>
+            <span class="est-course-card__meta-item">${esc(c.horario)}</span>
+          </div>
+          <div class="est-course-card__progress">
+            <div class="est-course-card__progress-info"><span>${hechas} de ${total} sesiones</span><strong>${pct}%</strong></div>
+            <div class="est-course-card__progress-track"><div class="est-course-card__progress-fill" style="width:${pct}%;"></div></div>
+          </div>
+          <span class="est-course-card__cta">${concl ? 'Ver curso' : 'Entrar al curso'} →</span>
+        </button>`;
+    };
+
+    const activos = items.filter(x => x.m.estado !== 'finalizada');
+    const concluidos = items.filter(x => x.m.estado === 'finalizada');
+    const grupos = [...new Set(activos.map(x => x.c.instrumento))].sort((a, b) => {
+      const ia = INSTRUMENT_ORDER.indexOf(a), ib = INSTRUMENT_ORDER.indexOf(b);
+      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+    });
+
+    let html = '<section class="est-courses-section"><h2 class="est-section-label">En curso</h2>';
+    if (!activos.length) {
+      html += `<div class="est-empty-courses">${items.length ? 'No tienes cursos en progreso.' : 'Aún no estás matriculado en ningún curso.'}</div>`;
+    }
+    grupos.forEach(g => {
+      const lista = activos.filter(x => x.c.instrumento === g);
+      html += `<h3 class="est-group-title">${esc(g)} <span class="est-group-count">· ${lista.length} ${lista.length === 1 ? 'curso' : 'cursos'}</span></h3>
+               <div class="est-courses-grid">${lista.map(card).join('')}</div>`;
+    });
+    html += '</section><section class="est-courses-section"><h2 class="est-section-label">Concluidos</h2>';
+    html += concluidos.length
+      ? `<div class="est-courses-grid" style="margin-top:12px;">${concluidos.map(card).join('')}</div>`
+      : '<div class="est-empty-courses">Aún no tienes cursos concluidos.</div>';
+    html += '</section>';
+
+    appContent.innerHTML = html;
+    appContent.querySelectorAll('[data-curso]').forEach(b => {
+      b.addEventListener('click', () => {
+        sessionStorage.setItem(ACTIVE_COURSE_KEY, b.getAttribute('data-curso'));
+        window.location.hash = '#/sesiones';
+      });
+    });
+  }
+
+  function parseHash() {
+    const raw = window.location.hash.replace(/^#\/?/, '');
+    const parts = raw.split('/').filter(Boolean);
+    return {
+      route: parts[0] || 'sesiones',
+      param1: parts[1] || null,
+      param2: parts[2] || null
+    };
+  }
+
+  // Lista de archivos y enlaces en preparación para entrega (staged items)
+  let stagedFiles = [];
+  let stagedLinks = [];
+
+  function render() {
+    document.body.classList.remove('nav-open');
+    const { route, param1, param2 } = parseHash();
+    const entregas = getEntregas();
+    const headActions = document.getElementById('estHeadActions');
+    const navCursos = document.getElementById('estNavCursos');
+    navCursos.classList.toggle('is-active', route === 'cursos');
+    navSesiones.style.display = navTareas.style.display = (route === 'cursos') ? 'none' : '';
+
+    // Pantalla de selección de curso
+    if (route === 'cursos') {
+      if (courseProgressWrap) courseProgressWrap.style.display = 'none';
+      if (headActions) headActions.style.display = 'none';
+      renderCursosView(entregas);
+      return;
+    }
+    if (headActions) headActions.style.display = '';
+
+    // Sesión/tarea de un curso donde NO está matriculado -> sin autorización (RF035 CA02).
+    // Si es de otro curso propio, se cambia automáticamente a ese curso.
+    if ((route === 'sesion' || route === 'tarea') && param1) {
+      const sId = parseInt(param1, 10);
+      const owner = COURSES.find(c => c.sesiones.some(s => s.id === sId));
+      const enrolled = !!owner && enrolledMats().some(m => m.cursoId === owner.id);
+      if (!enrolled) {
+        if (courseProgressWrap) courseProgressWrap.style.display = 'none';
+        renderUnauthorizedPanel();
+        return;
+      }
+      sessionStorage.setItem(ACTIVE_COURSE_KEY, String(owner.id));
+    }
+
+    const userCourse = getActiveCourse();
+    if (!userCourse) { window.location.hash = '#/cursos'; return; }
+    const sessionStates = calculateSessionStates(userCourse, entregas);
+
+    // Sincronizar navegación y chip del curso activo
+    navSesiones.classList.toggle('is-active', route === 'sesiones' || route === 'sesion');
+    navTareas.classList.toggle('is-active', route === 'tareas' || route === 'tarea');
+    const chipTxt = document.getElementById('estCourseChipText');
+    if (chipTxt) chipTxt.textContent = `${userCourse.codigo} · ${userCourse.nombre}${isReadOnly() ? ' · Concluido' : ''}`;
+
+    if (courseProgressWrap) {
+      courseProgressWrap.style.display = 'flex';
+      updateCourseProgress();
+    }
+
+    if (route === 'sesiones' || route === 'sesion') {
+      renderSesionesView(userCourse, sessionStates, param1 ? parseInt(param1, 10) : null);
+    } else if (route === 'tareas' || (route === 'tarea' && param2 !== 'detalle')) {
+      renderTareasView(userCourse, sessionStates, entregas, param1 ? parseInt(param1, 10) : null);
+    } else if (route === 'tarea' && param2 === 'detalle') {
+      renderDetalleEntregaView(userCourse, entregas, parseInt(param1, 10));
+    } else {
+      window.location.hash = '#/sesiones';
+    }
+  }
+
+  // Panel de Acceso No Autorizado (RF035 CA02)
+  function renderUnauthorizedPanel() {
+    pageTitle.innerHTML = 'Acceso <span>Restringido</span>';
+    pageSubtitle.textContent = 'Verificación de matrícula del alumno';
+
+    appContent.innerHTML = `
+      <div class="est-detail-panel">
+        <div class="est-state-panel">
+          <div class="est-state-icon danger">
+            <svg class="i" style="width:32px;height:32px;"><use href="#i-alert"/></svg>
+          </div>
+          <h3>No tienes autorización para acceder a esta sesión</h3>
+          <p>Esta sesión pertenece a un curso en el que no te encuentras matriculado actualmente. Si consideras que es un error, comunícate con la administración de Dunamys.</p>
+          <a href="#/sesiones" class="btn btn--primary">
+            <svg class="i"><use href="#i-left"/></svg> Volver a mis sesiones
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  // ===================================================================
+  // 7. PANTALLA: SESIONES (RF035, RF036, RF037, RF038)
+  // ===================================================================
+  function renderSesionesView(course, sessionStates, selectedId) {
+    pageTitle.innerHTML = 'Mis <span>Sesiones</span>';
+    pageSubtitle.textContent = 'Explora el temario ordenado, visualiza lecciones y descarga tus materiales de estudio.';
+
+    // Determinar la sesión activa
+    let activeSession = course.sesiones.find(s => s.id === selectedId);
+    if (!activeSession) {
+      // Buscar primera en proceso o completada
+      activeSession = course.sesiones.find(s => sessionStates[s.id] === 'En proceso') || course.sesiones[0];
+    }
+
+    const activeState = sessionStates[activeSession.id];
+
+    // Columna Izquierda: Lista de sesiones 1 a 6
+    const listHtml = course.sesiones.map(s => {
+      const state = sessionStates[s.id];
+      const isSelected = s.id === activeSession.id;
+      let badgeClass = 'neutral';
+      let badgeText = state;
+      let icon = '';
+
+      if (state === 'Completada') {
+        badgeClass = 'green';
+        icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-check"/></svg>';
+      } else if (state === 'En proceso') {
+        badgeClass = 'blue';
+      } else if (state === 'Bloqueada') {
+        badgeClass = 'neutral';
+        icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-lock"/></svg>';
+      }
+
+      return `
+        <button type="button" class="est-item-card ${isSelected ? 'is-active' : ''} ${state === 'Bloqueada' ? 'is-locked' : ''}" data-session-id="${s.id}">
+          <div class="est-item-card__badge">${s.numero}</div>
+          <div class="est-item-card__info">
+            <div class="est-item-card__top">
+              <span class="est-item-card__num">Sesión ${s.numero}</span>
+              <span class="pill ${badgeClass}">${icon} ${esc(badgeText)}</span>
+            </div>
+            <strong class="est-item-card__title">${esc(s.titulo)}</strong>
+          </div>
+        </button>
+      `;
+    }).join('');
+
+    // Columna Derecha: Detalle de la sesión elegida
+    let detailHtml = '';
+    if (activeState === 'Bloqueada') {
+      detailHtml = `
+        <div class="est-state-panel">
+          <div class="est-state-icon lock">
+            <svg class="i" style="width:32px;height:32px;"><use href="#i-lock"/></svg>
+          </div>
+          <h3>Sesión ${activeSession.numero}: ${esc(activeSession.titulo)}</h3>
+          <p>Debes completar la sesión anterior para acceder a esta. Entrega la tarea pendiente para desbloquear el contenido y materiales.</p>
+          <a href="#/sesiones" class="btn btn--outline" id="estGoPrevSessionBtn">
+            <svg class="i"><use href="#i-left"/></svg> Ver sesiones disponibles
+          </a>
+        </div>
+      `;
+    } else {
+      // Lecciones de la sesión
+      const totalLecciones = (activeSession.lecciones || []).length;
+      const lessonsHtml = totalLecciones ? activeSession.lecciones.map((mat, idx) => {
+        const numStr = String(idx + 1).padStart(3, '0');
+        const isVideo = mat.tipo.includes('Video');
+
+        let pillClass = 'red';
+        let iconType = 'video';
+        let iconSymbol = '#i-video';
+
+        if (mat.tipo.includes('PDF')) {
+          pillClass = 'blue';
+          iconType = 'pdf';
+          iconSymbol = '#i-file';
+        } else if (mat.tipo.includes('Partitura')) {
+          pillClass = 'gold';
+          iconType = 'partitura';
+          iconSymbol = '#i-book';
+        }
+
+        let mediaResourceHtml = '';
+        if (isVideo) {
+          mediaResourceHtml = `
+            <div class="est-video-player est-btn-preview" data-mat-id="${mat.id}" role="button" tabindex="0" aria-label="Reproducir video: ${esc(mat.titulo)}">
+              ${mat.archivoUrl ? `
+                <video preload="metadata" muted playsinline src="${esc(mat.archivoUrl)}#t=0.5" class="est-video-player__media" onerror="this.style.display='none';"></video>
+              ` : ''}
+              <div class="est-video-player__scrim"></div>
+              <div class="est-video-player__play">
+                <svg class="est-video-player__play-tri" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
+              </div>
+              <div class="est-video-player__timeline">
+                <div class="est-video-player__timeline-bar"></div>
+              </div>
+              <span class="est-video-player__duration">${esc(mat.duracion || 'Video HD')}</span>
+            </div>
+          `;
+        } else {
+          mediaResourceHtml = `
+            <div class="est-lesson-doc-thumb est-btn-preview" data-mat-id="${mat.id}" role="button" tabindex="0" aria-label="Ver documento: ${esc(mat.titulo)}">
+              <div class="est-mat-icon ${iconType}">
+                <svg class="i" style="width:24px;height:24px;"><use href="${iconSymbol}"/></svg>
+              </div>
+              <span class="pill ${pillClass}" style="font-size:11px;">${esc(mat.tipo)}</span>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="est-lesson-card">
+            <div class="est-lesson-card__head">
+              <span class="est-lesson-card__num">Lección ${numStr}</span>
+              <div class="est-lesson-card__meta">
+                <span class="pill ${pillClass}">${esc(mat.tipo)}</span>
+                ${isVideo && mat.duracion ? `<span class="est-lesson-card__dur">${esc(mat.duracion)}</span>` : ''}
+              </div>
+            </div>
+            <div class="est-lesson-card__body">
+              <div class="est-lesson-card__media">
+                ${mediaResourceHtml}
+              </div>
+              <div class="est-lesson-card__content">
+                <div class="est-lesson-field">
+                  <span class="est-lesson-label">Título de la lección</span>
+                  <strong class="est-lesson-title">${esc(mat.titulo)}</strong>
+                </div>
+                <div class="est-lesson-field">
+                  <span class="est-lesson-label">Descripción</span>
+                  <p class="est-lesson-desc">${esc(mat.desc)}</p>
+                </div>
+                <div class="est-lesson-file">
+                  <svg class="i" style="width:14px;height:14px;"><use href="#i-file"/></svg>
+                  <span>${esc(mat.ref)}</span>
+                </div>
+                <div class="est-mat-actions">
+                  <button type="button" class="btn btn--outline btn--sm est-btn-preview" data-mat-id="${mat.id}">
+                    <svg class="i"><use href="#i-eye"/></svg> Ver
+                  </button>
+                  <button type="button" class="btn btn--primary btn--sm est-btn-download" data-mat-ref="${esc(mat.ref)}" data-mat-title="${esc(mat.titulo)}">
+                    <svg class="i"><use href="#i-download"/></svg> Descargar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('') : `<p class="muted">Esta sesión aún no tiene lecciones publicadas.</p>`;
+
+      detailHtml = `
+        <div class="est-detail-hero">
+          <div class="est-detail-hero__main">
+            <span class="pill ${activeState === 'Completada' ? 'green' : 'blue'}">
+              ${activeState === 'Completada' ? '✔ Sesión completada' : 'En proceso'}
+            </span>
+            <h2>Sesión ${activeSession.numero}: ${esc(activeSession.titulo)}</h2>
+            <div class="est-detail-hero__meta">
+              <span>📅 Publicada: ${esc(activeSession.fecha)}</span>
+              <span>•</span>
+              <span>Docente: ${esc(course.docente)}</span>
+              <span>•</span>
+              <span>${totalLecciones} lección(es)</span>
+            </div>
+          </div>
+          <div>
+            <a href="#/tarea/${activeSession.id}" class="btn btn--primary">
+              <span>Ir a la tarea de esta sesión</span>
+              <svg class="i"><use href="#i-right"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="est-detail-body">
+          <div class="est-section-title">
+            <span>Lecciones de la sesión</span>
+            <small class="muted" style="font-weight:normal;font-size:12.5px;">${totalLecciones} ${totalLecciones === 1 ? 'lección' : 'lecciones'}</small>
+          </div>
+          <div class="est-materials-grid">
+            ${lessonsHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    appContent.innerHTML = `
+      <div class="est-master-detail">
+        <aside class="est-side-list" aria-label="Lista de sesiones del curso">
+          <div class="est-side-list__head">
+            <h2>Sesiones del curso</h2>
+            <p>${course.codigo} · ${course.nombre}</p>
+          </div>
+          ${listHtml}
+        </aside>
+
+        <section class="est-detail-panel" aria-label="Detalle de sesión">
+          ${detailHtml}
+        </section>
+      </div>
+    `;
+
+    // Eventos de selección de sesión
+    appContent.querySelectorAll('.est-item-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-session-id');
+        window.location.hash = `#/sesion/${id}`;
+      });
+    });
+
+    // Eventos de previsualización y descarga
+    appContent.querySelectorAll('.est-btn-preview').forEach(btn => {
+      const openFn = () => {
+        const matId = parseInt(btn.getAttribute('data-mat-id'), 10);
+        const mat = activeSession.lecciones.find(m => m.id === matId);
+        if (mat) openMaterialPreview(mat);
+      };
+      btn.addEventListener('click', openFn);
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openFn();
+        }
+      });
+    });
+
+    appContent.querySelectorAll('.est-btn-download').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const rawRef = btn.getAttribute('data-mat-ref');
+        const title = btn.getAttribute('data-mat-title');
+        const filename = rawRef.split('·')[0].trim();
+        triggerRealDownload(filename, `Recurso: ${title}\nDescargado desde Dunamys.`);
+      });
+    });
+  }
+
+  // ===================================================================
+  // 8. PANTALLA: TAREAS (RF039, RF040, RF041)
+  // ===================================================================
+  function renderTareasView(course, sessionStates, entregas, selectedId) {
+    pageTitle.innerHTML = 'Mis <span>Tareas</span>';
+    pageSubtitle.textContent = 'Entrega tus evidencias de práctica, consulta el estado de revisión y retroalimentación.';
+
+    // Determinar tarea/sesión activa
+    let activeSession = course.sesiones.find(s => s.id === selectedId);
+    if (!activeSession) {
+      // Buscar primera por entregar o la primera sesión disponible
+      activeSession = course.sesiones.find(s => sessionStates[s.id] === 'En proceso') || course.sesiones[0];
+    }
+
+    const sState = sessionStates[activeSession.id];
+    const entrega = entregas[activeSession.id] || null;
+
+    // Columna Izquierda: Lista de tareas
+    const listHtml = course.sesiones.map(s => {
+      const state = sessionStates[s.id];
+      const e = entregas[s.id];
+      const isSelected = s.id === activeSession.id;
+
+      let estadoTarea = 'Por entregar';
+      let icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-clock"/></svg>';
+      let pillClass = 'neutral';
+
+      if (state === 'Bloqueada') {
+        estadoTarea = 'Bloqueada';
+        icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-lock"/></svg>';
+        pillClass = 'neutral';
+      } else if (e) {
+        estadoTarea = e.estado; // 'Aprobada', 'Observada', 'Pendiente'
+        if (e.estado === 'Aprobada') {
+          icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-check"/></svg>';
+          pillClass = 'green';
+        } else if (e.estado === 'Observada') {
+          icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-alert"/></svg>';
+          pillClass = 'red';
+        } else if (e.estado === 'Pendiente') {
+          icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-clock"/></svg>';
+          pillClass = 'gold';
+        }
+      }
+
+      return `
+        <button type="button" class="est-item-card ${isSelected ? 'is-active' : ''} ${state === 'Bloqueada' ? 'is-locked' : ''}" data-task-id="${s.id}">
+          <div class="est-item-card__badge">${s.numero}</div>
+          <div class="est-item-card__info">
+            <div class="est-item-card__top">
+              <span class="est-item-card__num">Tarea Sesión ${s.numero}</span>
+              <span class="pill ${pillClass}">${icon} ${esc(estadoTarea)}</span>
+            </div>
+            <strong class="est-item-card__title">${esc(s.tarea.titulo)}</strong>
+          </div>
+        </button>
+      `;
+    }).join('');
+
+    // Columna Derecha: Detalle de la tarea y zona de entrega
+    const t = activeSession.tarea;
+    const taskVideoObj = t ? (t.videoDocente || t.video || (t.archivoUrl ? { archivoUrl: t.archivoUrl } : null)) : null;
+    let detailHtml = '';
+    if (sState === 'Bloqueada') {
+      detailHtml = `
+        <div class="est-state-panel">
+          <div class="est-state-icon lock">
+            <svg class="i" style="width:32px;height:32px;"><use href="#i-lock"/></svg>
+          </div>
+          <h3>Tarea Sesión ${activeSession.numero}: Bloqueada</h3>
+          <p>Para desbloquear esta tarea, primero debes entregar y completar la sesión anterior.</p>
+        </div>
+      `;
+    } else {
+      const isDelivered = !!entrega && (entrega.estado !== 'Observada' || isReadOnly());
+      const isObserved = !isReadOnly() && !!entrega && entrega.estado === 'Observada';
+
+      // Video de ejemplo del docente si existe (CAMBIO 3)
+      let teacherVideoHtml = '';
+      if (taskVideoObj) {
+        teacherVideoHtml = `
+          <div style="margin-top:16px;">
+            <div class="est-video-player est-task-video-player" role="button" tabindex="0" aria-label="Reproducir video de ejemplo: ${esc(taskVideoObj.titulo || t.titulo)}">
+              ${taskVideoObj.archivoUrl ? `
+                <video preload="metadata" muted playsinline src="${esc(taskVideoObj.archivoUrl)}#t=0.5" class="est-video-player__media" onerror="this.style.display='none';"></video>
+              ` : ''}
+              <div class="est-video-player__scrim"></div>
+              <div class="est-video-player__play">
+                <svg class="est-video-player__play-tri" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
+              </div>
+              <div class="est-video-player__timeline">
+                <div class="est-video-player__timeline-bar"></div>
+              </div>
+              ${taskVideoObj.duracion ? `<span class="est-video-player__duration">${esc(taskVideoObj.duracion)}</span>` : ''}
+            </div>
+          </div>
+        `;
+      }
+
+      // Material docente descargable
+      let teacherDocHtml = '';
+      if (t.archivoDocente) {
+        teacherDocHtml = `
+          <div style="margin-top:14px;">
+            <button type="button" class="btn btn--outline btn--sm est-btn-download-doc" data-file="${esc(t.archivoDocente)}">
+              <svg class="i"><use href="#i-file"/></svg>
+              <span>${esc(t.archivoDocente)} (Descargar consigna)</span>
+            </button>
+          </div>
+        `;
+      }
+
+      // Zona de acción: Ya entregada vs Por entregar / Observada
+      let submissionSectionHtml = '';
+
+      if (isDelivered) {
+        // Tarea entregada (Pendiente o Aprobada)
+        submissionSectionHtml = `
+          <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;margin-top:20px;text-align:center;">
+            <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <span class="pill ${entrega.estado === 'Aprobada' ? 'green' : 'gold'}" style="font-size:13px;padding:5px 12px;">
+                ${entrega.estado === 'Aprobada' ? '✔ Tarea Aprobada' : '⏱ Entrega en revisión (Pendiente)'}
+              </span>
+            </div>
+            <p style="margin:0 0 16px;font-size:14px;color:var(--ink-2);">
+              Tu tarea fue enviada el <strong>${esc(new Date(entrega.fecha).toLocaleString('es-PE'))}</strong>.
+            </p>
+            <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+              <button type="button" class="btn btn--green" disabled>
+                <svg class="i"><use href="#i-check"/></svg> Tarea entregada ✓
+              </button>
+              <a href="#/tarea/${activeSession.id}/detalle" class="btn btn--primary">
+                <svg class="i"><use href="#i-eye"/></svg> Ver detalles de la entrega
+              </a>
+            </div>
+          </div>
+        `;
+      } else {
+        // Zona para entregar (o volver a entregar si está Observada)
+        let observedNotice = '';
+        if (isObserved) {
+          observedNotice = `
+            <div class="est-alert est-alert--warning" style="margin-bottom:16px;">
+              <svg class="i"><use href="#i-alert"/></svg>
+              <div>
+                <strong>Tarea Observada por el docente:</strong>
+                <div>"${esc(entrega.comentario || 'Por favor revisa la postura y vuelve a enviar.')}"</div>
+                <div style="margin-top:4px;font-size:12.5px;">Adjunta tus nuevos archivos a continuación para volver a entregar.</div>
+              </div>
+            </div>
+          `;
+        }
+
+        submissionSectionHtml = `
+          ${observedNotice}
+          <div class="est-section-title" style="margin-top:20px;">
+            <span>${isObserved ? 'Volver a entregar tarea' : 'Entregar tarea'}</span>
+            <small class="muted" style="font-weight:normal;font-size:12px;">Formatos permitidos: video, audio, PDF, partitura, imágenes (máx. 200 MB)</small>
+          </div>
+
+          <!-- Dropzone multiarchivo -->
+          <div class="est-upload-area" id="estDropzone">
+            <div class="est-upload-area__icon">
+              <svg class="i" style="width:24px;height:24px;"><use href="#i-upload"/></svg>
+            </div>
+            <strong>Elige archivos o suéltalos aquí</strong>
+            <small>Haz clic para buscar en tu dispositivo o arrastra los archivos a este recuadro</small>
+            <input type="file" id="estFileInput" multiple style="display:none;" accept=".mp4,.webm,.mov,.mp3,.wav,.pdf,.png,.jpg,.jpeg,.doc,.docx,.ppt,.pptx,.zip,.musicxml,.mxl">
+          </div>
+
+          <!-- Apartado O pega un enlace -->
+          <div class="est-link-section">
+            <label for="estLinkInput" class="est-link-section-title">
+              <svg class="i" style="width:16px;height:16px;"><use href="#i-link"/></svg>
+              <span>O pega un enlace</span>
+            </label>
+            <div class="est-link-input-group">
+              <input type="text" id="estLinkInput" class="est-link-input" placeholder="https://…" aria-describedby="estLinkError">
+              <button type="button" class="btn btn--outline btn--sm" id="estAddLinkBtn">Agregar enlace</button>
+            </div>
+            <div id="estLinkError" class="est-input-error" role="alert"></div>
+          </div>
+
+          <div id="estUploadError" class="est-error" style="margin-top:12px;" role="alert"></div>
+
+          <!-- Archivos y enlaces seleccionados pendientes de enviar -->
+          <div class="est-files-staged" id="estStagedFilesList"></div>
+
+          <!-- Botones de Acción: Cancelar y Entregar -->
+          <div class="est-task-actions-row">
+            <button type="button" class="btn btn--soft-red" id="estCancelUploadBtn" title="Descarta todos los archivos y enlaces adjuntados antes de enviar">
+              <svg class="i"><use href="#i-x"/></svg> Cancelar
+            </button>
+            <button type="button" class="btn btn--green" id="estSubmitTaskBtn">
+              <svg class="i"><use href="#i-upload"/></svg> Entregar tarea
+            </button>
+          </div>
+        `;
+      }
+
+      detailHtml = `
+        <div class="est-detail-hero">
+          <div class="est-detail-hero__main">
+            <div class="est-deadline-badge ${new Date() > new Date(t.limite) ? '' : 'ontime'}">
+              <span>📅 Fecha límite de entrega: ${esc(t.limite)} 11:59 PM</span>
+              ${new Date() > new Date(t.limite) ? '<span class="pill red">Plazo vencido</span>' : '<span class="pill neutral">Dentro del plazo</span>'}
+            </div>
+            <h2>Tarea Sesión ${activeSession.numero}: ${esc(t.titulo)}</h2>
+            <div class="est-detail-hero__meta">
+              <span>Publicada: ${esc(t.publicada)}</span>
+              <span>•</span>
+              <span>Curso: ${esc(course.nombre)}</span>
+            </div>
+          </div>
+          ${entrega ? `
+            <div>
+              <a href="#/tarea/${activeSession.id}/detalle" class="btn btn--outline btn--sm">
+                <svg class="i"><use href="#i-eye"/></svg> Ver detalles
+              </a>
+            </div>
+          ` : ''}
+        </div>
+
+        <div class="est-detail-body">
+          <div class="est-task-consigna">
+            <strong style="display:block;font-size:12.5px;color:var(--red);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">
+              Instrucciones del docente:
+            </strong>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-2);">${esc(t.desc)}</p>
+            ${t.enlace ? `<div style="margin-top:8px;"><a href="${esc(t.enlace)}" target="_blank" rel="noopener" class="est-link">🔗 Enlace de apoyo complementario</a></div>` : ''}
+            ${teacherVideoHtml}
+            ${teacherDocHtml}
+          </div>
+
+          ${(isReadOnly() && !entrega) ? '<div class="est-alert est-alert--warning" style="margin-top:20px;"><svg class="i"><use href="#i-alert"/></svg><div><strong>Curso concluido: solo lectura.</strong><div>Ya no se pueden enviar entregas en este curso.</div></div></div>' : submissionSectionHtml}
+        </div>
+      `;
+    }
+
+    appContent.innerHTML = `
+      <div class="est-master-detail">
+        <aside class="est-side-list" aria-label="Lista de tareas del curso">
+          <div class="est-side-list__head">
+            <h2>Tareas del curso</h2>
+            <p>Estado de entregas y evaluaciones</p>
+          </div>
+          ${listHtml}
+        </aside>
+
+        <section class="est-detail-panel" aria-label="Detalle y entrega de tarea">
+          ${detailHtml}
+        </section>
+      </div>
+    `;
+
+    // Eventos de selección de tarea
+    appContent.querySelectorAll('.est-item-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-task-id');
+        window.location.hash = `#/tarea/${id}`;
+      });
+    });
+
+    // Descarga de archivo docente
+    const dlDocBtn = appContent.querySelector('.est-btn-download-doc');
+    if (dlDocBtn) {
+      dlDocBtn.addEventListener('click', () => {
+        const fn = dlDocBtn.getAttribute('data-file');
+        triggerRealDownload(fn, `Consigna y pautas para la Tarea de Dunamys.`);
+      });
+    }
+
+    // Evento video de ejemplo de la tarea (CAMBIO 3)
+    const taskVideoBtn = appContent.querySelector('.est-task-video-player');
+    if (taskVideoBtn && taskVideoObj) {
+      const openTaskVid = () => {
+        openMaterialPreview({
+          id: 'task-video-' + activeSession.id,
+          tipo: 'Video HD',
+          titulo: taskVideoObj.titulo || `Video de ejemplo · Tarea Sesión ${activeSession.numero}`,
+          desc: t.desc,
+          ref: taskVideoObj.ref || (taskVideoObj.archivoUrl ? taskVideoObj.archivoUrl.split('/').pop() : 'video-ejemplo.mp4'),
+          duracion: taskVideoObj.duracion || '03:00',
+          archivoUrl: taskVideoObj.archivoUrl
+        });
+      };
+      taskVideoBtn.addEventListener('click', openTaskVid);
+      taskVideoBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openTaskVid();
+        }
+      });
+    }
+
+    // Lógica de carga de archivos y enlaces (Dropzone, Enlaces y Cancelar)
+    const dropzone = document.getElementById('estDropzone');
+    const fileInput = document.getElementById('estFileInput');
+    const linkInput = document.getElementById('estLinkInput');
+    const addLinkBtn = document.getElementById('estAddLinkBtn');
+    const linkError = document.getElementById('estLinkError');
+    const stagedList = document.getElementById('estStagedFilesList');
+    const uploadError = document.getElementById('estUploadError');
+    const cancelBtn = document.getElementById('estCancelUploadBtn');
+    const submitBtn = document.getElementById('estSubmitTaskBtn');
+
+    if (dropzone && fileInput) {
+      stagedFiles = []; // Reset al entrar
+      stagedLinks = [];
+
+      function getUrlDisplayInfo(rawUrl) {
+        try {
+          const parsed = new URL(rawUrl);
+          const hostname = parsed.hostname;
+          let full = parsed.hostname + (parsed.pathname === '/' ? '' : parsed.pathname) + parsed.search;
+          if (full.length > 36) {
+            full = full.substring(0, 33) + '…';
+          }
+          return { hostname, displayUrl: full };
+        } catch (e) {
+          return {
+            hostname: rawUrl,
+            displayUrl: rawUrl.length > 36 ? rawUrl.substring(0, 33) + '…' : rawUrl
+          };
+        }
+      }
+
+      function updateStagedUI() {
+        if (!stagedFiles.length && !stagedLinks.length) {
+          stagedList.innerHTML = '';
+          return;
+        }
+
+        let htmlParts = '';
+
+        if (stagedFiles.length) {
+          htmlParts += stagedFiles.map((file, idx) => `
+            <div class="est-staged-file">
+              <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+                <svg class="i" style="width:16px;height:16px;color:var(--muted);flex:none;"><use href="#i-file"/></svg>
+                <div style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                  <strong>${esc(file.name)}</strong>
+                  <span>(${formatBytes(file.size)})</span>
+                </div>
+              </div>
+              <button type="button" class="est-remove-file-btn" data-file-index="${idx}" aria-label="Quitar archivo ${esc(file.name)}">
+                ✕
+              </button>
+            </div>
+          `).join('');
+        }
+
+        if (stagedLinks.length) {
+          htmlParts += stagedLinks.map((linkItem, idx) => {
+            const info = getUrlDisplayInfo(linkItem.url);
+            return `
+              <div class="est-staged-file">
+                <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+                  <svg class="i" style="width:16px;height:16px;color:var(--blue);flex:none;"><use href="#i-link"/></svg>
+                  <div style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                    <strong>${esc(info.hostname)}</strong>
+                    <span title="${esc(linkItem.url)}">(${esc(info.displayUrl)})</span>
+                  </div>
+                </div>
+                <button type="button" class="est-remove-file-btn est-remove-link-btn" data-link-index="${idx}" aria-label="Quitar enlace ${esc(linkItem.url)}">
+                  ✕
+                </button>
+              </div>
+            `;
+          }).join('');
+        }
+
+        stagedList.innerHTML = htmlParts;
+
+        stagedList.querySelectorAll('.est-remove-file-btn:not(.est-remove-link-btn)').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.getAttribute('data-file-index'), 10);
+            stagedFiles.splice(idx, 1);
+            updateStagedUI();
+          });
+        });
+
+        stagedList.querySelectorAll('.est-remove-link-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.getAttribute('data-link-index'), 10);
+            stagedLinks.splice(idx, 1);
+            updateStagedUI();
+          });
+        });
+      }
+
+      function handleFilesSelected(fileList) {
+        uploadError.style.display = 'none';
+        let invalid = false;
+
+        Array.from(fileList).forEach(file => {
+          const ext = file.name.split('.').pop().toLowerCase();
+          if (!ALLOWED_EXTENSIONS.includes(ext) || file.size > MAX_FILE_BYTES) {
+            invalid = true;
+          } else {
+            // Evitar duplicados
+            if (!stagedFiles.some(f => f.name === file.name && f.size === file.size)) {
+              stagedFiles.push(file);
+            }
+          }
+        });
+
+        if (invalid) {
+          uploadError.textContent = 'Formato o tamaño de archivo no permitido. Solo se permiten videos, audios, documentos, partituras e imágenes de hasta 200 MB.';
+          uploadError.style.display = 'block';
+        }
+
+        updateStagedUI();
+      }
+
+      function addLink() {
+        if (!linkInput) return;
+        const raw = linkInput.value.trim();
+        if (linkError) {
+          linkError.style.display = 'none';
+          linkError.textContent = '';
+        }
+
+        if (!raw) {
+          linkError.textContent = 'Ingresa un enlace válido que empiece con http:// o https://';
+          linkError.style.display = 'block';
+          return;
+        }
+
+        let parsed = null;
+        try {
+          parsed = new URL(raw);
+        } catch (e) {
+          linkError.textContent = 'Ingresa un enlace válido que empiece con http:// o https://';
+          linkError.style.display = 'block';
+          return;
+        }
+
+        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+          linkError.textContent = 'Ingresa un enlace válido que empiece con http:// o https://';
+          linkError.style.display = 'block';
+          return;
+        }
+
+        if (!parsed.hostname || parsed.hostname.length === 0) {
+          linkError.textContent = 'Ingresa un enlace válido que empiece con http:// o https://';
+          linkError.style.display = 'block';
+          return;
+        }
+
+        const isDuplicate = stagedLinks.some(l => l.url.toLowerCase() === raw.toLowerCase());
+        if (isDuplicate) {
+          linkError.textContent = 'Este enlace ya ha sido agregado.';
+          linkError.style.display = 'block';
+          return;
+        }
+
+        stagedLinks.push({ url: raw });
+        linkInput.value = '';
+        uploadError.style.display = 'none';
+        updateStagedUI();
+      }
+
+      if (addLinkBtn && linkInput) {
+        addLinkBtn.addEventListener('click', addLink);
+        linkInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            addLink();
+          }
+        });
+        linkInput.addEventListener('input', () => {
+          if (linkError) linkError.style.display = 'none';
+        });
+      }
+
+      dropzone.addEventListener('click', () => fileInput.click());
+
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('is-dragover');
+      });
+
+      dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('is-dragover');
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('is-dragover');
+        if (e.dataTransfer.files) {
+          handleFilesSelected(e.dataTransfer.files);
+        }
+      });
+
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files) {
+          handleFilesSelected(fileInput.files);
+          fileInput.value = '';
+        }
+      });
+
+      // Botón Cancelar antes de enviar (Limpia lo adjuntado)
+      cancelBtn.addEventListener('click', () => {
+        if (!stagedFiles.length && !stagedLinks.length) {
+          showToast('No hay archivos ni enlaces adjuntos para cancelar.', 'info');
+          return;
+        }
+        stagedFiles = [];
+        stagedLinks = [];
+        if (linkInput) linkInput.value = '';
+        if (linkError) {
+          linkError.style.display = 'none';
+          linkError.textContent = '';
+        }
+        uploadError.style.display = 'none';
+        updateStagedUI();
+        showToast('Archivos y enlaces adjuntos cancelados y descartados.', 'info');
+      });
+
+      // Botón Entregar tarea (RF039)
+      submitBtn.addEventListener('click', () => {
+        uploadError.style.display = 'none';
+
+        // RF039 CA02: Sin archivo ni enlace -> error y no envía
+        if (!stagedFiles.length && !stagedLinks.length) {
+          uploadError.textContent = 'Adjunta al menos un archivo o enlace para entregar la tarea.';
+          uploadError.style.display = 'block';
+          return;
+        }
+
+        // TODO backend: Aquí se enviaría FormData con POST /api/entregas
+        const now = new Date();
+        const deadline = new Date(activeSession.tarea.limite);
+        const conRetraso = now > deadline;
+
+        const filesData = stagedFiles.map(f => ({
+          nombre: f.name,
+          tamano: formatBytes(f.size),
+          tipo: f.type || 'application/octet-stream'
+        }));
+
+        const linksData = stagedLinks.map(l => ({
+          url: l.url
+        }));
+
+        const nuevaEntrega = {
+          sesionId: activeSession.id,
+          tareaId: activeSession.tarea.id,
+          fecha: now.toISOString(),
+          archivos: filesData,
+          enlaces: linksData,
+          estado: 'Pendiente',
+          nota: null,
+          comentario: '',
+          revisadaEl: null,
+          conRetraso: conRetraso
+        };
+
+        const currentEntregas = getEntregas();
+        currentEntregas[activeSession.id] = nuevaEntrega;
+        saveEntregas(currentEntregas);
+
+        stagedFiles = [];
+        stagedLinks = [];
+        showToast('¡Tarea entregada con éxito! Tu docente revisará la entrega pronto.', 'success');
+
+        // Actualizar barra de progreso para transición fluida inmediata (CAMBIO 2)
+        updateCourseProgress();
+
+        // Redirigir a ver detalles
+        window.location.hash = `#/tarea/${activeSession.id}/detalle`;
+      });
+    }
+  }
+
+  // ===================================================================
+  // 9. PANTALLA: VER DETALLES (#/tarea/ID/detalle) (RF041)
+  // ===================================================================
+  function renderDetalleEntregaView(course, entregas, sessionId) {
+    const session = course.sesiones.find(s => s.id === sessionId);
+    if (!session) {
+      window.location.hash = '#/tareas';
+      return;
+    }
+
+    const entrega = entregas[session.id] || null;
+    const t = session.tarea;
+    const taskVideoObj = t.videoDocente || t.video || (t.archivoUrl ? { archivoUrl: t.archivoUrl } : null);
+    let teacherVideoHtml = '';
+    if (taskVideoObj) {
+      teacherVideoHtml = `
+        <div style="margin-top:14px;margin-bottom:14px;">
+          <div class="est-video-player est-task-video-player" role="button" tabindex="0" aria-label="Reproducir video de ejemplo: ${esc(taskVideoObj.titulo || t.titulo)}">
+            ${taskVideoObj.archivoUrl ? `
+              <video preload="metadata" muted playsinline src="${esc(taskVideoObj.archivoUrl)}#t=0.5" class="est-video-player__media" onerror="this.style.display='none';"></video>
+            ` : ''}
+            <div class="est-video-player__scrim"></div>
+            <div class="est-video-player__play">
+              <svg class="est-video-player__play-tri" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
+            </div>
+            <div class="est-video-player__timeline">
+              <div class="est-video-player__timeline-bar"></div>
+            </div>
+            ${taskVideoObj.duracion ? `<span class="est-video-player__duration">${esc(taskVideoObj.duracion)}</span>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    pageTitle.innerHTML = 'Detalle de <span>Entrega</span>';
+    pageSubtitle.textContent = `Consulta la retroalimentación, calificación y estado de la Tarea Sesión ${session.numero}.`;
+
+    if (!entrega) {
+      appContent.innerHTML = `
+        <div class="est-detail-panel">
+          <div class="est-state-panel">
+            <h3>Esta tarea aún no ha sido entregada</h3>
+            <p>Debes adjuntar tu evidencia para consultar los detalles y la calificación.</p>
+            <a href="#/tarea/${session.id}" class="btn btn--primary">Ir a entregar tarea</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    // Fechas y Calificación
+    const fechaEnvio = new Date(entrega.fecha).toLocaleString('es-PE', { dateStyle: 'medium', timeStyle: 'short' });
+    const calificacionTexto = entrega.nota !== null ? `${entrega.nota} / 20` : 'Sin calificar';
+
+    // Línea de Progreso (Entregado -> Revisado -> Aprobado/Observado)
+    let step1Class = 'completed'; // Entregado siempre ok
+    let step2Class = entrega.estado !== 'Pendiente' ? 'completed' : 'current';
+    let step3Class = '';
+    let step3Label = 'Aprobado / Observado';
+    let step3Icon = '3';
+
+    if (entrega.estado === 'Aprobada') {
+      step3Class = 'completed';
+      step3Label = '✔ Aprobado';
+      step3Icon = '✓';
+    } else if (entrega.estado === 'Observada') {
+      step3Class = 'observed';
+      step3Label = '⚠ Observado';
+      step3Icon = '!';
+    } else {
+      step3Class = '';
+      step3Label = 'Por calificar';
+      step3Icon = '3';
+    }
+
+    // Archivos y enlaces enviados por el estudiante
+    const filesStudentHtml = (entrega.archivos && entrega.archivos.length) ? entrega.archivos.map(f => `
+      <div class="est-material-card" style="margin-bottom:8px;">
+        <div class="est-mat-icon ${f.nombre.endsWith('.mp4') ? 'video' : 'pdf'}">
+          <svg class="i" style="width:20px;height:20px;"><use href="${f.nombre.endsWith('.mp4') ? '#i-video' : '#i-file'}"/></svg>
+        </div>
+        <div class="est-mat-info">
+          <strong>${esc(f.nombre)}</strong>
+          <div class="est-mat-meta">
+            <span>Tamaño: ${esc(f.tamano)}</span>
+            <span>• Enviado: ${esc(fechaEnvio)}</span>
+          </div>
+        </div>
+        <div class="est-mat-actions">
+          <button type="button" class="btn btn--outline btn--sm est-btn-download-my-file" data-filename="${esc(f.nombre)}">
+            <svg class="i"><use href="#i-download"/></svg> Descargar
+          </button>
+        </div>
+      </div>
+    `).join('') : '';
+
+    const studentEnlaces = Array.isArray(entrega.enlaces) ? entrega.enlaces : [];
+    const linksStudentHtml = studentEnlaces.map(l => {
+      let host = '';
+      try {
+        host = new URL(l.url).hostname;
+      } catch (e) {
+        host = l.url;
+      }
+      return `
+        <div class="est-material-card" style="margin-bottom:8px;">
+          <div class="est-mat-icon" style="background:var(--blue-soft);color:var(--blue-dark);">
+            <svg class="i" style="width:20px;height:20px;"><use href="#i-link"/></svg>
+          </div>
+          <div class="est-mat-info" style="min-width:0;">
+            <strong style="word-break:break-all;">
+              <a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer" style="color:var(--blue-dark);text-decoration:underline;display:inline-flex;align-items:center;gap:6px;">
+                <span>${esc(l.url)}</span>
+                <svg class="i" style="width:14px;height:14px;flex:none;"><use href="#i-link"/></svg>
+              </a>
+            </strong>
+            <div class="est-mat-meta">
+              <span>Sitio: ${esc(host)}</span>
+              <span>• Enviado: ${esc(fechaEnvio)}</span>
+            </div>
+          </div>
+          <div class="est-mat-actions">
+            <a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer" class="btn btn--outline btn--sm">
+              Abrir enlace
+            </a>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    const deliveryContentHtml = (filesStudentHtml || linksStudentHtml)
+      ? `${filesStudentHtml}${linksStudentHtml}`
+      : `<p class="muted" style="margin:0;font-size:13.5px;">No se registraron archivos ni enlaces en esta entrega.</p>`;
+
+    // Panel de Retroalimentación del docente
+    let feedbackHtml = '';
+    if (entrega.estado === 'Pendiente') {
+      feedbackHtml = `
+        <div style="background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:12px;padding:16px;color:var(--gold-dark);display:flex;align-items:flex-start;gap:10px;">
+          <svg class="i" style="width:22px;height:22px;flex:none;"><use href="#i-clock"/></svg>
+          <div>
+            <strong style="display:block;margin-bottom:4px;">Tu tarea aún no ha sido revisada</strong>
+            <p style="margin:0;font-size:13.5px;">El docente evaluará tu entrega en un plazo estimado de 48 horas laborales.</p>
+          </div>
+        </div>
+      `;
+    } else {
+      feedbackHtml = `
+        <div class="est-teacher-header">
+          <div class="est-teacher-avatar">PR</div>
+          <div>
+            <strong>${esc(course.docente)}</strong>
+            <small>Revisado el ${esc(entrega.revisadaEl || 'Recientemente')}</small>
+          </div>
+        </div>
+        <blockquote class="est-feedback-text">
+          "${esc(entrega.comentario || 'Buen trabajo en los ejercicios de práctica.')}"
+        </blockquote>
+      `;
+    }
+
+    appContent.innerHTML = `
+      <div class="est-full-detail">
+        <!-- Barra de retroceso -->
+        <div class="est-detail-backbar">
+          <a href="#/tareas">
+            <svg class="i"><use href="#i-left"/></svg>
+            <span>Volver a tareas</span>
+          </a>
+          <span style="font-weight:700;font-size:15px;">Tarea Sesión ${session.numero}: ${esc(t.titulo)}</span>
+          <span class="pill ${entrega.estado === 'Aprobada' ? 'green' : entrega.estado === 'Observada' ? 'red' : 'gold'}">
+            ${esc(entrega.estado)}
+          </span>
+        </div>
+
+        <!-- Tarjetas Superiores: Fechas y Calificación -->
+        <div class="est-stats-grid">
+          <div class="est-stat-box highlight">
+            <small>Fecha límite de entrega</small>
+            <strong>${esc(t.limite)} 11:59 PM</strong>
+          </div>
+          <div class="est-stat-box">
+            <small>Entregado el</small>
+            <strong>${esc(fechaEnvio)}</strong>
+            ${entrega.conRetraso ? '<span class="pill red" style="margin-left:6px;font-size:11px;">Entregada con retraso</span>' : ''}
+          </div>
+          <div class="est-stat-box">
+            <small>Calificación</small>
+            <strong style="color:${entrega.nota ? (entrega.nota >= 14 ? 'var(--green-dark)' : 'var(--red)') : 'inherit'};">
+              ${esc(calificacionTexto)}
+            </strong>
+          </div>
+        </div>
+
+        <!-- Línea de Progreso de Estado -->
+        <div class="est-progress-box">
+          <h3>Línea de estado de la entrega</h3>
+          <div class="est-stepper">
+            <div class="est-step-node ${step1Class}">
+              <div class="est-step-circle">✓</div>
+              <span class="est-step-label">Entregado</span>
+            </div>
+            <div class="est-step-node ${step2Class}">
+              <div class="est-step-circle">${entrega.estado !== 'Pendiente' ? '✓' : '○'}</div>
+              <span class="est-step-label">${entrega.estado !== 'Pendiente' ? 'Revisado' : 'En revisión'}</span>
+            </div>
+            <div class="est-step-node ${step3Class}">
+              <div class="est-step-circle">${step3Icon}</div>
+              <span class="est-step-label">${step3Label}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contenido Dividido: Consigna / Mi Entrega y Retroalimentación -->
+        <div class="est-detail-split">
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div class="est-content-card">
+              <h3><svg class="i"><use href="#i-book"/></svg> Consigna de la tarea</h3>
+              <p style="margin:0 0 12px;font-size:14px;color:var(--ink-2);line-height:1.6;">${esc(t.desc)}</p>
+              ${teacherVideoHtml}
+              ${t.archivoDocente ? `
+                <button type="button" class="btn btn--outline btn--sm est-btn-download-doc" data-file="${esc(t.archivoDocente)}">
+                  <svg class="i"><use href="#i-download"/></svg> Descargar ${esc(t.archivoDocente)}
+                </button>
+              ` : ''}
+            </div>
+
+            <div class="est-content-card">
+              <h3><svg class="i"><use href="#i-upload"/></svg> Mi entrega (archivos y enlaces)</h3>
+              <div>${deliveryContentHtml}</div>
+            </div>
+          </div>
+
+          <!-- Panel de Retroalimentación del Docente -->
+          <aside class="est-feedback-card">
+            <h3 style="margin:0 0 14px;font:700 16px/1.2 var(--font-display);color:var(--ink);">
+              Retroalimentación del docente
+            </h3>
+            ${feedbackHtml}
+            ${entrega.estado === 'Observada' ? `
+              <div style="margin-top:16px;">
+                <a href="#/tarea/${session.id}" class="btn btn--primary btn--sm" style="width:100%;">
+                  Volver a entregar tarea
+                </a>
+              </div>
+            ` : ''}
+          </aside>
+        </div>
+      </div>
+    `;
+
+    // Eventos de descarga
+    appContent.querySelectorAll('.est-btn-download-my-file').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const fn = btn.getAttribute('data-filename');
+        triggerRealDownload(fn, `Archivo de evidencia del estudiante: ${fn}`);
+      });
+    });
+
+    const dlDoc = appContent.querySelector('.est-btn-download-doc');
+    if (dlDoc) {
+      dlDoc.addEventListener('click', () => {
+        const fn = dlDoc.getAttribute('data-file');
+        triggerRealDownload(fn, `Consigna docente Dunamys.`);
+      });
+    }
+
+    // Evento video de ejemplo de la tarea en detalle (CAMBIO 3)
+    const taskVideoBtn = appContent.querySelector('.est-task-video-player');
+    if (taskVideoBtn && taskVideoObj) {
+      const openTaskVid = () => {
+        openMaterialPreview({
+          id: 'task-video-' + session.id,
+          tipo: 'Video HD',
+          titulo: taskVideoObj.titulo || `Video de ejemplo · Tarea Sesión ${session.numero}`,
+          desc: t.desc,
+          ref: taskVideoObj.ref || (taskVideoObj.archivoUrl ? taskVideoObj.archivoUrl.split('/').pop() : 'video-ejemplo.mp4'),
+          duracion: taskVideoObj.duracion || '03:00',
+          archivoUrl: taskVideoObj.archivoUrl
+        });
+      };
+      taskVideoBtn.addEventListener('click', openTaskVid);
+      taskVideoBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openTaskVid();
+        }
+      });
+    }
+  }
+
+  // ===================================================================
+  // 10. UTILIDADES Y NAVEGACIÓN
+  // ===================================================================
+  function formatBytes(bytes) {
+    if (!bytes || bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+  }
+
+  // Eventos de barra lateral
+  navSesiones.addEventListener('click', () => {
+    window.location.hash = '#/sesiones';
+  });
+  document.getElementById('estNavCursos').addEventListener('click', () => {
+    window.location.hash = '#/cursos';
+  });
+  navTareas.addEventListener('click', () => {
+    window.location.hash = '#/tareas';
+  });
+
+  // Reaccionar al cambio de URL hash
+  window.addEventListener('hashchange', render);
+
+  // Al abrir el portal se muestra primero la selección de cursos (salvo enlace directo a una sesión/tarea)
+  if (!/^#\/(sesion|tarea)\//.test(window.location.hash)) {
+    sessionStorage.removeItem(ACTIVE_COURSE_KEY);
+    window.location.hash = '#/cursos';
+  }
+
+  // Render inicial al cargar la página
+  render();
+})();
+</script>
+</body>
+</html>

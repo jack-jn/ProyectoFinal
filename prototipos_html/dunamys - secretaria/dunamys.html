@@ -1,0 +1,980 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DUNAMYS | Gestión de Pagos</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="dunamis.css">
+    <script src="dunamis.js" defer></script>
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-mark">D</div>
+            <span>DUNAMYS</span>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="profile-icon">S</div>
+            <div>
+                <span>ADMINISTRADOR</span>
+                <strong>Secretaría</strong>
+            </div>
+        </div>
+
+        <p class="side-label">MENÚ PRINCIPAL</p>
+
+        <nav class="side-nav">
+
+            <button class="side-item active" data-view="resumen">
+                <span>▦</span>
+                Resumen
+            </button>
+
+            <button class="side-item" data-view="pendientes">
+                <span>◷</span>
+                Pagos pendientes
+                <span class="nav-badge" id="pendingCount">0</span>
+            </button>
+
+            <button class="side-item" data-view="historial">
+                <span>▤</span>
+                Historial de pagos
+            </button>
+
+        </nav>
+
+        <p class="side-label second">GESTIÓN DE PAGOS</p>
+
+        <nav class="side-nav">
+
+            <button class="side-item" data-view="yape">
+                <span>＋</span>
+                Registrar pago
+            </button>
+
+            <button class="side-item" data-view="estado">
+                <span>◉</span>
+                Estado de matrícula
+            </button>
+
+            <button class="side-item" data-view="acceso">
+                <span>✉</span>
+                Pago aprobado y acceso
+            </button>
+
+        </nav>
+
+        <div class="side-bottom">
+            <p>Institución <b>DUNAMYS</b></p>
+            <small>SISTEMA DE GESTIÓN ACADÉMICA</small>
+        </div>
+
+    </aside>
+
+    <div class="scrim" id="scrim"></div>
+
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main">
+
+        <header class="top-controls">
+
+            <button class="mobile-menu" id="menuToggle" aria-label="Abrir menú">
+                ☰
+            </button>
+
+            <div class="breadcrumb">
+                <span>Gestión</span>
+                <span>/</span>
+                <strong id="breadcrumbName">Resumen de pagos</strong>
+            </div>
+
+            <div class="demo-chip">
+                <span class="pulse"></span>
+                MODO DEMOSTRACIÓN
+            </div>
+
+        </header>
+
+
+        <!-- =========================================
+             PANTALLA 1: RESUMEN
+        ========================================== -->
+
+        <section id="screen-resumen" class="screen active">
+
+            <div class="page-head">
+                <div>
+                    <p class="overline">PANEL ADMINISTRATIVO</p>
+                    <h1>Resumen de <span>pagos</span></h1>
+                    <p>Control y seguimiento de las matrículas y pagos de DUNAMYS.</p>
+                </div>
+
+                <button class="btn red" data-view="pendientes">
+                    Revisar pagos
+                </button>
+            </div>
+
+            <div class="stats" id="stats"></div>
+
+            <div class="callout">
+                <div class="callout-mark">ⓘ</div>
+
+                <div>
+                    <strong>Gestión de comprobantes</strong>
+                    <p>Revisa los comprobantes enviados por los alumnos y aprueba o rechaza sus pagos.</p>
+                </div>
+
+                <button class="btn outline" data-view="pendientes">
+                    Ver pendientes
+                </button>
+            </div>
+
+            <div class="section-head">
+                <div>
+                    <h2>Movimientos recientes</h2>
+                    <p>Últimos registros de pagos y matrículas.</p>
+                </div>
+
+                <button class="text-btn" data-view="historial">
+                    Ver historial →
+                </button>
+            </div>
+
+            <div id="recentTable"></div>
+
+        </section>
+
+
+        <!-- =========================================
+             PANTALLA 2: PAGOS PENDIENTES
+        ========================================== -->
+
+        <section id="screen-pendientes" class="screen">
+
+            <div class="page-head">
+                <div>
+                    <p class="overline">VALIDACIÓN DE PAGOS</p>
+                    <h1>Pagos <span>pendientes</span></h1>
+                    <p>Comprueba los comprobantes enviados por los alumnos.</p>
+                </div>
+
+                <div class="header-kpi">
+                    <span>Por revisar:</span>
+                    <b id="pendingTotal">0</b>
+                </div>
+            </div>
+
+            <div class="card">
+
+                <div class="table-toolbar">
+
+                    <div class="search">
+                        <span>⌕</span>
+                        <input
+                            type="search"
+                            id="pendingSearch"
+                            class="control"
+                            placeholder="Buscar alumno, DNI o matrícula..."
+                        >
+                    </div>
+
+                    <span class="toolbar-note">
+                        Selecciona un comprobante para revisarlo.
+                    </span>
+
+                </div>
+
+                <div id="pendingTable"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             PANTALLA 3: HISTORIAL
+        ========================================== -->
+
+        <section id="screen-historial" class="screen">
+
+            <div class="page-head">
+                <div>
+                    <p class="overline">REGISTRO FINANCIERO</p>
+                    <h1>Historial de <span>pagos</span></h1>
+                    <p>Consulta todos los movimientos registrados.</p>
+                </div>
+
+                <button class="btn dark" id="exportCsv">
+                    ↓ Exportar Excel / CSV
+                </button>
+            </div>
+
+            <div class="card">
+
+                <div class="table-toolbar">
+
+                    <div class="search">
+                        <span>⌕</span>
+                        <input
+                            type="search"
+                            id="historySearch"
+                            class="control"
+                            placeholder="Buscar alumno o matrícula..."
+                        >
+                    </div>
+
+                    <select id="historyStatus" class="control status-select">
+                        <option value="todos">Todos los estados</option>
+                        <option value="Pendiente">Pendientes</option>
+                        <option value="Aprobado">Aprobados</option>
+                        <option value="Rechazado">Rechazados</option>
+                    </select>
+
+                </div>
+
+                <div id="historyTable"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             PANTALLA 4: REGISTRAR PAGO
+        ========================================== -->
+
+        <section id="screen-yape" class="screen">
+
+            <div class="page-head">
+                <div>
+                    <p class="overline">REGISTRO DE MATRÍCULA</p>
+                    <h1>Registrar <span>pago</span></h1>
+                    <p>Registra una solicitud de matrícula y adjunta su comprobante.</p>
+                </div>
+
+                <div class="step-row">
+                    <b>01</b> DATOS
+                    <i></i>
+                    <span>02 PAGO</span>
+                    <i></i>
+                    <span>03 VALIDACIÓN</span>
+                </div>
+            </div>
+
+
+            <div class="payment-layout">
+
+                <!-- FORMULARIO -->
+
+                <article class="card payment-card">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>Datos del estudiante</h2>
+                            <p>Completa la información para registrar el pago.</p>
+                        </div>
+
+                        <span class="yape-label">YAPE</span>
+                    </div>
+
+
+                    <form id="yapeForm">
+
+                        <label class="field-title" for="studentName">
+                            Nombre completo <em>*</em>
+                        </label>
+
+                        <input
+                            class="control"
+                            type="text"
+                            id="studentName"
+                            placeholder="Ej. Valeria López Rojas"
+                            required
+                            minlength="3"
+                        >
+
+                        <div class="form-grid">
+
+                            <div>
+                                <label class="field-title" for="studentDni">
+                                    DNI <em>*</em>
+                                </label>
+
+                                <input
+                                    class="control"
+                                    type="text"
+                                    id="studentDni"
+                                    placeholder="12345678"
+                                    maxlength="8"
+                                    pattern="[0-9]{8}"
+                                    required
+                                >
+                            </div>
+
+                            <div>
+                                <label class="field-title" for="studentEmail">
+                                    Correo electrónico <em>*</em>
+                                </label>
+
+                                <input
+                                    class="control"
+                                    type="email"
+                                    id="studentEmail"
+                                    placeholder="alumno@correo.com"
+                                    required
+                                >
+                            </div>
+
+                        </div>
+
+
+                        <label class="field-title" for="studentCourse">
+                            Curso seleccionado <em>*</em>
+                        </label>
+
+                        <select class="control" id="studentCourse" required>
+
+                            <option value="Piano Inicial" data-price="180">
+                                Piano Inicial — S/ 180.00
+                            </option>
+
+                            <option value="Guitarra Básica" data-price="220">
+                                Guitarra Básica — S/ 220.00
+                            </option>
+
+                            <option value="Canto Inicial" data-price="150">
+                                Canto Inicial — S/ 150.00
+                            </option>
+
+                            <option value="Piano Intermedio" data-price="250">
+                                Piano Intermedio — S/ 250.00
+                            </option>
+
+                        </select>
+
+
+                        <div class="amount-box">
+                            <span>Importe de matrícula</span>
+                            <strong id="paymentAmount">S/ 180.00</strong>
+                        </div>
+
+
+                        <div class="yape-destination">
+
+                            <div class="yape-emblem">
+                                <span>Y</span>
+                                <b>YAPE</b>
+                            </div>
+
+                            <div>
+                                <p class="subline">REALIZA TU TRANSFERENCIA</p>
+
+                                <div class="number-row">
+                                    <strong id="yapePhone">999 888 777</strong>
+
+                                    <button
+                                        type="button"
+                                        class="small-copy"
+                                        id="copyNumber"
+                                    >
+                                        Copiar
+                                    </button>
+                                </div>
+
+                                <p>Destinatario: DUNAMYS</p>
+                                <small>Verifica el importe antes de transferir.</small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="instructions">
+                            <span class="numbered">1</span>
+                            <div>
+                                <b>Realiza el pago</b>
+                                <p>Envía el importe indicado al número de Yape.</p>
+                            </div>
+                        </div>
+
+                        <div class="instructions">
+                            <span class="numbered">2</span>
+                            <div>
+                                <b>Guarda tu comprobante</b>
+                                <p>Descarga o toma una captura de tu transferencia.</p>
+                            </div>
+                        </div>
+
+                        <div class="instructions">
+                            <span class="numbered">3</span>
+                            <div>
+                                <b>Adjunta el comprobante</b>
+                                <p>Selecciona la imagen para que Secretaría pueda revisarla.</p>
+                            </div>
+                        </div>
+
+
+                        <label class="field-title">
+                            Comprobante de pago <em>*</em>
+                        </label>
+
+                        <label class="drop" id="dropZone">
+
+                            <input
+                                type="file"
+                                id="voucherFile"
+                                accept="image/jpeg,image/png"
+                            >
+
+                            <span class="drop-ico">↑</span>
+
+                            <strong>Arrastra tu comprobante aquí</strong>
+
+                            <span>o <u>selecciona un archivo</u></span>
+
+                            <small>Formatos JPG y PNG. Máximo 5 MB.</small>
+
+                        </label>
+
+                        <p class="field-error" id="fileError"></p>
+
+
+                        <div class="file-preview" id="filePreview" hidden>
+
+                            <img id="fileImage" alt="Vista previa del comprobante">
+
+                            <div>
+                                <strong id="fileName">comprobante.jpg</strong>
+                                <small id="fileMeta">0 KB</small>
+                                <span class="valid-file">Archivo seleccionado</span>
+                            </div>
+
+                            <button type="button" class="icon-button" id="removeVoucher">
+                                ✕
+                            </button>
+
+                        </div>
+
+
+                        <label class="confirm-row">
+
+                            <input type="checkbox" id="transferConfirmed" required>
+
+                            <span>
+                                Confirmo que realicé la transferencia y que
+                                los datos proporcionados son correctos.
+                            </span>
+
+                        </label>
+
+
+                        <button type="submit" class="btn red full">
+                            Enviar comprobante para revisión →
+                        </button>
+
+                        <p class="form-footnote">
+                            🔒 Tu información será utilizada para gestionar tu matrícula.
+                        </p>
+
+                    </form>
+
+                </article>
+
+
+                <!-- RESUMEN -->
+
+                <aside class="card summary-card">
+
+                    <div class="summary-top">
+                        <h3>Resumen de matrícula</h3>
+                        <span>▤</span>
+                    </div>
+
+                    <div class="course-banner">
+                        <div class="music-symbol">♫</div>
+
+                        <div>
+                            <small>DUNAMYS ACADEMY</small>
+                            <strong id="summaryCourse">Piano Inicial</strong>
+                        </div>
+                    </div>
+
+                    <div class="summary-lines">
+
+                        <div>
+                            <span>Modalidad</span>
+                            <strong>Por confirmar</strong>
+                        </div>
+
+                        <div>
+                            <span>Medio de pago</span>
+                            <strong>Yape</strong>
+                        </div>
+
+                        <div>
+                            <span>Estado inicial</span>
+                            <span class="pill gold">Pendiente</span>
+                        </div>
+
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Total a pagar</span>
+                        <strong id="summaryAmount">S/ 180.00</strong>
+                    </div>
+
+                    <p>
+                        La matrícula se confirmará una vez que Secretaría
+                        valide el comprobante de pago.
+                    </p>
+
+                    <div class="activation-notice">
+                        <span>ⓘ</span>
+                        <p>Después de la aprobación, se generarán las credenciales de acceso del alumno.</p>
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             PANTALLA 5: ESTADO DE MATRÍCULA
+        ========================================== -->
+
+        <section id="screen-estado" class="screen">
+
+            <div class="page-head">
+                <div>
+                    <p class="overline">SEGUIMIENTO DE SOLICITUD</p>
+                    <h1>Estado de <span>matrícula</span></h1>
+                    <p>Consulta el resultado de la validación de tu pago.</p>
+                </div>
+            </div>
+
+            <article class="card status-card">
+
+                <div class="status-illustration">✓</div>
+
+                <div id="studentStatus" class="status-content"></div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =========================================
+             PANTALLA 6: PAGO APROBADO Y ACCESO
+        ========================================== -->
+
+        <section id="screen-acceso" class="screen">
+
+            <div class="page-head">
+
+                <div>
+                    <p class="overline">GESTIÓN DE MATRÍCULAS</p>
+                    <h1>Pago aprobado y <span>acceso</span></h1>
+                    <p>Confirmación de pago y entrega de credenciales del alumno.</p>
+                </div>
+
+                <span class="pill green">PAGO APROBADO</span>
+
+            </div>
+
+
+            <div class="access-layout">
+
+                <!-- INFORMACIÓN Y CREDENCIALES -->
+
+                <article class="card access-card">
+
+                    <div class="access-success-icon">✓</div>
+
+                    <div class="access-heading">
+                        <p class="subline">MATRÍCULA CONFIRMADA</p>
+                        <h2>¡El pago ha sido aprobado!</h2>
+                        <p>
+                            El pago fue validado. El sistema generó las
+                            credenciales temporales del alumno.
+                        </p>
+                    </div>
+
+
+                    <div class="access-details">
+
+                        <div class="access-detail-row">
+                            <span>Estudiante</span>
+                            <strong id="accessStudent">—</strong>
+                        </div>
+
+                        <div class="access-detail-row">
+                            <span>Código de matrícula</span>
+                            <strong id="accessMatricula">—</strong>
+                        </div>
+
+                        <div class="access-detail-row">
+                            <span>Curso matriculado</span>
+                            <strong id="accessCourse">—</strong>
+                        </div>
+
+                        <div class="access-detail-row">
+                            <span>Importe pagado</span>
+                            <strong id="accessAmount">—</strong>
+                        </div>
+
+                        <div class="access-detail-row">
+                            <span>Estado</span>
+                            <strong class="approved-text" id="accessStatus">Aprobado</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="account-box">
+
+                        <div class="account-box-title">
+                            <span>🔐</span>
+                            <strong>Credenciales generadas automáticamente</strong>
+                        </div>
+
+                        <div class="account-field">
+                            <span>Usuario de acceso</span>
+                            <strong id="accessUsername">—</strong>
+                        </div>
+
+                        <div class="account-field">
+                            <span>Correo del alumno</span>
+                            <strong id="accessEmail">—</strong>
+                        </div>
+
+                        <div class="account-field">
+                            <span>Contraseña temporal</span>
+                            <div class="password-line">
+                                <strong id="accessPassword">—</strong>
+
+                                <button
+                                    class="small-copy"
+                                    type="button"
+                                    data-copy-target="accessPassword">
+                                    Copiar
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="btn red full"
+                        id="accessActivationButton">
+                        Simular envío del correo
+                    </button>
+
+                    <p id="accessHint" class="access-footnote">
+                        Las credenciales aparecerán en la vista previa del correo.
+                    </p>
+
+                </article>
+
+
+                <!-- VISTA PREVIA DEL CORREO -->
+
+                <article class="card email-card">
+
+                    <div class="email-card-header">
+
+                        <div class="email-icon">✉</div>
+
+                        <div>
+                            <h3>Vista previa del correo electrónico</h3>
+                            <span>ASÍ LO RECIBIRÁ EL ALUMNO</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- DATOS DEL CORREO -->
+
+                    <div class="email-meta">
+
+                        <div>
+                            <span>De:</span>
+                            <strong>DUNAMYS | Secretaría</strong>
+                        </div>
+
+                        <div>
+                            <span>Para:</span>
+                            <strong id="emailTo">—</strong>
+                        </div>
+
+                        <div>
+                            <span>Asunto:</span>
+                            <strong>¡Tu matrícula ha sido aprobada! Tus accesos a DUNAMYS</strong>
+                        </div>
+
+                        <div>
+                            <span>Estado:</span>
+                            <span class="pill gold" id="emailPreviewState">
+                                Pendiente de envío
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- MENSAJE QUE RECIBE EL ALUMNO -->
+
+                    <div class="email-preview">
+
+                        <div class="email-brand">DUNAMYS</div>
+
+                        <div class="email-banner">✓</div>
+
+                        <h2>¡Bienvenido a DUNAMYS!</h2>
+
+                        <p>
+                            Hola <strong id="emailStudent">Estudiante</strong>,
+                        </p>
+
+                        <p>
+                            ¡Tenemos buenas noticias! Tu pago ha sido
+                            verificado correctamente y tu matrícula
+                            ha sido confirmada.
+                        </p>
+
+                        <p>
+                            Ya puedes ingresar a nuestra plataforma educativa.
+                            A continuación encontrarás tus datos de acceso.
+                        </p>
+
+
+                        <div class="email-course">
+
+                            <span>CURSO MATRICULADO</span>
+
+                            <strong id="emailCourse">—</strong>
+
+                            <small>
+                                Código de matrícula:
+                                <b id="emailMatricula">—</b>
+                            </small>
+
+                        </div>
+
+
+                        <!-- USUARIO Y CONTRASEÑA EN EL CORREO -->
+
+                        <div class="email-credentials">
+
+                            <div class="email-credentials-title">
+                                <span>🔐</span>
+                                <strong>Tus datos de acceso</strong>
+                            </div>
+
+                            <p>
+                                Utiliza las siguientes credenciales
+                                para ingresar a tu aula virtual.
+                            </p>
+
+
+                            <div class="email-credential-row">
+
+                                <div>
+                                    <span>USUARIO</span>
+                                    <strong id="emailUsername">—</strong>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    class="copy-credential"
+                                    data-copy-target="emailUsername">
+                                    Copiar
+                                </button>
+
+                            </div>
+
+
+                            <div class="email-credential-row">
+
+                                <div>
+                                    <span>CONTRASEÑA TEMPORAL</span>
+                                    <strong id="emailPassword">—</strong>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    class="copy-credential"
+                                    data-copy-target="emailPassword">
+                                    Copiar
+                                </button>
+
+                            </div>
+
+
+                            <div class="email-password-warning">
+                                Por seguridad, cambia tu contraseña después
+                                de ingresar por primera vez.
+                            </div>
+
+                        </div>
+
+
+                        <div class="email-access-action">
+                            <span class="email-button">
+                                INGRESAR A MI AULA VIRTUAL
+                            </span>
+                        </div>
+
+
+                        <p class="email-small">
+                            Si tienes dificultades para ingresar,
+                            comunícate con Secretaría de DUNAMYS.
+                        </p>
+
+
+                        <div class="email-footer">
+                            <strong>DUNAMYS</strong>
+                            <br>
+                            Educación y formación musical
+                            <br>
+                            Mensaje de bienvenida generado por el sistema.
+                        </div>
+
+                    </div>
+
+
+                    <div class="email-simulation">
+                        <span>ⓘ</span>
+                        <p>
+                            Esta es una vista previa de demostración.
+                            El envío real se implementará con Laravel Mail.
+                        </p>
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- PIE DE PÁGINA -->
+
+        <footer>
+            <span>© 2026 DUNAMYS. Todos los derechos reservados.</span>
+            <span>Sistema de gestión de pagos</span>
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================
+     MODAL: DETALLE DE PAGO
+========================================== -->
+
+<div class="overlay" id="detailOverlay" hidden>
+
+    <div class="dialog">
+
+        <div class="dialog-head">
+            <h2>Detalle del comprobante</h2>
+
+            <button class="icon-button close-overlay" type="button">
+                ✕
+            </button>
+        </div>
+
+        <div class="dialog-body" id="detailBody"></div>
+
+        <div class="dialog-foot" id="detailFoot"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     MODAL: RECHAZAR PAGO
+========================================== -->
+
+<div class="overlay" id="rejectOverlay" hidden>
+
+    <div class="dialog small-dialog">
+
+        <div class="dialog-head">
+            <h2>Rechazar comprobante</h2>
+
+            <button class="icon-button close-overlay" type="button">
+                ✕
+            </button>
+        </div>
+
+        <form id="rejectForm">
+
+            <div class="dialog-body">
+
+                <p class="muted">
+                    Indica el motivo por el cual el comprobante
+                    no puede ser aprobado.
+                </p>
+
+                <label class="field-title" for="rejectReason">
+                    Motivo del rechazo
+                </label>
+
+                <textarea
+                    class="control"
+                    id="rejectReason"
+                    rows="4"
+                    minlength="5"
+                    placeholder="Describe el motivo..."
+                    required
+                ></textarea>
+
+                <p class="field-error" id="rejectError"></p>
+
+            </div>
+
+            <div class="dialog-foot">
+
+                <button type="button" class="btn outline close-overlay">
+                    Cancelar
+                </button>
+
+                <button type="submit" class="btn red">
+                    Confirmar rechazo
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- NOTIFICACIONES -->
+
+<div class="toasts" id="toasts"></div>
+
+</body>
+</html>

@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recuperar Contraseña | Academia de Música Dunamys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#CE2127; --red-dark:#A9171D; --red-soft:#FCEBEC; --red-border:#F6C6C8; --red-on-dark:#FF6B70;
+  --ink:#191718; --ink-2:#242022; --ink-3:#353032;
+  --muted:#9E9699; --line:rgba(255,255,255,.12); --bg:#121011; --surface:#1D191B; --white:#fff;
+  --green:#168854; --green-soft:#E3F6ED; --green-dark:#0F683F; --green-border:#B4E6CE;
+  --gold:#D9900D; --gold-soft:#FEF3DC; --gold-dark:#855400; --gold-border:#F7D794;
+  --shadow-sm:0 2px 8px rgba(0,0,0,.25);
+  --shadow-lg:0 24px 60px rgba(0,0,0,.45);
+  --font-display:'Sora','Figtree',system-ui,sans-serif;
+  --font-body:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font:400 15px/1.5 var(--font-body);
+  display:flex;
+  min-height:100vh;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+[hidden]{display:none !important}
+:focus-visible{outline:3px solid var(--red-on-dark);outline-offset:2px}
+
+.est-recovery-layout{
+  display:grid;
+  grid-template-columns:1fr;
+  width:100%;
+  min-height:100vh;
+  place-items:center;
+  padding:32px 16px;
+  background:radial-gradient(circle at 50% 20%, #2A090B 0%, #150E10 50%, #100C0D 100%);
+}
+
+.est-recovery-box{
+  width:100%;
+  max-width:540px;
+  background:var(--surface);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;
+  padding:36px 40px;
+  box-shadow:var(--shadow-lg);
+  position:relative;
+}
+
+.est-recovery-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:24px;
+  padding-bottom:18px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.est-brand-mini{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+}
+.est-brand-mark{width:34px;height:34px;flex:none}
+.est-brand-name{font:700 19px/1 var(--font-display);color:#fff}
+.est-back-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--muted);
+  font-size:13.5px;
+  font-weight:600;
+  text-decoration:none;
+  transition:.15s;
+}
+.est-back-link:hover{
+  color:#fff;
+}
+
+.est-recovery-head{
+  margin-bottom:26px;
+}
+.est-recovery-head h1{
+  margin:0 0 6px;
+  font:700 26px/1.2 var(--font-display);
+  letter-spacing:-.02em;
+  color:#fff;
+}
+.est-recovery-head h1 span{
+  color:var(--red-on-dark);
+}
+.est-recovery-head p{
+  margin:0;
+  font-size:14.5px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* Alertas */
+.est-alert{
+  border-radius:12px;
+  padding:12px 14px;
+  font-size:13.5px;
+  font-weight:500;
+  margin-bottom:20px;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  line-height:1.45;
+}
+.est-alert--danger{
+  background:rgba(206,33,39,.15);
+  border:1px solid rgba(206,33,39,.4);
+  color:#FFD2D4;
+}
+.est-alert--warning{
+  background:rgba(217,144,13,.15);
+  border:1px solid rgba(217,144,13,.4);
+  color:#FFE5B4;
+}
+.est-alert--success{
+  background:rgba(22,136,84,.18);
+  border:1px solid rgba(22,136,84,.45);
+  color:#D1F0E0;
+}
+.est-alert--demo{
+  background:rgba(255,255,255,.07);
+  border:1px dashed rgba(255,255,255,.25);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.est-alert--demo strong{
+  color:var(--gold-soft);
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.est-demo-code{
+  font-family:monospace;
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:.25em;
+  color:var(--red-on-dark);
+}
+
+/* Campos y Controles */
+.est-form-group{
+  margin-bottom:20px;
+}
+.est-label{
+  display:block;
+  font-weight:600;
+  font-size:13.5px;
+  margin-bottom:8px;
+  color:#EDEAEB;
+}
+.est-control{
+  width:100%;
+  height:44px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:11px;
+  background:var(--ink-2);
+  color:#fff;
+  padding:0 14px;
+  transition:all .16s;
+  font-size:14.5px;
+}
+.est-control:hover:not(:disabled){
+  border-color:rgba(255,255,255,.3);
+}
+.est-control:focus{
+  border-color:var(--red-on-dark);
+  box-shadow:0 0 0 3px rgba(206,33,39,.25);
+  outline:none;
+}
+.est-control:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.est-input-row{
+  display:flex;
+  gap:10px;
+}
+
+.est-error{
+  display:none;
+  align-items:center;
+  gap:6px;
+  margin:6px 0 0;
+  color:var(--red-on-dark);
+  font-size:12.5px;
+  font-weight:600;
+}
+.est-error::before{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--red-on-dark);
+  flex:none;
+}
+.is-invalid .est-control{
+  border-color:var(--red-on-dark);
+  background:rgba(206,33,39,.08);
+}
+.is-invalid .est-error{
+  display:flex;
+}
+
+/* Bloque del Código de 6 casillas */
+.est-section-card{
+  background:var(--ink-2);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  padding:22px;
+  margin-bottom:20px;
+  animation:estFadeIn .2s ease-out;
+}
+@keyframes estFadeIn{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:none}
+}
+
+.est-sms-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  font-weight:700;
+  color:var(--gold-soft);
+  margin-bottom:6px;
+}
+.est-code-desc{
+  margin:0 0 16px;
+  font-size:13.5px;
+  color:#D3CDCF;
+}
+.est-code-desc strong{
+  color:#fff;
+}
+
+.est-code-grid{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:8px;
+  width:100%;
+  margin-bottom:14px;
+}
+.est-code-input{
+  width:100%;
+  min-width:0;
+  height:48px;
+  padding:0;
+  text-align:center;
+  font-size:20px;
+  font-weight:600;
+  text-transform:uppercase;
+  border:1.5px solid rgba(255,255,255,.2);
+  border-radius:10px;
+  background:var(--surface);
+  color:#fff;
+  transition:all .15s;
+}
+.est-code-input:focus{
+  border-color:var(--red-on-dark);
+  background:rgba(206,33,39,.1);
+  box-shadow:0 0 0 3px rgba(206,33,39,.25);
+  outline:none;
+}
+.est-code-input.is-filled{
+  border-color:rgba(255,255,255,.4);
+  background:rgba(255,255,255,.05);
+}
+
+.est-code-actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.est-resend-btn{
+  background:none;
+  border:0;
+  color:var(--red-on-dark);
+  font-size:13px;
+  font-weight:600;
+  padding:4px 0;
+  transition:.15s;
+}
+.est-resend-btn:disabled{
+  color:var(--muted);
+  cursor:not-allowed;
+  opacity:.7;
+}
+.est-attempts-info{
+  font-size:12.5px;
+  color:var(--muted);
+}
+
+/* Bloque Nueva Contraseña */
+.est-pass-rules{
+  list-style:none;
+  padding:0;
+  margin:8px 0 0;
+  display:grid;
+  gap:4px;
+  font-size:12px;
+  color:var(--muted);
+}
+.est-pass-rule{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.est-pass-rule.valid{
+  color:var(--green-soft);
+}
+.est-pass-rule.valid::before{
+  content:"✓";
+  color:var(--green);
+  font-weight:700;
+}
+.est-pass-rule:not(.valid)::before{
+  content:"○";
+  color:var(--muted);
+}
+
+/* Botones */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  height:44px;
+  padding:0 20px;
+  border-radius:11px;
+  border:1px solid transparent;
+  font-weight:600;
+  font-size:14.5px;
+  white-space:nowrap;
+  transition:all .16s;
+}
+.btn--primary{
+  background:var(--red);
+  color:#fff;
+  box-shadow:0 4px 14px rgba(206,33,39,.35);
+}
+.btn--primary:hover:not(:disabled){
+  background:var(--red-dark);
+  transform:translateY(-1px);
+}
+.btn--green{
+  background:var(--green);
+  color:#fff;
+  box-shadow:0 4px 12px rgba(22,136,84,.22);
+}
+.btn--green:hover:not(:disabled){
+  background:var(--green-dark);
+  transform:translateY(-1px);
+}
+.btn--full{
+  width:100%;
+}
+.btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+  transform:none !important;
+}
+
+.i{
+  width:18px;
+  height:18px;
+  flex:none;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+@media (max-width:560px){
+  .est-recovery-layout{padding:20px 12px}
+  .est-recovery-box{padding:24px 16px}
+  .est-section-card{padding:18px 14px}
+  .est-code-grid{gap:6px}
+  .est-input-row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><path d="M21 2l-2 2m-1.5 1.5L14 9l-3-3L8 9 5 6 2 9l3 3 1.5-1.5L9 13l2.5-2.5 3 3 6.5-6.5z"/></symbol>
+</svg>
+
+<div class="est-recovery-layout">
+  <div class="est-recovery-box">
+    <!-- Barra Superior -->
+    <div class="est-recovery-top">
+      <a href="login.html" class="est-brand-mini">
+        <svg class="est-brand-mark" viewBox="0 0 48 48">
+          <rect width="48" height="48" rx="12" fill="#CE2127"/>
+          <path d="M19 33V15l15-3v18" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="15.5" cy="33" r="4.2" fill="#fff"/>
+          <circle cx="30.5" cy="30" r="4.2" fill="#fff"/>
+        </svg>
+        <span class="est-brand-name">Dunamys</span>
+      </a>
+
+      <a href="login.html" class="est-back-link">
+        <svg class="i"><use href="#i-left"/></svg>
+        <span>Volver a iniciar sesión</span>
+      </a>
+    </div>
+
+    <!-- Encabezado de Página -->
+    <div class="est-recovery-head">
+      <h1>Recuperar <span>Contraseña</span></h1>
+      <p id="estStepSubtitle">Ingresa el correo electrónico asociado a tu cuenta para enviarte un código de verificación por SMS.</p>
+    </div>
+
+    <!-- Alertas Generales -->
+    <div id="estAlertBox" class="est-alert est-alert--danger" role="alert" aria-live="polite" hidden>
+      <svg class="i" id="estAlertIcon"><use href="#i-alert"/></svg>
+      <span id="estAlertMsg"></span>
+    </div>
+
+    <!-- ================= PASO 1: CORREO ================= -->
+    <div id="estStepEmailWrap">
+      <form id="estEmailForm" novalidate>
+        <div class="est-form-group" id="estGroupEmail">
+          <label for="estEmail" class="est-label">Correo registrado</label>
+          <div class="est-input-row">
+            <input type="email" id="estEmail" class="est-control" placeholder="lucia.mendoza@dunamys.pe" autocomplete="email" required>
+            <button type="submit" class="btn btn--primary" id="estSendCodeBtn">
+              Enviar código
+            </button>
+          </div>
+          <div class="est-error" id="estEmailError" role="alert">Este correo no está registrado en el sistema.</div>
+        </div>
+      </form>
+    </div>
+
+    <!-- ================= PASO 2: CÓDIGO SMS (Aparece en la misma pantalla) ================= -->
+    <div id="estStepCodeWrap" hidden>
+      <div class="est-section-card">
+        <div class="est-sms-badge">
+          <svg class="i"><use href="#i-phone"/></svg>
+          <span>VERIFICACIÓN POR SMS</span>
+        </div>
+        <p class="est-code-desc">
+          Enviamos un código de seguridad de 6 caracteres al celular <strong id="estPhoneMasked">••• ••• •••</strong>.
+        </p>
+
+        <!-- Banner de modo demostración (fácil de retirar luego al conectar backend SMS) -->
+        <div class="est-alert est-alert--demo" id="estDemoBanner" role="region" aria-label="Aviso de demostración">
+          <strong>Modo demostración (simulación de SMS):</strong>
+          <div>El código generado es: <span class="est-demo-code" id="estDemoCodeVal">------</span></div>
+        </div>
+
+        <form id="estCodeForm" novalidate>
+          <label class="est-label" id="estCodeLabel">Ingresa el código de 6 caracteres:</label>
+          <div class="est-code-grid" role="group" aria-labelledby="estCodeLabel">
+            <input type="text" maxlength="1" class="est-code-input" id="code0" aria-label="Dígito 1" autocomplete="off" autocapitalize="characters">
+            <input type="text" maxlength="1" class="est-code-input" id="code1" aria-label="Dígito 2" autocomplete="off" autocapitalize="characters">
+            <input type="text" maxlength="1" class="est-code-input" id="code2" aria-label="Dígito 3" autocomplete="off" autocapitalize="characters">
+            <input type="text" maxlength="1" class="est-code-input" id="code3" aria-label="Dígito 4" autocomplete="off" autocapitalize="characters">
+            <input type="text" maxlength="1" class="est-code-input" id="code4" aria-label="Dígito 5" autocomplete="off" autocapitalize="characters">
+            <input type="text" maxlength="1" class="est-code-input" id="code5" aria-label="Dígito 6" autocomplete="off" autocapitalize="characters">
+          </div>
+
+          <div class="est-error" id="estCodeError" role="alert">Código incorrecto. Verifica los caracteres ingresados.</div>
+
+          <div class="est-code-actions">
+            <button type="button" class="est-resend-btn" id="estResendBtn" disabled>
+              Reenviar código (espera <span id="estResendTimer">60</span>s)
+            </button>
+            <span class="est-attempts-info" id="estAttemptsInfo">Intentos restantes: 5</span>
+          </div>
+
+          <div style="margin-top:18px;">
+            <button type="submit" class="btn btn--primary btn--full" id="estVerifyCodeBtn">
+              Verificar código
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ================= PASO 3: NUEVA CONTRASEÑA ================= -->
+    <div id="estStepPassWrap" hidden>
+      <div class="est-section-card">
+        <div class="est-sms-badge" style="color:var(--green-soft);">
+          <svg class="i"><use href="#i-check"/></svg>
+          <span>CÓDIGO VERIFICADO</span>
+        </div>
+        <p class="est-code-desc" style="margin-bottom:18px;">
+          Define tu nueva contraseña de acceso para la cuenta <strong id="estConfirmedEmail"></strong>.
+        </p>
+
+        <form id="estNewPassForm" novalidate>
+          <div class="est-form-group" id="estGroupNewPass">
+            <label for="estNewPass" class="est-label">Nueva contraseña</label>
+            <input type="password" id="estNewPass" class="est-control" placeholder="Mínimo 8 caracteres (letras y números)" required autocomplete="new-password">
+            <div class="est-error" id="estNewPassError" role="alert">La contraseña debe tener al menos 8 caracteres, con letra y número.</div>
+            <ul class="est-pass-rules">
+              <li id="ruleLen" class="est-pass-rule">Mínimo 8 caracteres</li>
+              <li id="ruleLetter" class="est-pass-rule">Al menos una letra</li>
+              <li id="ruleNum" class="est-pass-rule">Al menos un número</li>
+            </ul>
+          </div>
+
+          <div class="est-form-group" id="estGroupRepeatPass">
+            <label for="estRepeatPass" class="est-label">Repetir contraseña</label>
+            <input type="password" id="estRepeatPass" class="est-control" placeholder="Repite exactamente tu nueva contraseña" required autocomplete="new-password">
+            <div class="est-error" id="estRepeatPassError" role="alert">Las contraseñas no coinciden.</div>
+          </div>
+
+          <button type="submit" class="btn btn--green btn--full" id="estSavePassBtn">
+            Guardar nueva contraseña e ingresar
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  // RF051–RF053: Datos de usuarios registrados para recuperación
+  const REGISTERED_USERS = [
+    { correo: 'lucia.mendoza@dunamys.pe', rol: 'Alumno', nombre: 'Lucía Mendoza', celular: '987 112 233' },
+    { correo: 'docente@dunamys.pe', rol: 'Docente', nombre: 'Docente', celular: '987 000 111' },
+    { correo: 'secretaria@dunamys.pe', rol: 'Secretaria', nombre: 'Secretaria', celular: '987 000 222' }
+  ];
+
+  // Alfabeto seguro sin caracteres ambiguos (RF052 modificado)
+  const CODE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+
+  // Generador de código criptográfico aleatorio de 6 caracteres
+  function generateRandomCode() {
+    const chars = [];
+    const array = new Uint32Array(6);
+    window.crypto.getRandomValues(array);
+    for (let i = 0; i < 6; i++) {
+      chars.push(CODE_ALPHABET[array[i] % CODE_ALPHABET.length]);
+    }
+    return chars.join('');
+  }
+
+  // Estado reactivo en memoria
+  let currentTargetUser = null;
+  let activeCode = '';
+  let codeExpiresAt = 0;
+  let attemptsLeft = 5;
+  let resendCountdown = 60;
+  let resendInterval = null;
+  let expirationCheckInterval = null;
+
+  // Elementos DOM
+  const alertBox = document.getElementById('estAlertBox');
+  const alertMsg = document.getElementById('estAlertMsg');
+  const alertIcon = document.getElementById('estAlertIcon');
+  const subtitle = document.getElementById('estStepSubtitle');
+
+  // Paso 1
+  const stepEmailWrap = document.getElementById('estStepEmailWrap');
+  const emailForm = document.getElementById('estEmailForm');
+  const emailInput = document.getElementById('estEmail');
+  const sendCodeBtn = document.getElementById('estSendCodeBtn');
+  const groupEmail = document.getElementById('estGroupEmail');
+  const emailError = document.getElementById('estEmailError');
+
+  // Paso 2
+  const stepCodeWrap = document.getElementById('estStepCodeWrap');
+  const phoneMasked = document.getElementById('estPhoneMasked');
+  const demoBanner = document.getElementById('estDemoBanner');
+  const demoCodeVal = document.getElementById('estDemoCodeVal');
+  const codeForm = document.getElementById('estCodeForm');
+  const codeInputs = [
+    document.getElementById('code0'),
+    document.getElementById('code1'),
+    document.getElementById('code2'),
+    document.getElementById('code3'),
+    document.getElementById('code4'),
+    document.getElementById('code5')
+  ];
+  const codeError = document.getElementById('estCodeError');
+  const resendBtn = document.getElementById('estResendBtn');
+  const resendTimer = document.getElementById('estResendTimer');
+  const attemptsInfo = document.getElementById('estAttemptsInfo');
+  const verifyCodeBtn = document.getElementById('estVerifyCodeBtn');
+
+  // Paso 3
+  const stepPassWrap = document.getElementById('estStepPassWrap');
+  const confirmedEmail = document.getElementById('estConfirmedEmail');
+  const newPassForm = document.getElementById('estNewPassForm');
+  const newPassInput = document.getElementById('estNewPass');
+  const repeatPassInput = document.getElementById('estRepeatPass');
+  const groupNewPass = document.getElementById('estGroupNewPass');
+  const groupRepeatPass = document.getElementById('estGroupRepeatPass');
+  const newPassError = document.getElementById('estNewPassError');
+  const repeatPassError = document.getElementById('estRepeatPassError');
+  const ruleLen = document.getElementById('ruleLen');
+  const ruleLetter = document.getElementById('ruleLetter');
+  const ruleNum = document.getElementById('ruleNum');
+  const savePassBtn = document.getElementById('estSavePassBtn');
+
+  function showAlert(text, type = 'danger') {
+    alertBox.className = `est-alert est-alert--${type}`;
+    alertMsg.textContent = text;
+    alertBox.hidden = false;
+  }
+
+  function hideAlert() {
+    alertBox.hidden = true;
+  }
+
+  // Generar y activar nuevo código SMS simulado
+  function issueNewCode() {
+    activeCode = generateRandomCode();
+    codeExpiresAt = Date.now() + 10 * 60 * 1000; // 10 minutos
+    attemptsLeft = 5;
+
+    // Actualizar UI de demostración
+    demoCodeVal.textContent = activeCode;
+    attemptsInfo.textContent = `Intentos restantes: ${attemptsLeft}`;
+    codeError.style.display = 'none';
+
+    // Limpiar casillas de código
+    codeInputs.forEach(inp => {
+      inp.value = '';
+      inp.disabled = false;
+      inp.classList.remove('is-filled');
+    });
+    verifyCodeBtn.disabled = false;
+    codeInputs[0].focus();
+
+    // Iniciar temporizador de reenvío de 60 segundos
+    resendCountdown = 60;
+    resendBtn.disabled = true;
+    resendTimer.textContent = String(resendCountdown);
+    clearInterval(resendInterval);
+    resendInterval = setInterval(() => {
+      resendCountdown--;
+      if (resendCountdown <= 0) {
+        clearInterval(resendInterval);
+        resendBtn.disabled = false;
+        resendBtn.textContent = 'Reenviar código';
+      } else {
+        resendTimer.textContent = String(resendCountdown);
+      }
+    }, 1000);
+
+    // Vigilancia de expiración a los 10 minutos
+    clearInterval(expirationCheckInterval);
+    expirationCheckInterval = setInterval(() => {
+      if (Date.now() > codeExpiresAt && activeCode) {
+        clearInterval(expirationCheckInterval);
+        activeCode = '';
+        showAlert('El código de 6 caracteres ha vencido (plazo de 10 minutos superado). Solicita un nuevo código.', 'warning');
+        verifyCodeBtn.disabled = true;
+        codeInputs.forEach(i => i.disabled = true);
+      }
+    }, 5000);
+  }
+
+  // Máscara de teléfono: ej "987 112 233" -> "••• ••• 233"
+  function maskPhone(phone) {
+    if (!phone) return '••• ••• •••';
+    const clean = phone.replace(/\s+/g, '');
+    const last3 = clean.slice(-3);
+    return `••• ••• ${last3}`;
+  }
+
+  // PASO 1: Envío del correo
+  emailForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    hideAlert();
+    groupEmail.classList.remove('is-invalid');
+
+    const emailVal = emailInput.value.trim().toLowerCase();
+    if (!emailVal) {
+      groupEmail.classList.add('is-invalid');
+      emailError.textContent = 'Este campo es obligatorio';
+      return;
+    }
+
+    // TODO backend: Aquí se enviaría POST /api/recuperar-codigo con { email }
+    const userFound = REGISTERED_USERS.find(u => u.correo.toLowerCase() === emailVal);
+
+    if (!userFound) {
+      // RF053: Error cuando el correo no está registrado
+      groupEmail.classList.add('is-invalid');
+      emailError.textContent = 'Este correo no está registrado en el sistema.';
+      return;
+    }
+
+    currentTargetUser = userFound;
+    emailInput.disabled = true;
+    sendCodeBtn.disabled = true;
+
+    // Mostrar Paso 2 en la misma pantalla
+    phoneMasked.textContent = maskPhone(userFound.celular);
+    stepCodeWrap.hidden = false;
+    subtitle.textContent = 'Ingresa el código que te enviamos para verificar tu identidad y restablecer tu clave.';
+
+    issueNewCode();
+  });
+
+  // PASO 2: Manejo de casillas de código (6 inputs con auto-advance y paste)
+  codeInputs.forEach((input, index) => {
+    input.addEventListener('input', (e) => {
+      let val = input.value.toUpperCase();
+      // Filtrar solo caracteres válidos
+      if (val && !CODE_ALPHABET.includes(val)) {
+        val = '';
+      }
+      input.value = val;
+      if (val) {
+        input.classList.add('is-filled');
+        if (index < 5) {
+          codeInputs[index + 1].focus();
+        }
+      } else {
+        input.classList.remove('is-filled');
+      }
+      codeError.style.display = 'none';
+      hideAlert();
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !input.value && index > 0) {
+        codeInputs[index - 1].focus();
+        codeInputs[index - 1].value = '';
+        codeInputs[index - 1].classList.remove('is-filled');
+      }
+    });
+
+    input.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const pasteText = (e.clipboardData || window.clipboardData).getData('text').trim().toUpperCase();
+      const validChars = pasteText.split('').filter(ch => CODE_ALPHABET.includes(ch));
+      if (!validChars.length) return;
+
+      validChars.slice(0, 6).forEach((ch, i) => {
+        if (codeInputs[i]) {
+          codeInputs[i].value = ch;
+          codeInputs[i].classList.add('is-filled');
+        }
+      });
+      const focusIndex = Math.min(validChars.length, 5);
+      codeInputs[focusIndex].focus();
+    });
+  });
+
+  // Reenviar código
+  resendBtn.addEventListener('click', () => {
+    if (resendBtn.disabled) return;
+    issueNewCode();
+    showAlert('Se ha generado un nuevo código y el anterior ha sido invalidado.', 'warning');
+  });
+
+  // Verificación del código
+  codeForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    hideAlert();
+    codeError.style.display = 'none';
+
+    if (!activeCode) {
+      showAlert('El código ha vencido o no es válido. Haz clic en Reenviar código.', 'warning');
+      return;
+    }
+
+    if (Date.now() > codeExpiresAt) {
+      activeCode = '';
+      showAlert('El código de 6 caracteres ha vencido. Solicita uno nuevo con el botón de reenvío.', 'warning');
+      verifyCodeBtn.disabled = true;
+      codeInputs.forEach(i => i.disabled = true);
+      return;
+    }
+
+    const enteredCode = codeInputs.map(i => i.value.trim().toUpperCase()).join('');
+    if (enteredCode.length < 6) {
+      codeError.textContent = 'Por favor completa los 6 caracteres del código.';
+      codeError.style.display = 'flex';
+      return;
+    }
+
+    // TODO backend: Aquí se enviaría POST /api/verificar-codigo con { email, codigo }
+    if (enteredCode !== activeCode) {
+      attemptsLeft--;
+      attemptsInfo.textContent = `Intentos restantes: ${attemptsLeft}`;
+
+      if (attemptsLeft <= 0) {
+        activeCode = '';
+        codeInputs.forEach(i => i.disabled = true);
+        verifyCodeBtn.disabled = true;
+        showAlert('Has superado el límite de 5 intentos fallidos. Por seguridad, este código fue invalidado. Solicita uno nuevo.', 'danger');
+      } else {
+        codeError.textContent = `Código incorrecto. Te quedan ${attemptsLeft} intento(s).`;
+        codeError.style.display = 'flex';
+      }
+      return;
+    }
+
+    // Código Correcto: Deshabilitar bloque 2 y mostrar bloque 3 en la misma pantalla
+    activeCode = ''; // Un solo uso
+    clearInterval(resendInterval);
+    clearInterval(expirationCheckInterval);
+
+    codeInputs.forEach(i => i.disabled = true);
+    verifyCodeBtn.disabled = true;
+    resendBtn.disabled = true;
+
+    stepPassWrap.hidden = false;
+    confirmedEmail.textContent = currentTargetUser.correo;
+    subtitle.textContent = 'Código verificado con éxito. Ingresa tu nueva contraseña para completar la recuperación.';
+    newPassInput.focus();
+  });
+
+  // PASO 3: Validación reactiva de contraseña
+  function validateRules(pass) {
+    const hasLen = pass.length >= 8;
+    const hasLetter = /[a-zA-ZáéíóúÁÉÍÓÚñÑ]/.test(pass);
+    const hasNumber = /[0-9]/.test(pass);
+
+    ruleLen.classList.toggle('valid', hasLen);
+    ruleLetter.classList.toggle('valid', hasLetter);
+    ruleNum.classList.toggle('valid', hasNumber);
+
+    return hasLen && hasLetter && hasNumber;
+  }
+
+  newPassInput.addEventListener('input', () => {
+    validateRules(newPassInput.value);
+    groupNewPass.classList.remove('is-invalid');
+    hideAlert();
+  });
+
+  repeatPassInput.addEventListener('input', () => {
+    groupRepeatPass.classList.remove('is-invalid');
+    hideAlert();
+  });
+
+  newPassForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    hideAlert();
+
+    const passVal = newPassInput.value;
+    const repeatVal = repeatPassInput.value;
+    let valid = true;
+
+    if (!validateRules(passVal)) {
+      groupNewPass.classList.add('is-invalid');
+      newPassError.textContent = 'La contraseña debe tener mínimo 8 caracteres, al menos una letra y un número.';
+      valid = false;
+    } else {
+      groupNewPass.classList.remove('is-invalid');
+    }
+
+    if (passVal !== repeatVal) {
+      groupRepeatPass.classList.add('is-invalid');
+      repeatPassError.textContent = 'Las contraseñas no coinciden. Escríbelas idénticas.';
+      valid = false;
+    } else {
+      groupRepeatPass.classList.remove('is-invalid');
+    }
+
+    if (!valid) return;
+
+    // TODO backend: Aquí se enviaría POST /api/restablecer-contrasena con { email, nuevaPass, tokenVerificado }
+    // Guardar nueva contraseña en demo localStorage bajo clave dunamys_claves
+    try {
+      let claves = {};
+      const raw = localStorage.getItem('dunamys_claves');
+      if (raw) claves = JSON.parse(raw);
+      claves[currentTargetUser.correo.toLowerCase()] = passVal;
+      localStorage.setItem('dunamys_claves', JSON.stringify(claves));
+    } catch (err) {
+      console.warn('Error guardando clave en demo:', err);
+    }
+
+    savePassBtn.disabled = true;
+    newPassInput.disabled = true;
+    repeatPassInput.disabled = true;
+
+    showAlert('¡Contraseña actualizada con éxito! Redirigiendo al inicio de sesión...', 'success');
+
+    setTimeout(() => {
+      window.location.href = 'login.html';
+    }, 2000);
+  });
+
+})();
+</script>
+</body>
+</html>

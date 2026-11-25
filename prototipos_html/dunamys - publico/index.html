@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DUNAMYS Academia Musical. Aprende guitarra, piano, violín, canto y más.">
+    <title>DMYS | Academia Musical</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <a href="#inicio" class="logo">
+        <img src="img/logo.png" alt="DUNAMYS Academia Musical">
+    </a>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <nav class="nav-menu" id="navMenu">
+        <a href="#inicio" class="nav-link active">Inicio</a>
+        <a href="#cursos" class="nav-link">Cursos</a>
+        <a href="#nosotros" class="nav-link">Nosos</a>
+        <a href="#eventos" class="nav-link">Eventos</a>
+        <a href="galeria.html" class="nav-link">
+    Galería
+</a>
+        <a href="#contacto" class="nav-link">Contacto</a>
+        <a href="matricula.html" class="nav-enroll">
+    <i class="bi bi-pencil-square"></i> Matrículate ya
+</a>
+    </nav>
+</header>
+
+<main>
+
+<!-- PORTADA -->
+<section class="hero" id="inicio">
+    <div class="hero-overlay"></div>
+
+<div class="music-decoration note-one">
+    <i class="bi bi-music-note-beamed"></i>
+</div>
+
+<div class="music-decoration note-two">
+    <i class="bi bi-music-note"></i>
+</div>
+
+<div class="music-decoration note-three">
+    <i class="bi bi-soundwave"></i>
+</div>
+
+
+    <div class="hero-content reveal">
+        <span class="hero-subtitle">ACADEMIA MUSICAL</span>
+        <h1>DUNAMYS</h1>
+
+        <h2>Donde tu talento, <span>suena.</span></h2>
+
+        <p>
+            Aprende música con nosotros y descubre todo
+            tu potencial musical.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#cursos" class="btn-primary">
+                Explorar cursos <i class="fas fa-arrow-right"></i>
+            </a>
+
+            <a href="matricula.html" class="btn-outline">
+    <i class="bi bi-mortarboard-fill"></i>
+    Matrículate ahora
+</a>
+        </div>
+
+        <div class="hero-features">
+            <div><i class="fas fa-award"></i> Docentes especializados</div>
+            <div><i class="fas fa-laptop"></i> Presencial y virtual</div>
+            <div><i class="fas fa-chart-line"></i> Metodología moderna</div>
+        </div>
+    </div>
+</section>
+
+<!-- CURSOS -->
+<section class="courses section-light" id="cursos">
+    <div class="section-heading reveal">
+        <span class="section-icon"><i class="fas fa-wave-square"></i></span>
+        <h2>Nuestros <span>Cursos</span></h2>
+        <p>Elige el curso que más te apasione y comienza tu formación musical.</p>
+    </div>
+
+    <div class="courses-grid">
+
+        <article class="course-card reveal">
+            <img src="img/cursos/guitarra.webp" alt="Curso de guitarra">
+            <div class="course-info">
+                <h3>Guitarra</h3>
+                <p>Aprende desde cero y desarrolla tu talento.</p>
+                <span class="availability">● Disponible</span>
+                <strong>S/ 80.00</strong>
+                <a href="#matricula">Ver curso <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <article class="course-card reveal">
+            <img src="img/cursos/piano.webp" alt="Curso de piano">
+            <div class="course-info">
+                <h3>Piano</h3>
+                <p>Domina acordes, ritmos y melodías.</p>
+                <span class="availability">● Disponible</span>
+                <strong>S/ 80.00</strong>
+                <a href="#matricula">Ver curso <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <article class="course-card reveal">
+            <img src="img/cursos/violin.webp" alt="Curso de violín">
+            <div class="course-info">
+                <h3>Violín</h3>
+                <p>Desarrolla tu técnica y expresión musical.</p>
+                <span class="availability">● Disponible</span>
+                <strong>S/ 80.00</strong>
+                <a href="#matricula">Ver curso <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <article class="course-card reveal">
+            <img src="img/cursos/canto.webp" alt="Curso de canto">
+            <div class="course-info">
+                <h3>Canto</h3>
+                <p>Mejora tu voz y afinación.</p>
+                <span class="availability">● Disponible</span>
+                <strong>S/ 80.00</strong>
+                <a href="#matricula">Ver curso <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <article class="course-card reveal">
+            <img src="img/cursos/bajo-electrico.webp" alt="Curso de bajo eléctrico">
+            <div class="course-info">
+                <h3>Bajo eléctrico</h3>
+                <p>Aprende ritmo y acompañamiento.</p>
+                <span class="availability">● Disponible</span>
+                <strong>S/ 80.00</strong>
+                <a href="#matricula">Ver curso <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <article class="course-card reveal">
+            <img src="img/cursos/bateria.webp" alt="Curso de batería">
+            <div class="course-info">
+                <h3>Batería</h3>
+                <p>Domina el ritmo y la percusión.</p>
+                <span class="availability">● Disponible</span>
+                <strong>S/ 80.00</strong>
+                <a href="#matricula">Ver curso <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <article class="course-card reveal">
+            <img src="img/cursos/teclado.webp" alt="Curso de teclado">
+            <div class="course-info">
+                <h3>Teclado</h3>
+                <p>Explora sonidos y armonías.</p>
+                <span class="availability">● Disponible</span>
+                <strong>S/ 80.00</strong>
+                <a href="#matricula">Ver curso <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+<!-- NOSOTROS -->
+<section class="about" id="nosotros">
+    <div class="about-image reveal">
+        <img src="img/institucional/academia.webp"
+             alt="Instalaciones de DUNAMYS Academia Musical">
+    </div>
+
+    <div class="about-content reveal">
+        <span class="eyebrow">CONÓCENOS</span>
+        <h2>¿Quiénes <span>Somos?</span></h2>
+
+        <p>
+            En Dunamys enseñamos a tocar instrumentos,
+            teclado, guitarra, violín, canto y más, con una
+            metodología práctica, moderna y personalizada.
+        </p>
+
+        <p>
+            Somos una academia musical independiente,
+            comprometida con el desarrollo del talento
+            artístico y musical.
+        </p>
+
+        <div class="about-values">
+            <div><i class="fas fa-bullseye"></i> Pasión por la música</div>
+            <div><i class="fas fa-star"></i> Formación de calidad</div>
+            <div><i class="fas fa-heart"></i> Comunidad artística</div>
+        </div>
+
+        <a href="#contacto" class="btn-primary">
+            Conoce más <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+</section>
+
+<!-- EVENTOS -->
+<section class="events section-light" id="eventos">
+    <div class="section-heading reveal">
+        <h2>Eventos y <span>Recitales</span></h2>
+        <p>Revive nuestros mejores momentos y participa en nuestros eventos.</p>
+    </div>
+
+    <div class="events-grid">
+        <article class="event-card reveal">
+            <img src="img/eventos/evento-01.webp" alt="Concierto de estudiantes">
+            <div>
+                <h3>Concierto de estudiantes</h3>
+                <p><i class="far fa-calendar"></i> 17 de abril</p>
+            </div>
+        </article>
+
+        <article class="event-card reveal">
+            <img src="img/eventos/evento-02.webp" alt="Presentación de guitarra">
+            <div>
+                <h3>Presentación de guitarra</h3>
+                <p><i class="far fa-calendar"></i> 14 de mayo</p>
+            </div>
+        </article>
+
+        <article class="event-card reveal">
+            <img src="img/eventos/evento-03.webp" alt="Recital de piano">
+            <div>
+                <h3>Recital de piano</h3>
+                <p><i class="far fa-calendar"></i> 30 de mayo</p>
+            </div>
+        </article>
+
+        <article class="event-card reveal">
+            <img src="img/eventos/evento-04.webp" alt="Festival de música">
+            <div>
+                <h3>Festival de música</h3>
+                <p><i class="far fa-calendar"></i> 7 de junio</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- GALERÍA -->
+
+<section class="gallery" id="galeria">
+
+    <div class="section-heading reveal">
+        <h2>Nuestra <span>Galería</span></h2>
+        <p>Momentos, experiencias y pasión por la música.</p>
+    </div>
+
+    <div class="gallery-grid">
+
+        <a href="img/galeria/galeria-01.webp"
+           target="_blank" class="gallery-item reveal">
+            <img src="img/galeria/galeria-01.webp"
+                 alt="Presentación musical DUNAMYS">
+            <i class="bi bi-arrows-fullscreen"></i>
+        </a>
+
+        <a href="img/galeria/galeria-02.webp"
+           target="_blank" class="gallery-item reveal">
+            <img src="img/galeria/galeria-02.webp"
+                 alt="Estudiantes de guitarra">
+            <i class="bi bi-arrows-fullscreen"></i>
+        </a>
+
+        <a href="img/galeria/galeria-03.webp"
+           target="_blank" class="gallery-item reveal">
+            <img src="img/galeria/galeria-03.webp"
+                 alt="Clase de piano">
+            <i class="bi bi-arrows-fullscreen"></i>
+        </a>
+
+        <a href="img/galeria/galeria-04.webp"
+           target="_blank" class="gallery-item reveal">
+            <img src="img/galeria/galeria-04.webp"
+                 alt="Recital de estudiantes">
+            <i class="bi bi-arrows-fullscreen"></i>
+        </a>
+
+        <a href="img/galeria/galeria-05.webp"
+           target="_blank" class="gallery-item reveal">
+            <img src="img/galeria/galeria-05.webp"
+                 alt="Actividades musicales">
+            <i class="bi bi-arrows-fullscreen"></i>
+        </a>
+
+        <a href="img/galeria/galeria-06.webp"
+           target="_blank" class="gallery-item reveal">
+            <img src="img/galeria/galeria-06.webp"
+                 alt="Equipo de DUNAMYS">
+            <i class="bi bi-arrows-fullscreen"></i>
+        </a>
+
+        <a href="img/galeria/galeria-07.webp"
+           target="_blank" class="gallery-item reveal">
+            <img src="img/galeria/galeria-07.webp"
+                 alt="Presentación de estudiantes">
+            <i class="bi bi-arrows-fullscreen"></i>
+        </a>
+
+        <a href="img/galeria/galeria-08.webp"
+           target="_blank" class="gallery-item reveal">
+            <img src="img/galeria/galeria-08.webp"
+                 alt="Academia musical">
+            <i class="bi bi-arrows-fullscreen"></i>
+        </a>
+
+    </div>
+
+    <a href="galeria.html" class="btn-primary">
+        Explorar galería
+        <i class="bi bi-images"></i>
+    </a>
+
+</section>
+
+
+<!-- CONTACTO -->
+<section class="contact" id="contacto">
+    <div class="section-heading reveal">
+        <h2>Contácta<span>nos</span></h2>
+        <p>Estamos listos para acompañarte en tu camino musical.</p>
+    </div>
+
+
+<div class="contact-grid">
+
+    <a class="contact-item"
+       href="https://www.google.com/maps/search/?api=1&query=Plaza+de+Armas+Juliaca%2C+Jr.+Ica+252%2C+Galeria+San+Roman+3er+piso%2C+Peru"
+       target="_blank" rel="noopener noreferrer">
+
+        <i class="fas fa-map-marker-alt"></i>
+        <h3>Dirección</h3>
+        <p>
+            Plaza de Armas - Juliaca<br>
+            Jr. Ica 252, Galería San Román,<br>
+            3er piso.
+        </p>
+        <span class="contact-action">Ver ubicación <i class="fas fa-arrow-right"></i></span>
+    </a>
+
+    <div class="contact-item">
+        <i class="fab fa-whatsapp"></i>
+        <h3>Contáctanos por WhatsApp</h3>
+
+        <a class="phone-link"
+           href="https://wa.me/51952233266?text=Hola%2C%20estoy%20interesado%28a%29%20en%20los%20cursos%20de%20DUNAMYS%20y%20quisiera%20recibir%20m%C3%A1s%20informaci%C3%B3n."
+           target="_blank" rel="noopener noreferrer">
+            952 233 266
+            <i class="fas fa-external-link-alt"></i>
+        </a>
+
+        <a class="phone-link"
+           href="https://wa.me/51999739090?text=Hola%2C%20estoy%20interesado%28a%29%20en%20los%20cursos%20de%20DUNAMYS%20y%20quisiera%20recibir%20m%C3%A1s%20informaci%C3%B3n."
+           target="_blank" rel="noopener noreferrer">
+            999 739 090
+            <i class="fas fa-external-link-alt"></i>
+        </a>
+
+        <span class="contact-action">Escríbenos directamente</span>
+    </div>
+
+    <div class="contact-item">
+        <i class="far fa-clock"></i>
+        <h3>Horario de atención</h3>
+        <p>
+            Lunes a viernes<br>
+            8:00 a. m. - 6:00 p. m.
+        </p>
+    </div>
+
+</div>
+
+
+    <a href="libro-reclamaciones.html" class="claims-link">
+    <i class="bi bi-journal-bookmark-fill"></i>
+    Libro de Reclamaciones
+    <i class="bi bi-arrow-right"></i>
+</a>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <a href="#inicio" class="footer-logo">
+        <img src="img/logo.png" alt="DUNAMYS">
+    </a>
+
+    <div class="footer-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#cursos">Cursos</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#eventos">Eventos</a>
+        <a href="#contacto">Contacto</a>
+    </div>
+
+
+<div class="social-links">
+
+    <a href="https://www.facebook.com/"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+    <a href="https://www.instagram.com/"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+    </a>
+
+    <a href="https://www.tiktok.com/@academiadunamys"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="TikTok">
+        <i class="fab fa-tiktok"></i>
+    </a>
+
+    <a href="https://www.youtube.com/"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="YouTube">
+        <i class="fab fa-youtube"></i>
+    </a>
+
+</div>
+
+
+    <p>© <span id="year"></span> DUNAMYS Academia Musical. Todos los derechos reservados.</p>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

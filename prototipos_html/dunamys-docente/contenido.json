@@ -1,0 +1,27 @@
+{
+  "quienes": "Dunamys es una academia de música en Juliaca dedicada a formar talentos con metodología práctica, recitales de gala y aula virtual interactiva.",
+  "telefono": "952233266",
+  "apertura": "08:00",
+  "cierre": "18:00",
+  "avisos": [
+    {
+      "id": 1,
+      "titulo": "Próximo inicio de ciclo",
+      "texto": "Matrículas abiertas para los niveles Básico, Intermedio y Avanzado.",
+      "fecha": "05 nov 2026"
+    }
+  ],
+  "galeria": [
+    {
+      "id": 1,
+      "titulo": "Recital de Teclado",
+      "tipo": "Foto"
+    },
+    {
+      "id": 2,
+      "titulo": "Ensayo de Gala",
+      "tipo": "Video"
+    }
+  ],
+  "actualizado": "2026-11-11T21:30:00-05:00"
+}

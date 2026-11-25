@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Libro de Reclamaciones | DUNAMYS</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/reclamaciones.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body class="claims-page">
+
+<!-- NAVBAR -->
+
+<header class="navbar">
+
+    <a href="index.html" class="logo">
+        <img src="img/logo.png" alt="DUNAMYS Academia Musical">
+    </a>
+
+    <nav class="nav-menu" id="claimsNav">
+
+        <a href="index.html#inicio" class="nav-link">Inicio</a>
+        <a href="index.html#cursos" class="nav-link">Cursos</a>
+        <a href="index.html#nosotros" class="nav-link">Nosotros</a>
+        <a href="index.html#eventos" class="nav-link">Eventos</a>
+        <a href="galeria.html" class="nav-link">Galería</a>
+        <a href="index.html#contacto" class="nav-link">Contacto</a>
+
+        <a href="matricula.html" class="nav-enroll">
+            <i class="bi bi-pencil-square"></i> Matrículate ya
+        </a>
+
+    </nav>
+
+    <button class="menu-toggle" id="claimsMenuToggle"
+            aria-label="Abrir menú">
+        <i class="bi bi-list"></i>
+    </button>
+
+</header>
+
+<main>
+
+    <!-- ENCABEZADO -->
+
+    <section class="claims-hero">
+
+        <div class="claims-hero-content">
+
+            <span class="eyebrow">ATENCIÓN AL CONSUMIDOR</span>
+
+            <h1>Libro de <span>Reclamaciones</span></h1>
+
+            <p>
+                En DUNAMYS valoramos tu opinión.
+                Cuéntanos tu experiencia para ayudarnos a mejorar
+                continuamente nuestros servicios.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- FORMULARIO -->
+
+    <section class="claims-container">
+
+        <div class="claims-information">
+
+            <div class="claims-information-icon">
+                <i class="bi bi-journal-text"></i>
+            </div>
+
+            <div>
+                <h2>Hoja de reclamación</h2>
+
+                <p>
+                    Completa los campos solicitados con información
+                    clara y veraz para registrar tu solicitud.
+                </p>
+            </div>
+
+            <div class="claims-notice">
+                <i class="bi bi-info-circle"></i>
+
+                <p>
+                    Los campos marcados con asterisco (*) son obligatorios.
+                    Revisa tus datos antes de enviar el formulario.
+                </p>
+            </div>
+
+        </div>
+
+        <form id="claimsForm" class="claims-form">
+
+            <!-- 01 DATOS DE LA EMPRESA -->
+
+            <div class="claims-section-title">
+                <span>01</span>
+                <div>
+                    <h3>Datos del proveedor</h3>
+                    <p>Información de la academia.</p>
+                </div>
+            </div>
+
+            <div class="claims-provider">
+
+                <div>
+                    <span>Razón comercial</span>
+                    <strong>DUNAMYS Academia Musical</strong>
+                </div>
+
+                <div>
+                    <span>Dirección</span>
+                    <strong>
+                        Jr. Ica 252, Galería San Román, 3er piso,
+                        Juliaca, Perú.
+                    </strong>
+                </div>
+
+            </div>
+
+            <!-- 02 TIPO DE SOLICITUD -->
+
+            <div class="claims-section-title">
+                <span>02</span>
+                <div>
+                    <h3>Tipo de solicitud</h3>
+                    <p>Selecciona la naturaleza de tu comunicación.</p>
+                </div>
+            </div>
+
+            <div class="claim-type-grid">
+
+                <label class="claim-type-card">
+
+                    <input type="radio" name="claimType"
+                           value="Reclamo" required>
+
+                    <i class="bi bi-exclamation-circle"></i>
+
+                    <strong>Reclamo</strong>
+
+                    <p>
+                        Disconformidad relacionada con un producto
+                        o servicio adquirido.
+                    </p>
+
+                </label>
+
+                <label class="claim-type-card">
+
+                    <input type="radio" name="claimType"
+                           value="Queja" required>
+
+                    <i class="bi bi-chat-left-text"></i>
+
+                    <strong>Queja</strong>
+
+                    <p>
+                        Malestar o disconformidad relacionada
+                        con la atención recibida.
+                    </p>
+
+                </label>
+
+            </div>
+
+            <!-- 03 DATOS DEL CONSUMIDOR -->
+
+            <div class="claims-section-title">
+
+                <span>03</span>
+
+                <div>
+                    <h3>Datos del consumidor</h3>
+                    <p>Información de la persona que presenta la solicitud.</p>
+                </div>
+
+            </div>
+
+            <div class="claims-grid">
+
+                <div class="claims-field">
+                    <label for="consumerName">Nombres *</label>
+
+                    <input type="text" id="consumerName"
+                           name="consumerName"
+                           placeholder="Ingresa tus nombres"
+                           autocomplete="given-name" required>
+                </div>
+
+                <div class="claims-field">
+                    <label for="consumerLastName">Apellidos *</label>
+
+                    <input type="text" id="consumerLastName"
+                           name="consumerLastName"
+                           placeholder="Ingresa tus apellidos"
+                           autocomplete="family-name" required>
+                </div>
+
+                <div class="claims-field">
+                    <label for="consumerDni">DNI *</label>
+
+                    <input type="text" id="consumerDni"
+                           name="consumerDni"
+                           placeholder="8 dígitos"
+                           inputmode="numeric"
+                           maxlength="8"
+                           pattern="[0-9]{8}" required>
+                </div>
+
+                <div class="claims-field">
+                    <label for="consumerPhone">Teléfono *</label>
+
+                    <input type="tel" id="consumerPhone"
+                           name="consumerPhone"
+                           placeholder="9 dígitos"
+                           inputmode="numeric"
+                           maxlength="9"
+                           pattern="[0-9]{9}" required>
+                </div>
+
+                <div class="claims-field full-width">
+                    <label for="consumerEmail">Correo electrónico *</label>
+
+                    <input type="email" id="consumerEmail"
+                           name="consumerEmail"
+                           placeholder="correo@ejemplo.com"
+                           autocomplete="email" required>
+                </div>
+
+                <div class="claims-field full-width">
+                    <label for="consumerAddress">Domicilio *</label>
+
+                    <input type="text" id="consumerAddress"
+                           name="consumerAddress"
+                           placeholder="Ingresa tu dirección"
+                           autocomplete="street-address" required>
+                </div>
+
+            </div>
+
+            <!-- 04 DATOS DEL SERVICIO -->
+
+            <div class="claims-section-title">
+
+                <span>04</span>
+
+                <div>
+                    <h3>Información del servicio</h3>
+                    <p>Identifica el servicio relacionado con tu solicitud.</p>
+                </div>
+
+            </div>
+
+            <div class="claims-grid">
+
+                <div class="claims-field">
+                    <label for="serviceType">Servicio *</label>
+
+                    <select id="serviceType" name="serviceType" required>
+                        <option value="">Seleccionar servicio</option>
+                        <option value="Curso de guitarra">Curso de guitarra</option>
+                        <option value="Curso de piano">Curso de piano</option>
+                        <option value="Curso de violín">Curso de violín</option>
+                        <option value="Curso de canto">Curso de canto</option>
+                        <option value="Curso de bajo eléctrico">Curso de bajo eléctrico</option>
+                        <option value="Curso de batería">Curso de batería</option>
+                        <option value="Curso de teclado">Curso de teclado</option>
+                        <option value="Matrícula">Proceso de matrícula</option>
+                        <option value="Otro">Otro servicio</option>
+                    </select>
+                </div>
+
+                <div class="claims-field">
+                    <label for="serviceAmount">
+                        Monto involucrado (S/)
+                    </label>
+
+                    <input type="number" id="serviceAmount"
+                           name="serviceAmount"
+                           min="0" step="0.01"
+                           placeholder="Ej. 80.00">
+                </div>
+
+                <div class="claims-field full-width">
+                    <label for="incidentDate">Fecha del incidente *</label>
+
+                    <input type="date" id="incidentDate"
+                           name="incidentDate" required>
+                </div>
+
+            </div>
+
+            <!-- 05 DESCRIPCIÓN -->
+
+            <div class="claims-section-title">
+
+                <span>05</span>
+
+                <div>
+                    <h3>Detalle de la solicitud</h3>
+                    <p>Describe los hechos y el resultado que solicitas.</p>
+                </div>
+
+            </div>
+
+            <div class="claims-field full-width">
+
+                <label for="claimDescription">
+                    Descripción del reclamo o queja *
+                </label>
+
+                <textarea id="claimDescription"
+                          name="claimDescription"
+                          rows="5"
+                          maxlength="2000"
+                          placeholder="Describe detalladamente lo ocurrido..."
+                          required></textarea>
+
+                <small class="character-counter">
+                    <span id="descriptionCount">0</span>/2000 caracteres
+                </small>
+
+            </div>
+
+            <div class="claims-field full-width">
+
+                <label for="claimRequest">
+                    Pedido del consumidor *
+                </label>
+
+                <textarea id="claimRequest"
+                          name="claimRequest"
+                          rows="4"
+                          maxlength="1000"
+                          placeholder="Indica qué solución esperas recibir..."
+                          required></textarea>
+
+                <small class="character-counter">
+                    <span id="requestCount">0</span>/1000 caracteres
+                </small>
+
+            </div>
+
+            <!-- 06 DECLARACIÓN -->
+
+            <div class="claims-section-title">
+
+                <span>06</span>
+
+                <div>
+                    <h3>Declaración y consentimiento</h3>
+                    <p>Verifica la información antes de continuar.</p>
+                </div>
+
+            </div>
+
+            <div class="claims-consent">
+
+                <label>
+                    <input type="checkbox" id="truthDeclaration" required>
+
+                    <span>
+                        Declaro que la información proporcionada
+                        es verdadera y corresponde a los hechos
+                        descritos en esta solicitud.
+                    </span>
+                </label>
+
+                <label>
+                    <input type="checkbox" id="privacyConsent" required>
+
+                    <span>
+                        He leído la información sobre el tratamiento
+                        de mis datos personales y acepto su tratamiento
+                        para la gestión de esta solicitud.
+                    </span>
+                </label>
+
+            </div>
+
+            <!-- ENVÍO -->
+
+            <div class="claims-actions">
+
+                <a href="index.html#contacto" class="claims-cancel">
+                    <i class="bi bi-arrow-left"></i>
+                    Volver
+                </a>
+
+                <button type="submit" class="claims-submit">
+                    Enviar solicitud
+                    <i class="bi bi-send-fill"></i>
+                </button>
+
+            </div>
+
+            <p class="claims-privacy-note">
+                <i class="bi bi-shield-lock"></i>
+                La información de este formulario es confidencial
+                y requiere un tratamiento adecuado.
+            </p>
+
+        </form>
+
+    </section>
+
+    <!-- CONFIRMACIÓN -->
+
+    <div class="claims-success" id="claimsSuccess"
+         role="dialog" aria-modal="true"
+         aria-labelledby="successTitle">
+
+        <div class="success-card">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <h2 id="successTitle">Solicitud registrada</h2>
+
+            <p id="successDescription">
+                Tu solicitud ha sido validada en esta demostración.
+            </p>
+
+            <p class="demo-notice">
+                Este registro es solamente una demostración.
+                No se ha enviado ni almacenado oficialmente.
+            </p>
+
+            <button type="button" id="closeSuccess">
+                Entendido
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+    <a href="index.html" class="footer-logo">
+        <img src="img/logo.png" alt="DUNAMYS Academia Musical">
+    </a>
+
+    <div class="footer-links">
+        <a href="index.html#inicio">Inicio</a>
+        <a href="index.html#cursos">Cursos</a>
+        <a href="index.html#nosotros">Nosotros</a>
+        <a href="index.html#eventos">Eventos</a>
+        <a href="galeria.html">Galería</a>
+        <a href="index.html#contacto">Contacto</a>
+    </div>
+
+    <div class="social-links">
+
+        <a href="https://www.tiktok.com/@academiadunamys"
+           target="_blank" rel="noopener"
+           aria-label="TikTok">
+            <i class="bi bi-tiktok"></i>
+        </a>
+
+        <a href="https://wa.me/51952233266?text=Hola%2C%20estoy%20interesado%20en%20los%20cursos%20de%20DUNAMYS.%20Quisiera%20mayor%20informaci%C3%B3n."
+           target="_blank" rel="noopener"
+           aria-label="WhatsApp">
+            <i class="bi bi-whatsapp"></i>
+        </a>
+
+    </div>
+
+    <p>
+        © <span id="claimsYear"></span>
+        DUNAMYS Academia Musical. Todos los derechos reservados.
+    </p>
+
+</footer>
+
+<script src="js/reclamaciones.js"></script>
+
+</body>
+</html>

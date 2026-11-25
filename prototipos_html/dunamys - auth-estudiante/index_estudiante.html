@@ -1,0 +1,2181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portal del Estudiante | Academia de Música Dunamys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#CE2127; --red-dark:#A9171D; --red-soft:#FCEBEC; --red-border:#F6C6C8; --red-on-dark:#FF6B70;
+  --ink:#191718; --ink-2:#2B2729; --ink-3:#443F42;
+  --muted:#6B6568; --line:#E7E3E4; --bg:#F4F2F3; --surface:#FAF9F9; --white:#fff;
+  --green:#168854; --green-dark:#0F683F; --green-soft:#E3F6ED; --green-border:#B4E6CE;
+  --gold:#D9900D; --gold-dark:#855400; --gold-soft:#FEF3DC; --gold-border:#F7D794;
+  --blue:#2563EB; --blue-dark:#1D4ED8; --blue-soft:#EFF6FF; --blue-border:#BFDBFE;
+  --shadow-sm:0 2px 8px rgba(25,23,24,.04);
+  --shadow-md:0 10px 28px rgba(25,23,24,.08);
+  --shadow-lg:0 24px 60px rgba(25,23,24,.24);
+  --font-display:'Sora','Figtree',system-ui,sans-serif;
+  --font-body:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 var(--font-body)}
+body.no-scroll{overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+[hidden]{display:none !important}
+:focus-visible{outline:3px solid rgba(206,33,39,.4);outline-offset:2px}
+.i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- Layout Principal ---------- */
+.app{display:grid;grid-template-columns:272px 1fr;min-height:100vh}
+.sidebar{background:var(--ink);color:#fff;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:20px 16px 18px;z-index:40}
+.scrim{display:none}
+.main{padding:26px 36px 48px;min-width:0;max-width:1580px;width:100%}
+
+/* ---------- Barra Lateral ---------- */
+.brand{background:#fff;border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:10px;min-height:60px}
+.brand-mark{width:38px;height:38px;flex:none}
+.brand-name{font:700 20px/1 var(--font-display);color:var(--ink);letter-spacing:-.02em}
+.user{display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 0 18px;border-bottom:1px solid rgba(255,255,255,.1)}
+.avatar{width:64px;height:64px;border-radius:50%;border:2px solid var(--red);display:grid;place-items:center;background:var(--ink-2);color:#fff;font:700 22px/1 var(--font-display)}
+.user small{margin-top:10px;font-size:12px;letter-spacing:.06em;color:#BDB6B9}
+.user strong{font:700 16px/1.3 var(--font-display);color:var(--red-on-dark)}
+.nav{display:flex;flex-direction:column;gap:6px;padding:18px 0;flex:1}
+.nav-item{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:0;border-radius:12px;background:transparent;color:#D3CDCF;text-align:left;font-weight:500;line-height:1.25;transition:.16s}
+.nav-item .i{width:20px;height:20px}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-item.is-active{background:var(--red);color:#fff;font-weight:600;box-shadow:0 6px 18px rgba(206,33,39,.35)}
+.nav-item .chev{margin-left:auto;width:16px;height:16px}
+.sidebar-foot{border-top:1px solid rgba(255,255,255,.1);padding-top:14px;text-align:center;font:600 13px/1.4 var(--font-body);margin-bottom:12px}
+.sidebar-foot span{display:block;color:var(--red-on-dark)}
+.sidebar-logout{
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.06);
+  color:#EDEAEB;
+  border-radius:10px;
+  padding:9px 12px;
+  font-size:13px;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:.15s;
+}
+.sidebar-logout:hover{
+  background:rgba(206,33,39,.25);
+  border-color:var(--red-on-dark);
+  color:#fff;
+}
+
+/* ---------- Encabezados (Títulos ~26px según especificación) ---------- */
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.page-head h1{margin:0;font:700 26px/1.2 var(--font-display);letter-spacing:-.02em}
+.page-head h1 span{color:var(--red)}
+.page-head p{margin:5px 0 0;color:var(--muted);font-size:14px}
+.head-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.btn.menu-btn{display:none}
+
+.course-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 14px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:999px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink);
+  box-shadow:var(--shadow-sm);
+}
+.course-chip__dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--red);
+}
+
+/* ---------- Botones y Controles ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:10px;border:1px solid transparent;font-weight:600;font-size:13.5px;white-space:nowrap;transition:all .16s;text-decoration:none}
+.btn .i{width:16px;height:16px}
+.btn:disabled{opacity:.48;cursor:not-allowed;transform:none !important}
+.btn--primary{background:var(--red);color:#fff;box-shadow:0 4px 12px rgba(206,33,39,.22)}
+.btn--primary:hover:not(:disabled){background:var(--red-dark);transform:translateY(-1px)}
+.btn--dark{background:var(--ink);color:#fff}
+.btn--dark:hover:not(:disabled){background:#000;transform:translateY(-1px)}
+.btn--green{background:var(--green);color:#fff;box-shadow:0 4px 12px rgba(22,136,84,.22)}
+.btn--green:hover:not(:disabled){background:var(--green-dark);transform:translateY(-1px)}
+.btn--outline{background:#fff;border-color:#D4CFD1;color:var(--ink)}
+.btn--outline:hover:not(:disabled){border-color:var(--ink);background:var(--surface)}
+.btn--ghost{background:#EFEBEC;color:var(--ink)}
+.btn--ghost:hover:not(:disabled){background:#E2DCDD}
+.btn--soft-red{background:var(--red-soft);color:var(--red-dark);border-color:var(--red-border)}
+.btn--soft-red:hover:not(:disabled){background:#F9D7D9}
+.btn--sm{height:34px;padding:0 12px;font-size:12.5px;border-radius:8px}
+
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:600;border:1px solid #D4CFD1;background:#fff;white-space:nowrap}
+.pill.green{background:var(--green-soft);border-color:var(--green-border);color:var(--green-dark)}
+.pill.gold{background:var(--gold-soft);border-color:var(--gold-border);color:var(--gold-dark)}
+.pill.red{background:var(--red-soft);border-color:var(--red-border);color:var(--red-dark)}
+.pill.blue{background:var(--blue-soft);border-color:var(--blue-border);color:var(--blue-dark)}
+.pill.dark{background:var(--ink);border-color:var(--ink);color:#fff}
+.pill.neutral{background:#EFEBEC;border-color:#DDD8DA;color:var(--muted)}
+
+/* ---------- Layout Maestro-Detalle ---------- */
+.est-master-detail{
+  display:grid;
+  grid-template-columns:320px minmax(0,1fr);
+  gap:22px;
+  align-items:start;
+}
+
+/* Columna Izquierda: Lista de Sesiones / Tareas */
+.est-side-list{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:var(--shadow-sm);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  position:sticky;
+  top:20px;
+  max-height:calc(100vh - 40px);
+  overflow-y:auto;
+}
+.est-side-list__head{
+  padding:4px 6px 12px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:4px;
+}
+.est-side-list__head h2{
+  margin:0;
+  font:700 17px/1.2 var(--font-display);
+  color:var(--ink);
+}
+.est-side-list__head p{
+  margin:3px 0 0;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.est-item-card{
+  background:var(--surface);
+  border:1.5px solid var(--line);
+  border-radius:13px;
+  padding:12px 14px;
+  text-align:left;
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  transition:all .16s;
+  cursor:pointer;
+  position:relative;
+}
+.est-item-card:hover{
+  background:#fff;
+  border-color:#CFC8CB;
+  transform:translateY(-1px);
+  box-shadow:var(--shadow-sm);
+}
+.est-item-card.is-active{
+  border-color:var(--red);
+  background:linear-gradient(180deg,#FFF9F9 0%,#FFFFFF 100%);
+  box-shadow:0 6px 16px rgba(206,33,39,.12);
+}
+.est-item-card.is-active::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:12px;
+  bottom:12px;
+  width:4px;
+  border-radius:0 4px 4px 0;
+  background:var(--red);
+}
+.est-item-card.is-locked{
+  opacity:.65;
+  background:#F2EFF0;
+}
+.est-item-card__badge{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:#EAE6E7;
+  color:var(--ink);
+  font:700 13px/1 var(--font-display);
+  display:grid;
+  place-items:center;
+  flex:none;
+}
+.est-item-card.is-active .est-item-card__badge{
+  background:var(--red);
+  color:#fff;
+}
+.est-item-card__info{
+  min-width:0;
+  flex:1;
+}
+.est-item-card__top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  margin-bottom:2px;
+}
+.est-item-card__num{
+  font-size:11.5px;
+  font-weight:700;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.est-item-card__title{
+  font:700 14px/1.3 var(--font-display);
+  color:var(--ink);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:block;
+}
+.est-item-card__status{
+  margin-left:auto;
+  flex:none;
+}
+
+/* Columna Derecha: Detalle de Sesión / Tarea */
+.est-detail-panel{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:var(--shadow-sm);
+  overflow:hidden;
+}
+.est-detail-hero{
+  padding:24px 28px;
+  background:linear-gradient(180deg,#FFFFFF 0%,#FAF8F9 100%);
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.est-detail-hero__main h2{
+  margin:4px 0 6px;
+  font:700 22px/1.25 var(--font-display);
+  color:var(--ink);
+}
+.est-detail-hero__meta{
+  font-size:12.5px;
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.est-detail-body{
+  padding:26px 28px;
+}
+
+.est-desc-box{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px 18px;
+  font-size:14px;
+  line-height:1.6;
+  color:var(--ink-2);
+  margin-bottom:26px;
+}
+
+/* Lista de Materiales / Lecciones */
+.est-section-title{
+  margin:0 0 16px;
+  font:700 17px/1.2 var(--font-display);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.est-materials-grid{
+  display:grid;
+  gap:14px;
+}
+.est-material-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px 18px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:16px;
+  align-items:center;
+  transition:all .16s;
+  box-shadow:0 2px 6px rgba(25,23,24,.02);
+}
+.est-material-card:hover{
+  border-color:#CFC8CB;
+  box-shadow:var(--shadow-sm);
+}
+.est-mat-icon{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  flex:none;
+}
+.est-mat-icon.video{background:var(--red-soft);color:var(--red)}
+.est-mat-icon.pdf{background:var(--blue-soft);color:var(--blue-dark)}
+.est-mat-icon.partitura{background:var(--gold-soft);color:var(--gold-dark)}
+
+.est-mat-info strong{
+  display:block;
+  font:700 15px/1.3 var(--font-display);
+  color:var(--ink);
+  margin-bottom:3px;
+}
+.est-mat-info p{
+  margin:0 0 6px;
+  font-size:13px;
+  color:var(--ink-3);
+  line-height:1.45;
+}
+.est-mat-meta{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:12px;
+  color:var(--muted);
+  flex-wrap:wrap;
+}
+.est-mat-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* Panel de Sesión Bloqueada / Sin Autorización */
+.est-state-panel{
+  padding:60px 24px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.est-state-icon{
+  width:64px;
+  height:64px;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  margin-bottom:18px;
+}
+.est-state-icon.lock{background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+.est-state-icon.danger{background:var(--red-soft);color:var(--red)}
+.est-state-panel h3{
+  margin:0 0 8px;
+  font:700 20px/1.3 var(--font-display);
+  color:var(--ink);
+}
+.est-state-panel p{
+  margin:0 0 20px;
+  max-width:440px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.55;
+}
+
+/* ===================================================================
+   VISTA DE DETALLE DE TAREA Y ZONA DE SUBIDA
+   =================================================================== */
+.est-task-consigna{
+  background:linear-gradient(135deg,#FFFDFD 0%,#FAF7F8 100%);
+  border:1px solid var(--red-border);
+  border-left:5px solid var(--red);
+  border-radius:14px;
+  padding:20px 22px;
+  margin-bottom:24px;
+}
+.est-task-consigna__head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+  flex-wrap:wrap;
+}
+.est-deadline-badge{
+  font-size:12.5px;
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--red-dark);
+}
+.est-deadline-badge.ontime{color:var(--ink-2)}
+
+.est-upload-area{
+  border:2px dashed #CFC9CB;
+  border-radius:14px;
+  background:var(--surface);
+  padding:26px 20px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .18s;
+  margin-top:14px;
+}
+.est-upload-area:hover, .est-upload-area.is-dragover{
+  border-color:var(--red);
+  background:var(--red-soft);
+}
+.est-upload-area__icon{
+  width:46px;
+  height:46px;
+  border-radius:12px;
+  background:#fff;
+  color:var(--red);
+  display:grid;
+  place-items:center;
+  margin:0 auto 10px;
+  box-shadow:var(--shadow-sm);
+}
+.est-upload-area strong{
+  display:block;
+  font-size:14.5px;
+  color:var(--ink);
+  margin-bottom:4px;
+}
+.est-upload-area small{
+  display:block;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.est-files-staged{
+  margin-top:18px;
+  display:grid;
+  gap:8px;
+}
+.est-staged-file{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:9px 14px;
+  font-size:13px;
+}
+.est-staged-file strong{
+  font-weight:600;
+  color:var(--ink);
+}
+.est-staged-file span{
+  color:var(--muted);
+  font-size:12px;
+}
+.est-remove-file-btn{
+  border:0;
+  background:none;
+  color:var(--muted);
+  width:26px;
+  height:26px;
+  border-radius:6px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  transition:.15s;
+}
+.est-remove-file-btn:hover{
+  background:var(--red-soft);
+  color:var(--red);
+}
+
+.est-task-actions-row{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  margin-top:20px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+  flex-wrap:wrap;
+}
+
+/* ===================================================================
+   PANTALLA DEDICADA "VER DETALLES" (#/tarea/ID/detalle)
+   =================================================================== */
+.est-full-detail{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+.est-detail-backbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--ink);
+  color:#fff;
+  padding:14px 20px;
+  border-radius:14px;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.est-detail-backbar a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  font-size:13.5px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.est-detail-backbar a:hover{
+  color:var(--red-on-dark);
+}
+
+.est-stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0,1fr));
+  gap:16px;
+}
+.est-stat-box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px 18px;
+  box-shadow:var(--shadow-sm);
+}
+.est-stat-box small{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.est-stat-box strong{
+  font:700 18px/1.2 var(--font-display);
+  color:var(--ink);
+}
+.est-stat-box.highlight small{
+  color:var(--red);
+}
+
+/* Línea de Progreso de Estado */
+.est-progress-box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px 24px;
+  box-shadow:var(--shadow-sm);
+}
+.est-progress-box h3{
+  margin:0 0 16px;
+  font:700 15px/1.2 var(--font-display);
+  color:var(--ink);
+}
+.est-stepper{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  position:relative;
+  gap:10px;
+}
+.est-stepper::before{
+  content:"";
+  position:absolute;
+  top:18px;
+  left:15%;
+  right:15%;
+  height:3px;
+  background:#EAE6E7;
+  z-index:1;
+}
+.est-step-node{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  position:relative;
+  z-index:2;
+}
+.est-step-circle{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid #D4CFD1;
+  color:var(--muted);
+  display:grid;
+  place-items:center;
+  font-weight:700;
+  font-size:13px;
+  margin-bottom:8px;
+  transition:all .2s;
+}
+.est-step-label{
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--muted);
+}
+.est-step-node.completed .est-step-circle{
+  background:var(--green);
+  border-color:var(--green-dark);
+  color:#fff;
+}
+.est-step-node.completed .est-step-label{
+  color:var(--green-dark);
+  font-weight:700;
+}
+.est-step-node.observed .est-step-circle{
+  background:var(--red);
+  border-color:var(--red-dark);
+  color:#fff;
+}
+.est-step-node.observed .est-step-label{
+  color:var(--red-dark);
+  font-weight:700;
+}
+.est-step-node.current .est-step-circle{
+  border-color:var(--gold);
+  color:var(--gold-dark);
+  background:var(--gold-soft);
+}
+
+.est-detail-split{
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);
+  gap:20px;
+  align-items:start;
+}
+.est-content-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px 24px;
+  box-shadow:var(--shadow-sm);
+}
+.est-content-card h3{
+  margin:0 0 14px;
+  font:700 17px/1.2 var(--font-display);
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* Retroalimentación docente */
+.est-feedback-card{
+  background:linear-gradient(180deg,#FFFFFF 0%,#FBF9FA 100%);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px 24px;
+  box-shadow:var(--shadow-sm);
+}
+.est-teacher-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+}
+.est-teacher-avatar{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:var(--red-soft);
+  color:var(--red-dark);
+  font:700 15px/1 var(--font-display);
+  display:grid;
+  place-items:center;
+}
+.est-teacher-header strong{
+  display:block;
+  font:700 15px/1.2 var(--font-display);
+  color:var(--ink);
+}
+.est-teacher-header small{
+  color:var(--muted);
+  font-size:12px;
+}
+.est-feedback-text{
+  font-size:14px;
+  line-height:1.6;
+  color:var(--ink-2);
+  margin:0;
+  padding:14px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+
+/* Modales */
+.overlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(25,23,24,.65);
+  backdrop-filter:blur(6px);
+  z-index:60;
+}
+.overlay.is-open{display:flex}
+.dialog{
+  background:#fff;
+  border-radius:20px;
+  width:min(660px,100%);
+  max-height:calc(100vh - 40px);
+  overflow:auto;
+  box-shadow:var(--shadow-lg);
+  animation:pop .18s cubic-bezier(.16,1,.3,1);
+}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.dialog__head{display:flex;align-items:center;gap:12px;padding:20px 24px 14px;border-bottom:1px solid var(--line)}
+.dialog__title{margin:0;font:700 18px/1.2 var(--font-display);color:var(--ink)}
+.dialog__close{margin-left:auto;border:0;background:none;color:var(--muted);width:32px;height:32px;border-radius:8px;display:grid;place-items:center}
+.dialog__close:hover{background:var(--surface);color:var(--ink)}
+.dialog__body{padding:20px 24px}
+.dialog__foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px 20px;border-top:1px solid var(--line);background:var(--surface);border-radius:0 0 20px 20px}
+
+/* Toasts */
+.toasts{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:90;pointer-events:none}
+.toast{pointer-events:auto;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;width:min(390px,calc(100vw - 32px));background:#fff;border-radius:12px;padding:13px 14px;border-left:5px solid var(--green);box-shadow:0 12px 32px rgba(25,23,24,.22);animation:slide .2s ease-out}
+.toast--error{border-color:var(--red)}
+.toast--info{border-color:var(--ink)}
+.toast p{margin:0;font-size:13.5px}
+.toast__x{border:0;background:none;color:var(--muted);padding:2px 6px}
+@keyframes slide{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+
+/* Responsive */
+@media (max-width:1080px){
+  .est-master-detail{grid-template-columns:1fr}
+  .est-side-list{position:static;max-height:none}
+  .est-detail-split{grid-template-columns:1fr}
+  .est-stats-grid{grid-template-columns:1fr}
+}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:280px;transform:translateX(-102%);transition:transform .22s}
+  body.nav-open .sidebar{transform:none}
+  body.nav-open .scrim{display:block;position:fixed;inset:0;background:rgba(25,23,24,.5);z-index:35}
+  .btn.menu-btn{display:inline-flex}
+  .main{padding:20px 16px 36px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></symbol>
+</svg>
+
+<div class="app">
+  <!-- ================= BARRA LATERAL ================= -->
+  <aside class="sidebar" id="estSidebar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 48 48">
+        <rect width="48" height="48" rx="12" fill="#CE2127"/>
+        <path d="M19 33V15l15-3v18" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="15.5" cy="33" r="4.2" fill="#fff"/>
+        <circle cx="30.5" cy="30" r="4.2" fill="#fff"/>
+      </svg>
+      <span class="brand-name">Dunamys</span>
+    </div>
+
+    <div class="user">
+      <div class="avatar" id="estUserAvatar">L</div>
+      <small>USUARIO: Alumno</small>
+      <strong id="estUserName">Lucía Mendoza</strong>
+    </div>
+
+    <nav class="nav" aria-label="Menú principal del estudiante">
+      <button type="button" class="nav-item is-active" id="estNavSesiones">
+        <svg class="i"><use href="#i-book"/></svg>
+        <span>Sesiones</span>
+        <svg class="i chev"><use href="#i-right"/></svg>
+      </button>
+      <button type="button" class="nav-item" id="estNavTareas">
+        <svg class="i"><use href="#i-pencil"/></svg>
+        <span>Tareas</span>
+        <svg class="i chev"><use href="#i-right"/></svg>
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      La música<span>transforma vidas</span>
+    </div>
+
+    <button type="button" class="sidebar-logout" id="estLogoutBtn">
+      <svg class="i"><use href="#i-logout"/></svg>
+      <span>Cerrar sesión</span>
+    </button>
+  </aside>
+  <div class="scrim" id="estScrim"></div>
+
+  <!-- ================= CONTENIDO PRINCIPAL ================= -->
+  <main class="main">
+    <!-- Cabecera de Página -->
+    <header class="page-head">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button type="button" class="btn btn--outline menu-btn" id="estMenuBtn" aria-label="Abrir menú de navegación">
+          <svg class="i"><use href="#i-menu"/></svg>
+        </button>
+        <div>
+          <h1 id="estPageTitle">Mis <span>Sesiones</span></h1>
+          <p id="estPageSubtitle">Accede a tus lecciones, materiales de estudio y tareas de práctica.</p>
+        </div>
+      </div>
+
+      <div class="head-actions">
+        <div class="course-chip" title="Curso matriculado">
+          <span class="course-chip__dot"></span>
+          <span>C-001 · Teclado Básico</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenedor dinámico según Hash -->
+    <div id="estAppContent"></div>
+  </main>
+</div>
+
+<!-- ================= MODALES ================= -->
+<!-- Modal de Vista Previa de Material -->
+<div class="overlay" id="estModalPreview" role="dialog" aria-modal="true" aria-labelledby="estPreviewTitle">
+  <div class="dialog">
+    <div class="dialog__head">
+      <h3 class="dialog__title" id="estPreviewTitle">Vista previa</h3>
+      <button type="button" class="dialog__close" id="estClosePreview" aria-label="Cerrar vista previa">
+        <svg class="i"><use href="#i-x"/></svg>
+      </button>
+    </div>
+    <div class="dialog__body" id="estPreviewBody"></div>
+    <div class="dialog__foot">
+      <button type="button" class="btn btn--outline" id="estPreviewCloseBtn">Cerrar</button>
+      <button type="button" class="btn btn--primary" id="estPreviewDownloadBtn">
+        <svg class="i"><use href="#i-download"/></svg> Descargar archivo
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toasts flotantes accesibles -->
+<div class="toasts" id="estToasts" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+
+  // ===================================================================
+  // 1. GUARDIA DE SESIÓN (RF034, RF050)
+  // ===================================================================
+  let sessionData = null;
+  try {
+    const raw = sessionStorage.getItem('dunamys_sesion');
+    if (raw) sessionData = JSON.parse(raw);
+  } catch (e) {
+    console.error('Error leyendo sesión:', e);
+  }
+
+  if (!sessionData || sessionData.rol !== 'Alumno') {
+    // Redirección inmediata si no hay sesión válida de Alumno
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // Sanitización de textos dinámicos
+  function esc(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // ===================================================================
+  // 2. MODELO DE DATOS Y CONSTANTES (RF035–RF041)
+  // ===================================================================
+  const CURRENT_STUDENT = {
+    correo: sessionData.correo || 'lucia.mendoza@dunamys.pe',
+    nombre: sessionData.nombre || 'Lucía Mendoza'
+  };
+
+  const STORAGE_KEY_ENTREGAS = `dunamys_entregas_${CURRENT_STUDENT.correo}`;
+
+  // Extensiones permitidas y peso máximo (200 MB)
+  const ALLOWED_EXTENSIONS = ['mp4','webm','mov','mp3','wav','pdf','png','jpg','jpeg','doc','docx','ppt','pptx','zip','musicxml','mxl'];
+  const MAX_FILE_BYTES = 200 * 1024 * 1024; // 200 MB
+
+  // Cursos del sistema: C-001 (Matriculado) y C-004 (Para prueba RF035 CA02)
+  const COURSES = [
+    {
+      id: 1,
+      codigo: 'C-001',
+      nombre: 'Teclado Básico',
+      instrumento: 'Teclado',
+      docente: 'Prof. Dunamys',
+      sesiones: [
+        {
+          id: 101, numero: 1, titulo: 'Bienvenida al curso', fecha: '2026-10-05',
+          descripcion: 'En esta primera sesión se da la bienvenida al aula virtual y se establecen las bases de postura, altura del banco y digitación inicial.',
+          lecciones: [
+            { id: 1, tipo: 'Video HD', titulo: 'Presentación del curso y postura frente al teclado', desc: 'Conoce la posición correcta de muñecas, banco y relajación de hombros.', ref: 'bienvenida-postura.mp4 · 14.2 MB', duracion: '01:45' },
+            { id: 2, tipo: 'Guía PDF', titulo: 'Guía de inducción al teclado', desc: 'Resumen ilustrado de las 88 teclas y recomendaciones de estudio diario.', ref: 'guia-induccion.pdf · 2.1 MB', duracion: 'PDF' }
+          ],
+          tarea: {
+            id: 201, titulo: 'Presentación y postura inicial',
+            desc: 'Realiza los primeros ejercicios básicos frente al teclado cuidando la espalda y muñecas, tal como se muestra en la lección, y adjunta tu evidencia.',
+            publicada: '2026-10-05', limite: '2026-10-12',
+            archivoDocente: 'pautas_postura_inicial.pdf · 1.4 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 102, numero: 2, titulo: 'Conociendo el teclado', fecha: '2026-10-12',
+          descripcion: 'Identificación de notas naturales (blancas) y notas alteradas (negras: sostenidos y bemoles), con ejercicios auditivos y visuales.',
+          lecciones: [
+            { id: 3, tipo: 'Video HD', titulo: 'Notas naturales', desc: 'Aprende a ubicar el Do Central y la serie de notas naturales en las 7 octavas.', ref: 'notas-naturales.mp4 · 18.4 MB', duracion: '02:10' },
+            { id: 4, tipo: 'Video HD', titulo: 'Notas alteradas', desc: 'Las teclas negras y su función tonal en sostenidos y bemoles.', ref: 'notas-alteradas.mp4 · 21.0 MB', duracion: '02:45' },
+            { id: 5, tipo: 'Partitura', titulo: 'Escalas mayores y menores', desc: 'Partitura didáctica con digitación de la Escala de Do Mayor y La Menor.', ref: 'escalas-mayores-menores.pdf · 2.8 MB', duracion: 'Partitura' }
+          ],
+          tarea: {
+            id: 202, titulo: 'Escalas mayores y menores',
+            desc: 'Realiza ejercicios de digitación en escalas mayores y menores a 80 BPM, tal como se muestra en el video demostrativo, y sube tu evidencia.',
+            publicada: '2026-10-12', limite: '2026-10-19',
+            archivoDocente: 'ejercicios_escalas.pdf · 1.8 MB',
+            enlace: 'https://dunamys.pe/aula/guia-escalas'
+          }
+        },
+        {
+          id: 103, numero: 3, titulo: 'Digitación', fecha: '2026-10-19',
+          descripcion: 'Desarrollo de fuerza, flexibilidad y total independencia en los dedos del 1 al 5 en ambas manos mediante ejercicios progresivos.',
+          lecciones: [
+            { id: 6, tipo: 'Guía PDF', titulo: 'Independencia de dedos 1 al 5 (Hanon)', desc: 'Ejercicios progresivos de coordinación simétrica para ambas manos.', ref: 'digitacion-hanon.pdf · 2.4 MB', duracion: 'PDF' },
+            { id: 7, tipo: 'Video HD', titulo: 'Demostración de ejercicios Hanon con metrónomo', desc: 'Técnica de articulación de yemas y paso suave sin tensión.', ref: 'hanon-demostracion.mp4 · 22.5 MB', duracion: '03:15' }
+          ],
+          tarea: {
+            id: 203, titulo: 'Ejercicio Hanon N° 1',
+            desc: 'Ejecuta el ejercicio de digitación Hanon N° 1 a un pulso mínimo de 60 BPM manteniendo relajación de muñeca.',
+            publicada: '2026-10-19', limite: '2026-10-26',
+            archivoDocente: 'partitura_hanon_1.pdf · 1.6 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 104, numero: 4, titulo: 'Acordes y acompañamiento', fecha: '2026-10-26',
+          descripcion: 'Construcción de tríadas mayores y menores en estado fundamental e iniciación a los patrones rítmicos de acompañamiento.',
+          lecciones: [
+            { id: 8, tipo: 'Video HD', titulo: 'Tríadas básicas y posiciones de la mano', desc: 'Formación de acordes de Do, Fa, Sol y Lam con digitación recomendada.', ref: 'triadas-basicas.mp4 · 24.1 MB', duracion: '03:40' },
+            { id: 9, tipo: 'Partitura', titulo: 'Progresiones de acordes pop/balada', desc: 'Esquema de cifrado y notas para práctica con ambas manos.', ref: 'progresiones-balada.pdf · 2.0 MB', duracion: 'Partitura' }
+          ],
+          tarea: {
+            id: 204, titulo: 'Acompañamiento en 4/4',
+            desc: 'Toca la secuencia de acordes Do - Lam - Fa - Sol siguiendo el pulso de 4 tiempos por compás.',
+            publicada: '2026-10-26', limite: '2026-11-02',
+            archivoDocente: 'guia_acordes_4_4.pdf · 1.3 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 105, numero: 5, titulo: 'Lectura de partituras', fecha: '2026-11-02',
+          descripcion: 'Lectura simultánea en Clave de Sol (mano derecha) y Clave de Fa (mano izquierda). Ejercicios a primera vista.',
+          lecciones: [
+            { id: 10, tipo: 'Guía PDF', titulo: 'Lectura en dos pentagramas', desc: 'Guía de relación espacial entre notas del pentagrama y teclas físicas.', ref: 'lectura-dos-pentagramas.pdf · 3.1 MB', duracion: 'PDF' },
+            { id: 11, tipo: 'Video HD', titulo: 'Coordinación visual-motriz en partitura', desc: 'Estrategias para anticipar la lectura sin mirar las teclas.', ref: 'coordinacion-partituras.mp4 · 19.3 MB', duracion: '02:50' }
+          ],
+          tarea: {
+            id: 205, titulo: 'Lectura de partituras',
+            desc: 'Realiza ejercicios de lectura de partituras en escalas mayores y menores, tal como se muestra en el video, y sube tu evidencia.',
+            publicada: '2026-11-02', limite: '2026-11-20',
+            archivoDocente: 'partitura_ejercicio_5.pdf · 1.2 MB',
+            enlace: null
+          }
+        },
+        {
+          id: 106, numero: 6, titulo: 'Practicando melodías', fecha: '2026-11-09',
+          descripcion: 'Ensamble de melodía y armonía: interpretación de tu primera pieza musical completa al piano.',
+          lecciones: [
+            { id: 12, tipo: 'Video HD', titulo: 'Interpretación de "Oda a la Alegría"', desc: 'Paso a paso para unir melodía con bajo continuo.', ref: 'oda-alegria-tutorial.mp4 · 28.0 MB', duracion: '04:10' },
+            { id: 13, tipo: 'Partitura', titulo: 'Partitura completa de ensamble', desc: 'Arreglo para teclado básico en dos sistemas.', ref: 'oda-alegria-partitura.pdf · 2.5 MB', duracion: 'Partitura' }
+          ],
+          tarea: {
+            id: 206, titulo: 'Interpretación de pieza completa',
+            desc: 'Graba tu ejecución de la pieza con ambas manos a tempo uniforme y con articulación clara.',
+            publicada: '2026-11-09', limite: '2026-11-30',
+            archivoDocente: 'rubrica_evaluacion_final.pdf · 1.1 MB',
+            enlace: null
+          }
+        }
+      ]
+    },
+    {
+      id: 4,
+      codigo: 'C-004',
+      nombre: 'Guitarra Básico',
+      instrumento: 'Guitarra',
+      docente: 'Prof. Mario',
+      sesiones: [
+        {
+          id: 401, numero: 1, titulo: 'Afinación y postura de guitarra', fecha: '2026-10-04',
+          descripcion: 'Sesión del curso de Guitarra (Curso no matriculado para Lucía).',
+          lecciones: [],
+          tarea: { id: 4011, titulo: 'Prueba de afinador', desc: 'No disponible.', publicada: '2026-10-04', limite: '2026-10-11' }
+        }
+      ]
+    }
+  ];
+
+  // Entregas iniciales por defecto de Lucía (se cargan si no hay nada en localStorage)
+  const DEFAULT_ENTREGAS = {
+    101: {
+      sesionId: 101,
+      tareaId: 201,
+      fecha: '2026-10-09T20:14:00',
+      archivos: [{ nombre: 'evidencia_postura_lucia.mp4', tamano: '24.5 MB', tipo: 'video/mp4' }],
+      estado: 'Aprobada',
+      nota: 18,
+      comentario: 'Excelente postura de manos y espalda recta. Buen pulso constante durante todo el ejercicio.',
+      revisadaEl: '10 oct 2026, 11:30 am',
+      conRetraso: false
+    },
+    102: {
+      sesionId: 102,
+      tareaId: 202,
+      fecha: '2026-10-16T17:20:00',
+      archivos: [{ nombre: 'escalas_lucia_mendoza.mp4', tamano: '32.1 MB', tipo: 'video/mp4' }],
+      estado: 'Aprobada',
+      nota: 19,
+      comentario: 'Muy buena fluidez en el paso del pulgar en Do Mayor y Sol Mayor. Gran progreso.',
+      revisadaEl: '17 oct 2026, 09:15 am',
+      conRetraso: false
+    },
+    103: {
+      sesionId: 103,
+      tareaId: 203,
+      fecha: '2026-10-24T19:00:00',
+      archivos: [{ nombre: 'hanon_lucia_intento1.mp4', tamano: '28.0 MB', tipo: 'video/mp4' }],
+      estado: 'Observada',
+      nota: 13,
+      comentario: 'Mantén los dedos curvos al tocar las teclas negras y cuida el tempo con metrónomo. Corrige la rigidez del hombro derecho.',
+      revisadaEl: '25 oct 2026, 15:40 pm',
+      conRetraso: false
+    },
+    104: {
+      sesionId: 104,
+      tareaId: 204,
+      fecha: '2026-10-31T16:45:00',
+      archivos: [{ nombre: 'acordes_acompanamiento_lucia.mp4', tamano: '41.2 MB', tipo: 'video/mp4' }],
+      estado: 'Pendiente',
+      nota: null,
+      comentario: '',
+      revisadaEl: null,
+      conRetraso: false
+    }
+    // Sesión 105: sin entrega (En proceso)
+    // Sesión 106: bloqueada
+  };
+
+  // Cargar entregas de localStorage o inicializar con defaults
+  function getEntregas() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY_ENTREGAS);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {
+      console.warn('Error leyendo entregas guardadas:', e);
+    }
+    saveEntregas(DEFAULT_ENTREGAS);
+    return { ...DEFAULT_ENTREGAS };
+  }
+
+  function saveEntregas(data) {
+    try {
+      localStorage.setItem(STORAGE_KEY_ENTREGAS, JSON.stringify(data));
+    } catch (e) {
+      console.error('Error persistiendo entregas:', e);
+    }
+  }
+
+  // ===================================================================
+  // 3. ESTADOS DE SESIÓN Y TAREA (RF038, RF040, RF041)
+  // ===================================================================
+  // Calcula el estado de cada sesión de un curso para el alumno
+  function calculateSessionStates(course, entregas) {
+    const states = {};
+    const sesiones = course.sesiones;
+
+    for (let i = 0; i < sesiones.length; i++) {
+      const s = sesiones[i];
+      const hasEntrega = !!entregas[s.id];
+
+      if (hasEntrega) {
+        states[s.id] = 'Completada';
+      } else {
+        if (i === 0) {
+          states[s.id] = 'En proceso';
+        } else {
+          const prevSession = sesiones[i - 1];
+          const prevDone = !!entregas[prevSession.id];
+          states[s.id] = prevDone ? 'En proceso' : 'Bloqueada';
+        }
+      }
+    }
+    return states;
+  }
+
+  // ===================================================================
+  // 4. ELEMENTOS DE UI Y SISTEMA DE TOASTS
+  // ===================================================================
+  const appContent = document.getElementById('estAppContent');
+  const pageTitle = document.getElementById('estPageTitle');
+  const pageSubtitle = document.getElementById('estPageSubtitle');
+  const navSesiones = document.getElementById('estNavSesiones');
+  const navTareas = document.getElementById('estNavTareas');
+  const sidebar = document.getElementById('estSidebar');
+  const scrim = document.getElementById('estScrim');
+  const menuBtn = document.getElementById('estMenuBtn');
+  const logoutBtn = document.getElementById('estLogoutBtn');
+  const toastsWrap = document.getElementById('estToasts');
+
+  // Modal preview
+  const modalPreview = document.getElementById('estModalPreview');
+  const previewTitle = document.getElementById('estPreviewTitle');
+  const previewBody = document.getElementById('estPreviewBody');
+  const closePreviewBtn = document.getElementById('estClosePreview');
+  const previewCloseBtn = document.getElementById('estPreviewCloseBtn');
+  const previewDownloadBtn = document.getElementById('estPreviewDownloadBtn');
+  let currentPreviewMat = null;
+
+  // Actualizar datos del usuario en la barra lateral
+  document.getElementById('estUserName').textContent = CURRENT_STUDENT.nombre;
+  const initial = (CURRENT_STUDENT.nombre || 'A').charAt(0).toUpperCase();
+  document.getElementById('estUserAvatar').textContent = initial;
+
+  // Toggle menú responsive móvil
+  menuBtn.addEventListener('click', () => {
+    document.body.classList.toggle('nav-open');
+  });
+  scrim.addEventListener('click', () => {
+    document.body.classList.remove('nav-open');
+  });
+
+  // Cerrar sesión
+  logoutBtn.addEventListener('click', () => {
+    sessionStorage.removeItem('dunamys_sesion');
+    window.location.href = 'login.html';
+  });
+
+  // Notificaciones Toast accesibles
+  function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast--${type}`;
+    toast.setAttribute('role', 'status');
+
+    let icon = '#i-check';
+    if (type === 'error') icon = '#i-alert';
+    if (type === 'info') icon = '#i-clock';
+
+    toast.innerHTML = `
+      <svg class="i"><use href="${icon}"/></svg>
+      <p>${esc(message)}</p>
+      <button type="button" class="toast__x" aria-label="Cerrar notificación">✕</button>
+    `;
+
+    toast.querySelector('.toast__x').addEventListener('click', () => {
+      toast.remove();
+    });
+
+    toastsWrap.appendChild(toast);
+    setTimeout(() => {
+      if (toast.parentNode) toast.remove();
+    }, 4500);
+  }
+
+  // Descarga real de archivos dummy con Blob (RF037)
+  function triggerRealDownload(filename, textContent = '') {
+    const dummyData = textContent || `Contenido de demostración de la Academia de Música Dunamys.\nArchivo: ${filename}\nFecha de generación: ${new Date().toLocaleString('es-PE')}\n`;
+    const blob = new Blob([dummyData], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast(`Descargando "${filename}"...`, 'info');
+  }
+
+  // ===================================================================
+  // 5. MODAL DE VISTA PREVIA (RF037)
+  // ===================================================================
+  function openMaterialPreview(mat) {
+    currentPreviewMat = mat;
+    previewTitle.textContent = mat.titulo;
+
+    let mediaHtml = '';
+    if (mat.tipo.includes('Video')) {
+      mediaHtml = `
+        <div style="background:var(--ink);border-radius:14px;padding:40px 20px;text-align:center;color:#fff;margin-bottom:16px;">
+          <div style="width:60px;height:60px;border-radius:50%;background:var(--red);display:grid;place-items:center;margin:0 auto 12px;font-size:24px;">▶</div>
+          <strong style="display:block;font-size:16px;margin-bottom:4px;">Reproducción simulada: ${esc(mat.ref)}</strong>
+          <small style="color:#D3CDCF;">Duración: ${esc(mat.duracion)} · Video HD 1080p Cinema Dunamys</small>
+        </div>
+      `;
+    } else {
+      mediaHtml = `
+        <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:32px 20px;text-align:center;margin-bottom:16px;">
+          <div style="width:54px;height:54px;border-radius:14px;background:var(--blue-soft);color:var(--blue-dark);display:grid;place-items:center;margin:0 auto 12px;">
+            <svg class="i" style="width:28px;height:28px;"><use href="#i-file"/></svg>
+          </div>
+          <strong style="display:block;font-size:16px;color:var(--ink);margin-bottom:4px;">Documento: ${esc(mat.ref)}</strong>
+          <small style="color:var(--muted);">Visualizador de documento interactivo (Guía / Partitura oficial Dunamys)</small>
+        </div>
+      `;
+    }
+
+    previewBody.innerHTML = `
+      ${mediaHtml}
+      <div style="font-size:14px;line-height:1.6;color:var(--ink-2);">
+        <strong style="display:block;margin-bottom:4px;color:var(--ink);">Descripción de la lección:</strong>
+        <p style="margin:0 0 12px;">${esc(mat.desc)}</p>
+        <span class="pill blue">${esc(mat.tipo)}</span>
+      </div>
+    `;
+
+    modalPreview.classList.add('is-open');
+    document.body.classList.add('no-scroll');
+    previewCloseBtn.focus();
+  }
+
+  function closeMaterialPreview() {
+    modalPreview.classList.remove('is-open');
+    document.body.classList.remove('no-scroll');
+    currentPreviewMat = null;
+  }
+
+  closePreviewBtn.addEventListener('click', closeMaterialPreview);
+  previewCloseBtn.addEventListener('click', closeMaterialPreview);
+  modalPreview.addEventListener('click', (e) => {
+    if (e.target === modalPreview) closeMaterialPreview();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalPreview.classList.contains('is-open')) {
+      closeMaterialPreview();
+    }
+  });
+
+  previewDownloadBtn.addEventListener('click', () => {
+    if (currentPreviewMat) {
+      const fileName = currentPreviewMat.ref.split('·')[0].trim();
+      triggerRealDownload(fileName, `Lección: ${currentPreviewMat.titulo}\n${currentPreviewMat.desc}`);
+    }
+  });
+
+  // ===================================================================
+  // 6. EN RUTAMIENTO Y RENDERIZADO (HASH ROUTING)
+  // ===================================================================
+  function parseHash() {
+    const raw = window.location.hash.replace(/^#\/?/, '');
+    const parts = raw.split('/').filter(Boolean);
+    return {
+      route: parts[0] || 'sesiones',
+      param1: parts[1] || null,
+      param2: parts[2] || null
+    };
+  }
+
+  // Lista de archivos en preparación para entrega (staged files)
+  let stagedFiles = [];
+
+  function render() {
+    document.body.classList.remove('nav-open');
+    const { route, param1, param2 } = parseHash();
+    const entregas = getEntregas();
+    const userCourse = COURSES[0]; // C-001 Teclado Básico
+    const sessionStates = calculateSessionStates(userCourse, entregas);
+
+    // Sincronizar botones de navegación
+    navSesiones.classList.toggle('is-active', route === 'sesiones' || route === 'sesion');
+    navTareas.classList.toggle('is-active', route === 'tareas' || route === 'tarea');
+
+    // Comprobar intento de acceso a otro curso (RF035 CA02)
+    if (route === 'sesion' && param1) {
+      const sId = parseInt(param1, 10);
+      const isUserSession = userCourse.sesiones.some(s => s.id === sId);
+      if (!isUserSession) {
+        renderUnauthorizedPanel();
+        return;
+      }
+    }
+
+    if (route === 'sesiones' || route === 'sesion') {
+      renderSesionesView(userCourse, sessionStates, param1 ? parseInt(param1, 10) : null);
+    } else if (route === 'tareas' || (route === 'tarea' && param2 !== 'detalle')) {
+      renderTareasView(userCourse, sessionStates, entregas, param1 ? parseInt(param1, 10) : null);
+    } else if (route === 'tarea' && param2 === 'detalle') {
+      renderDetalleEntregaView(userCourse, entregas, parseInt(param1, 10));
+    } else {
+      window.location.hash = '#/sesiones';
+    }
+  }
+
+  // Panel de Acceso No Autorizado (RF035 CA02)
+  function renderUnauthorizedPanel() {
+    pageTitle.innerHTML = 'Acceso <span>Restringido</span>';
+    pageSubtitle.textContent = 'Verificación de matrícula del alumno';
+
+    appContent.innerHTML = `
+      <div class="est-detail-panel">
+        <div class="est-state-panel">
+          <div class="est-state-icon danger">
+            <svg class="i" style="width:32px;height:32px;"><use href="#i-alert"/></svg>
+          </div>
+          <h3>No tienes autorización para acceder a esta sesión</h3>
+          <p>Esta sesión pertenece a un curso en el que no te encuentras matriculado actualmente (RF035 CA02). Si consideras que es un error, comunícate con la administración de Dunamys.</p>
+          <a href="#/sesiones" class="btn btn--primary">
+            <svg class="i"><use href="#i-left"/></svg> Volver a mis sesiones
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  // ===================================================================
+  // 7. PANTALLA: SESIONES (RF035, RF036, RF037, RF038)
+  // ===================================================================
+  function renderSesionesView(course, sessionStates, selectedId) {
+    pageTitle.innerHTML = 'Mis <span>Sesiones</span>';
+    pageSubtitle.textContent = 'Explora el temario ordenado, visualiza lecciones y descarga tus materiales de estudio.';
+
+    // Determinar la sesión activa
+    let activeSession = course.sesiones.find(s => s.id === selectedId);
+    if (!activeSession) {
+      // Buscar primera en proceso o completada
+      activeSession = course.sesiones.find(s => sessionStates[s.id] === 'En proceso') || course.sesiones[0];
+    }
+
+    const activeState = sessionStates[activeSession.id];
+
+    // Columna Izquierda: Lista de sesiones 1 a 6
+    const listHtml = course.sesiones.map(s => {
+      const state = sessionStates[s.id];
+      const isSelected = s.id === activeSession.id;
+      let badgeClass = 'neutral';
+      let badgeText = state;
+      let icon = '';
+
+      if (state === 'Completada') {
+        badgeClass = 'green';
+        icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-check"/></svg>';
+      } else if (state === 'En proceso') {
+        badgeClass = 'blue';
+      } else if (state === 'Bloqueada') {
+        badgeClass = 'neutral';
+        icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-lock"/></svg>';
+      }
+
+      return `
+        <button type="button" class="est-item-card ${isSelected ? 'is-active' : ''} ${state === 'Bloqueada' ? 'is-locked' : ''}" data-session-id="${s.id}">
+          <div class="est-item-card__badge">${s.numero}</div>
+          <div class="est-item-card__info">
+            <div class="est-item-card__top">
+              <span class="est-item-card__num">Sesión ${s.numero}</span>
+              <span class="pill ${badgeClass}">${icon} ${esc(badgeText)}</span>
+            </div>
+            <strong class="est-item-card__title">${esc(s.titulo)}</strong>
+          </div>
+        </button>
+      `;
+    }).join('');
+
+    // Columna Derecha: Detalle de la sesión elegida
+    let detailHtml = '';
+    if (activeState === 'Bloqueada') {
+      detailHtml = `
+        <div class="est-state-panel">
+          <div class="est-state-icon lock">
+            <svg class="i" style="width:32px;height:32px;"><use href="#i-lock"/></svg>
+          </div>
+          <h3>Sesión ${activeSession.numero}: ${esc(activeSession.titulo)}</h3>
+          <p>Debes completar la sesión anterior para acceder a esta (RF038). Entrega la tarea pendiente para desbloquear el contenido y materiales.</p>
+          <a href="#/sesiones" class="btn btn--outline" id="estGoPrevSessionBtn">
+            <svg class="i"><use href="#i-left"/></svg> Ver sesiones disponibles
+          </a>
+        </div>
+      `;
+    } else {
+      // Materiales/Lecciones
+      const materialsHtml = activeSession.lecciones.length ? activeSession.lecciones.map(mat => {
+        let iconType = 'pdf';
+        let iconSymbol = '#i-file';
+        if (mat.tipo.includes('Video')) {
+          iconType = 'video';
+          iconSymbol = '#i-video';
+        } else if (mat.tipo.includes('Partitura')) {
+          iconType = 'partitura';
+          iconSymbol = '#i-book';
+        }
+
+        return `
+          <div class="est-material-card">
+            <div class="est-mat-icon ${iconType}">
+              <svg class="i" style="width:22px;height:22px;"><use href="${iconSymbol}"/></svg>
+            </div>
+            <div class="est-mat-info">
+              <strong>${esc(mat.titulo)}</strong>
+              <p>${esc(mat.desc)}</p>
+              <div class="est-mat-meta">
+                <span class="pill ${iconType === 'video' ? 'red' : iconType === 'pdf' ? 'blue' : 'gold'}">${esc(mat.tipo)}</span>
+                <span>${esc(mat.ref)}</span>
+                <span>• Duración: ${esc(mat.duracion)}</span>
+              </div>
+            </div>
+            <div class="est-mat-actions">
+              <button type="button" class="btn btn--outline btn--sm est-btn-preview" data-mat-id="${mat.id}">
+                <svg class="i"><use href="#i-eye"/></svg> Ver
+              </button>
+              <button type="button" class="btn btn--primary btn--sm est-btn-download" data-mat-ref="${esc(mat.ref)}" data-mat-title="${esc(mat.titulo)}">
+                <svg class="i"><use href="#i-download"/></svg> Descargar
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('') : `<p class="muted">Esta sesión aún no tiene lecciones adicionales asignadas.</p>`;
+
+      detailHtml = `
+        <div class="est-detail-hero">
+          <div class="est-detail-hero__main">
+            <span class="pill ${activeState === 'Completada' ? 'green' : 'blue'}">
+              ${activeState === 'Completada' ? '✔ Sesión completada' : 'En proceso'}
+            </span>
+            <h2>Sesión ${activeSession.numero}: ${esc(activeSession.titulo)}</h2>
+            <div class="est-detail-hero__meta">
+              <span>📅 Publicada: ${esc(activeSession.fecha)}</span>
+              <span>•</span>
+              <span>Docente: ${esc(course.docente)}</span>
+              <span>•</span>
+              <span>${activeSession.lecciones.length} material(es) disponibles</span>
+            </div>
+          </div>
+          <div>
+            <a href="#/tarea/${activeSession.id}" class="btn btn--primary">
+              <span>Ir a la tarea de esta sesión</span>
+              <svg class="i"><use href="#i-right"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="est-detail-body">
+          <div class="est-desc-box">
+            <strong>Acerca de esta sesión:</strong>
+            <div>${esc(activeSession.descripcion)}</div>
+          </div>
+
+          <div class="est-section-title">
+            <span>Materiales y recursos de la sesión (RF037)</span>
+            <small class="muted" style="font-weight:normal;font-size:12.5px;">Descarga y visualiza sin conexión</small>
+          </div>
+          <div class="est-materials-grid">
+            ${materialsHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    appContent.innerHTML = `
+      <div class="est-master-detail">
+        <aside class="est-side-list" aria-label="Lista de sesiones del curso">
+          <div class="est-side-list__head">
+            <h2>Sesiones del curso</h2>
+            <p>${course.codigo} · ${course.nombre}</p>
+          </div>
+          ${listHtml}
+        </aside>
+
+        <section class="est-detail-panel" aria-label="Detalle de sesión">
+          ${detailHtml}
+        </section>
+      </div>
+    `;
+
+    // Eventos de selección de sesión
+    appContent.querySelectorAll('.est-item-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-session-id');
+        window.location.hash = `#/sesion/${id}`;
+      });
+    });
+
+    // Eventos de previsualización y descarga
+    appContent.querySelectorAll('.est-btn-preview').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const matId = parseInt(btn.getAttribute('data-mat-id'), 10);
+        const mat = activeSession.lecciones.find(m => m.id === matId);
+        if (mat) openMaterialPreview(mat);
+      });
+    });
+
+    appContent.querySelectorAll('.est-btn-download').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const rawRef = btn.getAttribute('data-mat-ref');
+        const title = btn.getAttribute('data-mat-title');
+        const filename = rawRef.split('·')[0].trim();
+        triggerRealDownload(filename, `Recurso: ${title}\nDescargado desde Dunamys.`);
+      });
+    });
+  }
+
+  // ===================================================================
+  // 8. PANTALLA: TAREAS (RF039, RF040, RF041)
+  // ===================================================================
+  function renderTareasView(course, sessionStates, entregas, selectedId) {
+    pageTitle.innerHTML = 'Mis <span>Tareas</span>';
+    pageSubtitle.textContent = 'Entrega tus evidencias de práctica, consulta el estado de revisión y retroalimentación.';
+
+    // Determinar tarea/sesión activa
+    let activeSession = course.sesiones.find(s => s.id === selectedId);
+    if (!activeSession) {
+      // Buscar primera por entregar o la primera sesión disponible
+      activeSession = course.sesiones.find(s => sessionStates[s.id] === 'En proceso') || course.sesiones[0];
+    }
+
+    const sState = sessionStates[activeSession.id];
+    const entrega = entregas[activeSession.id] || null;
+
+    // Columna Izquierda: Lista de tareas
+    const listHtml = course.sesiones.map(s => {
+      const state = sessionStates[s.id];
+      const e = entregas[s.id];
+      const isSelected = s.id === activeSession.id;
+
+      let estadoTarea = 'Por entregar';
+      let icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-clock"/></svg>';
+      let pillClass = 'neutral';
+
+      if (state === 'Bloqueada') {
+        estadoTarea = 'Bloqueada';
+        icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-lock"/></svg>';
+        pillClass = 'neutral';
+      } else if (e) {
+        estadoTarea = e.estado; // 'Aprobada', 'Observada', 'Pendiente'
+        if (e.estado === 'Aprobada') {
+          icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-check"/></svg>';
+          pillClass = 'green';
+        } else if (e.estado === 'Observada') {
+          icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-alert"/></svg>';
+          pillClass = 'red';
+        } else if (e.estado === 'Pendiente') {
+          icon = '<svg class="i" style="width:14px;height:14px;"><use href="#i-clock"/></svg>';
+          pillClass = 'gold';
+        }
+      }
+
+      return `
+        <button type="button" class="est-item-card ${isSelected ? 'is-active' : ''} ${state === 'Bloqueada' ? 'is-locked' : ''}" data-task-id="${s.id}">
+          <div class="est-item-card__badge">${s.numero}</div>
+          <div class="est-item-card__info">
+            <div class="est-item-card__top">
+              <span class="est-item-card__num">Tarea Sesión ${s.numero}</span>
+              <span class="pill ${pillClass}">${icon} ${esc(estadoTarea)}</span>
+            </div>
+            <strong class="est-item-card__title">${esc(s.tarea.titulo)}</strong>
+          </div>
+        </button>
+      `;
+    }).join('');
+
+    // Columna Derecha: Detalle de la tarea y zona de entrega
+    let detailHtml = '';
+    if (sState === 'Bloqueada') {
+      detailHtml = `
+        <div class="est-state-panel">
+          <div class="est-state-icon lock">
+            <svg class="i" style="width:32px;height:32px;"><use href="#i-lock"/></svg>
+          </div>
+          <h3>Tarea Sesión ${activeSession.numero}: Bloqueada</h3>
+          <p>Para desbloquear esta tarea, primero debes entregar y completar la sesión anterior (RF038).</p>
+        </div>
+      `;
+    } else {
+      const t = activeSession.tarea;
+      const isDelivered = !!entrega && entrega.estado !== 'Observada';
+      const isObserved = !!entrega && entrega.estado === 'Observada';
+
+      // Material docente descargable
+      let teacherDocHtml = '';
+      if (t.archivoDocente) {
+        teacherDocHtml = `
+          <div style="margin-top:14px;">
+            <button type="button" class="btn btn--outline btn--sm est-btn-download-doc" data-file="${esc(t.archivoDocente)}">
+              <svg class="i"><use href="#i-file"/></svg>
+              <span>${esc(t.archivoDocente)} (Descargar consigna)</span>
+            </button>
+          </div>
+        `;
+      }
+
+      // Zona de acción: Ya entregada vs Por entregar / Observada
+      let submissionSectionHtml = '';
+
+      if (isDelivered) {
+        // Tarea entregada (Pendiente o Aprobada)
+        submissionSectionHtml = `
+          <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;margin-top:20px;text-align:center;">
+            <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;">
+              <span class="pill ${entrega.estado === 'Aprobada' ? 'green' : 'gold'}" style="font-size:13px;padding:5px 12px;">
+                ${entrega.estado === 'Aprobada' ? '✔ Tarea Aprobada' : '⏱ Entrega en revisión (Pendiente)'}
+              </span>
+            </div>
+            <p style="margin:0 0 16px;font-size:14px;color:var(--ink-2);">
+              Tu tarea fue enviada el <strong>${esc(new Date(entrega.fecha).toLocaleString('es-PE'))}</strong>.
+            </p>
+            <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+              <button type="button" class="btn btn--green" disabled>
+                <svg class="i"><use href="#i-check"/></svg> Tarea entregada ✓
+              </button>
+              <a href="#/tarea/${activeSession.id}/detalle" class="btn btn--primary">
+                <svg class="i"><use href="#i-eye"/></svg> Ver detalles de la entrega
+              </a>
+            </div>
+          </div>
+        `;
+      } else {
+        // Zona para entregar (o volver a entregar si está Observada)
+        let observedNotice = '';
+        if (isObserved) {
+          observedNotice = `
+            <div class="est-alert est-alert--warning" style="margin-bottom:16px;">
+              <svg class="i"><use href="#i-alert"/></svg>
+              <div>
+                <strong>Tarea Observada por el docente:</strong>
+                <div>"${esc(entrega.comentario || 'Por favor revisa la postura y vuelve a enviar.')}"</div>
+                <div style="margin-top:4px;font-size:12.5px;">Adjunta tus nuevos archivos a continuación para volver a entregar.</div>
+              </div>
+            </div>
+          `;
+        }
+
+        submissionSectionHtml = `
+          ${observedNotice}
+          <div class="est-section-title" style="margin-top:20px;">
+            <span>${isObserved ? 'Volver a entregar tarea' : 'Entregar tarea (RF039)'}</span>
+            <small class="muted" style="font-weight:normal;font-size:12px;">Formatos permitidos: video, audio, PDF, partitura, imágenes (máx. 200 MB)</small>
+          </div>
+
+          <!-- Dropzone multiarchivo -->
+          <div class="est-upload-area" id="estDropzone">
+            <div class="est-upload-area__icon">
+              <svg class="i" style="width:24px;height:24px;"><use href="#i-upload"/></svg>
+            </div>
+            <strong>Elige archivos o suéltalos aquí</strong>
+            <small>Haz clic para buscar en tu dispositivo o arrastra los archivos a este recuadro</small>
+            <input type="file" id="estFileInput" multiple style="display:none;" accept=".mp4,.webm,.mov,.mp3,.wav,.pdf,.png,.jpg,.jpeg,.doc,.docx,.ppt,.pptx,.zip,.musicxml,.mxl">
+          </div>
+
+          <div id="estUploadError" class="est-error" style="margin-top:8px;" role="alert"></div>
+
+          <!-- Archivos seleccionados pendientes de enviar -->
+          <div class="est-files-staged" id="estStagedFilesList"></div>
+
+          <!-- Botones de Acción: Cancelar y Entregar -->
+          <div class="est-task-actions-row">
+            <button type="button" class="btn btn--soft-red" id="estCancelUploadBtn" title="Descarta todos los archivos adjuntados antes de enviar">
+              <svg class="i"><use href="#i-x"/></svg> Cancelar
+            </button>
+            <button type="button" class="btn btn--green" id="estSubmitTaskBtn">
+              <svg class="i"><use href="#i-upload"/></svg> Entregar tarea
+            </button>
+          </div>
+        `;
+      }
+
+      detailHtml = `
+        <div class="est-detail-hero">
+          <div class="est-detail-hero__main">
+            <div class="est-deadline-badge ${new Date() > new Date(t.limite) ? '' : 'ontime'}">
+              <span>📅 Fecha límite de entrega: ${esc(t.limite)} 11:59 PM</span>
+              ${new Date() > new Date(t.limite) ? '<span class="pill red">Plazo vencido</span>' : '<span class="pill neutral">Dentro del plazo</span>'}
+            </div>
+            <h2>Tarea Sesión ${activeSession.numero}: ${esc(t.titulo)}</h2>
+            <div class="est-detail-hero__meta">
+              <span>Publicada: ${esc(t.publicada)}</span>
+              <span>•</span>
+              <span>Curso: ${esc(course.nombre)}</span>
+            </div>
+          </div>
+          ${entrega ? `
+            <div>
+              <a href="#/tarea/${activeSession.id}/detalle" class="btn btn--outline btn--sm">
+                <svg class="i"><use href="#i-eye"/></svg> Ver detalles
+              </a>
+            </div>
+          ` : ''}
+        </div>
+
+        <div class="est-detail-body">
+          <div class="est-task-consigna">
+            <strong style="display:block;font-size:12.5px;color:var(--red);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">
+              Instrucciones del docente:
+            </strong>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--ink-2);">${esc(t.desc)}</p>
+            ${t.enlace ? `<div style="margin-top:8px;"><a href="${esc(t.enlace)}" target="_blank" rel="noopener" class="est-link">🔗 Enlace de apoyo complementario</a></div>` : ''}
+            ${teacherDocHtml}
+          </div>
+
+          ${submissionSectionHtml}
+        </div>
+      `;
+    }
+
+    appContent.innerHTML = `
+      <div class="est-master-detail">
+        <aside class="est-side-list" aria-label="Lista de tareas del curso">
+          <div class="est-side-list__head">
+            <h2>Tareas del curso</h2>
+            <p>Estado de entregas y evaluaciones</p>
+          </div>
+          ${listHtml}
+        </aside>
+
+        <section class="est-detail-panel" aria-label="Detalle y entrega de tarea">
+          ${detailHtml}
+        </section>
+      </div>
+    `;
+
+    // Eventos de selección de tarea
+    appContent.querySelectorAll('.est-item-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-task-id');
+        window.location.hash = `#/tarea/${id}`;
+      });
+    });
+
+    // Descarga de archivo docente
+    const dlDocBtn = appContent.querySelector('.est-btn-download-doc');
+    if (dlDocBtn) {
+      dlDocBtn.addEventListener('click', () => {
+        const fn = dlDocBtn.getAttribute('data-file');
+        triggerRealDownload(fn, `Consigna y pautas para la Tarea de Dunamys.`);
+      });
+    }
+
+    // Lógica de carga de archivos (Dropzone y Cancelar)
+    const dropzone = document.getElementById('estDropzone');
+    const fileInput = document.getElementById('estFileInput');
+    const stagedList = document.getElementById('estStagedFilesList');
+    const uploadError = document.getElementById('estUploadError');
+    const cancelBtn = document.getElementById('estCancelUploadBtn');
+    const submitBtn = document.getElementById('estSubmitTaskBtn');
+
+    if (dropzone && fileInput) {
+      stagedFiles = []; // Reset al entrar
+
+      function updateStagedUI() {
+        if (!stagedFiles.length) {
+          stagedList.innerHTML = '';
+          return;
+        }
+
+        stagedList.innerHTML = stagedFiles.map((file, idx) => `
+          <div class="est-staged-file">
+            <div>
+              <strong>${esc(file.name)}</strong>
+              <span>(${formatBytes(file.size)})</span>
+            </div>
+            <button type="button" class="est-remove-file-btn" data-file-index="${idx}" aria-label="Quitar archivo ${esc(file.name)}">
+              ✕
+            </button>
+          </div>
+        `).join('');
+
+        stagedList.querySelectorAll('.est-remove-file-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.getAttribute('data-file-index'), 10);
+            stagedFiles.splice(idx, 1);
+            updateStagedUI();
+          });
+        });
+      }
+
+      function handleFilesSelected(fileList) {
+        uploadError.style.display = 'none';
+        let invalid = false;
+
+        Array.from(fileList).forEach(file => {
+          const ext = file.name.split('.').pop().toLowerCase();
+          if (!ALLOWED_EXTENSIONS.includes(ext) || file.size > MAX_FILE_BYTES) {
+            invalid = true;
+          } else {
+            // Evitar duplicados
+            if (!stagedFiles.some(f => f.name === file.name && f.size === file.size)) {
+              stagedFiles.push(file);
+            }
+          }
+        });
+
+        if (invalid) {
+          uploadError.textContent = 'Formato o tamaño de archivo no permitido. Solo se permiten videos, audios, documentos, partituras e imágenes de hasta 200 MB.';
+          uploadError.style.display = 'flex';
+        }
+
+        updateStagedUI();
+      }
+
+      dropzone.addEventListener('click', () => fileInput.click());
+
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('is-dragover');
+      });
+
+      dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('is-dragover');
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('is-dragover');
+        if (e.dataTransfer.files) {
+          handleFilesSelected(e.dataTransfer.files);
+        }
+      });
+
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files) {
+          handleFilesSelected(fileInput.files);
+          fileInput.value = '';
+        }
+      });
+
+      // Botón Cancelar antes de enviar (Limpia lo adjuntado)
+      cancelBtn.addEventListener('click', () => {
+        if (!stagedFiles.length) {
+          showToast('No hay archivos adjuntos para cancelar.', 'info');
+          return;
+        }
+        stagedFiles = [];
+        updateStagedUI();
+        uploadError.style.display = 'none';
+        showToast('Archivos adjuntos cancelados y descartados.', 'info');
+      });
+
+      // Botón Entregar tarea (RF039)
+      submitBtn.addEventListener('click', () => {
+        uploadError.style.display = 'none';
+
+        // RF039 CA02: Sin archivo -> error y no envía
+        if (!stagedFiles.length) {
+          uploadError.textContent = 'Adjunta al menos un archivo para entregar la tarea.';
+          uploadError.style.display = 'flex';
+          return;
+        }
+
+        // TODO backend: Aquí se enviaría FormData con POST /api/entregas
+        const now = new Date();
+        const deadline = new Date(activeSession.tarea.limite);
+        const conRetraso = now > deadline;
+
+        const filesData = stagedFiles.map(f => ({
+          nombre: f.name,
+          tamano: formatBytes(f.size),
+          tipo: f.type || 'application/octet-stream'
+        }));
+
+        const nuevaEntrega = {
+          sesionId: activeSession.id,
+          tareaId: activeSession.tarea.id,
+          fecha: now.toISOString(),
+          archivos: filesData,
+          estado: 'Pendiente',
+          nota: null,
+          comentario: '',
+          revisadaEl: null,
+          conRetraso: conRetraso
+        };
+
+        const currentEntregas = getEntregas();
+        currentEntregas[activeSession.id] = nuevaEntrega;
+        saveEntregas(currentEntregas);
+
+        stagedFiles = [];
+        showToast('¡Tarea entregada con éxito! Tu docente revisará la entrega pronto.', 'success');
+
+        // Redirigir a ver detalles
+        window.location.hash = `#/tarea/${activeSession.id}/detalle`;
+      });
+    }
+  }
+
+  // ===================================================================
+  // 9. PANTALLA: VER DETALLES (#/tarea/ID/detalle) (RF041)
+  // ===================================================================
+  function renderDetalleEntregaView(course, entregas, sessionId) {
+    const session = course.sesiones.find(s => s.id === sessionId);
+    if (!session) {
+      window.location.hash = '#/tareas';
+      return;
+    }
+
+    const entrega = entregas[session.id] || null;
+    const t = session.tarea;
+
+    pageTitle.innerHTML = 'Detalle de <span>Entrega</span>';
+    pageSubtitle.textContent = `Consulta la retroalimentación, calificación y estado de la Tarea Sesión ${session.numero}.`;
+
+    if (!entrega) {
+      appContent.innerHTML = `
+        <div class="est-detail-panel">
+          <div class="est-state-panel">
+            <h3>Esta tarea aún no ha sido entregada</h3>
+            <p>Debes adjuntar tu evidencia para consultar los detalles y la calificación.</p>
+            <a href="#/tarea/${session.id}" class="btn btn--primary">Ir a entregar tarea</a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    // Fechas y Calificación
+    const fechaEnvio = new Date(entrega.fecha).toLocaleString('es-PE', { dateStyle: 'medium', timeStyle: 'short' });
+    const calificacionTexto = entrega.nota !== null ? `${entrega.nota} / 20` : 'Sin calificar';
+
+    // Línea de Progreso (Entregado -> Revisado -> Aprobado/Observado)
+    let step1Class = 'completed'; // Entregado siempre ok
+    let step2Class = entrega.estado !== 'Pendiente' ? 'completed' : 'current';
+    let step3Class = '';
+    let step3Label = 'Aprobado / Observado';
+    let step3Icon = '3';
+
+    if (entrega.estado === 'Aprobada') {
+      step3Class = 'completed';
+      step3Label = '✔ Aprobado';
+      step3Icon = '✓';
+    } else if (entrega.estado === 'Observada') {
+      step3Class = 'observed';
+      step3Label = '⚠ Observado';
+      step3Icon = '!';
+    } else {
+      step3Class = '';
+      step3Label = 'Por calificar';
+      step3Icon = '3';
+    }
+
+    // Archivos enviados por el estudiante
+    const filesStudentHtml = entrega.archivos.map(f => `
+      <div class="est-material-card" style="margin-bottom:8px;">
+        <div class="est-mat-icon ${f.nombre.endsWith('.mp4') ? 'video' : 'pdf'}">
+          <svg class="i" style="width:20px;height:20px;"><use href="${f.nombre.endsWith('.mp4') ? '#i-video' : '#i-file'}"/></svg>
+        </div>
+        <div class="est-mat-info">
+          <strong>${esc(f.nombre)}</strong>
+          <div class="est-mat-meta">
+            <span>Tamaño: ${esc(f.tamano)}</span>
+            <span>• Enviado: ${esc(fechaEnvio)}</span>
+          </div>
+        </div>
+        <div class="est-mat-actions">
+          <button type="button" class="btn btn--outline btn--sm est-btn-download-my-file" data-filename="${esc(f.nombre)}">
+            <svg class="i"><use href="#i-download"/></svg> Descargar
+          </button>
+        </div>
+      </div>
+    `).join('');
+
+    // Panel de Retroalimentación del docente
+    let feedbackHtml = '';
+    if (entrega.estado === 'Pendiente') {
+      feedbackHtml = `
+        <div style="background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:12px;padding:16px;color:var(--gold-dark);display:flex;align-items:flex-start;gap:10px;">
+          <svg class="i" style="width:22px;height:22px;flex:none;"><use href="#i-clock"/></svg>
+          <div>
+            <strong style="display:block;margin-bottom:4px;">Tu tarea aún no ha sido revisada</strong>
+            <p style="margin:0;font-size:13.5px;">El docente evaluará tu entrega en un plazo estimado de 48 horas laborales.</p>
+          </div>
+        </div>
+      `;
+    } else {
+      feedbackHtml = `
+        <div class="est-teacher-header">
+          <div class="est-teacher-avatar">PR</div>
+          <div>
+            <strong>${esc(course.docente)}</strong>
+            <small>Revisado el ${esc(entrega.revisadaEl || 'Recientemente')}</small>
+          </div>
+        </div>
+        <blockquote class="est-feedback-text">
+          "${esc(entrega.comentario || 'Buen trabajo en los ejercicios de práctica.')}"
+        </blockquote>
+      `;
+    }
+
+    appContent.innerHTML = `
+      <div class="est-full-detail">
+        <!-- Barra de retroceso -->
+        <div class="est-detail-backbar">
+          <a href="#/tareas">
+            <svg class="i"><use href="#i-left"/></svg>
+            <span>Volver a tareas</span>
+          </a>
+          <span style="font-weight:700;font-size:15px;">Tarea Sesión ${session.numero}: ${esc(t.titulo)}</span>
+          <span class="pill ${entrega.estado === 'Aprobada' ? 'green' : entrega.estado === 'Observada' ? 'red' : 'gold'}">
+            ${esc(entrega.estado)}
+          </span>
+        </div>
+
+        <!-- Tarjetas Superiores: Fechas y Calificación -->
+        <div class="est-stats-grid">
+          <div class="est-stat-box highlight">
+            <small>Fecha límite de entrega</small>
+            <strong>${esc(t.limite)} 11:59 PM</strong>
+          </div>
+          <div class="est-stat-box">
+            <small>Entregado el</small>
+            <strong>${esc(fechaEnvio)}</strong>
+            ${entrega.conRetraso ? '<span class="pill red" style="margin-left:6px;font-size:11px;">Entregada con retraso</span>' : ''}
+          </div>
+          <div class="est-stat-box">
+            <small>Calificación</small>
+            <strong style="color:${entrega.nota ? (entrega.nota >= 14 ? 'var(--green-dark)' : 'var(--red)') : 'inherit'};">
+              ${esc(calificacionTexto)}
+            </strong>
+          </div>
+        </div>
+
+        <!-- Línea de Progreso de Estado -->
+        <div class="est-progress-box">
+          <h3>Línea de estado de la entrega</h3>
+          <div class="est-stepper">
+            <div class="est-step-node ${step1Class}">
+              <div class="est-step-circle">✓</div>
+              <span class="est-step-label">Entregado</span>
+            </div>
+            <div class="est-step-node ${step2Class}">
+              <div class="est-step-circle">${entrega.estado !== 'Pendiente' ? '✓' : '○'}</div>
+              <span class="est-step-label">${entrega.estado !== 'Pendiente' ? 'Revisado' : 'En revisión'}</span>
+            </div>
+            <div class="est-step-node ${step3Class}">
+              <div class="est-step-circle">${step3Icon}</div>
+              <span class="est-step-label">${step3Label}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contenido Dividido: Consigna / Mi Entrega y Retroalimentación -->
+        <div class="est-detail-split">
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div class="est-content-card">
+              <h3><svg class="i"><use href="#i-book"/></svg> Consigna de la tarea</h3>
+              <p style="margin:0 0 12px;font-size:14px;color:var(--ink-2);line-height:1.6;">${esc(t.desc)}</p>
+              ${t.archivoDocente ? `
+                <button type="button" class="btn btn--outline btn--sm est-btn-download-doc" data-file="${esc(t.archivoDocente)}">
+                  <svg class="i"><use href="#i-download"/></svg> Descargar ${esc(t.archivoDocente)}
+                </button>
+              ` : ''}
+            </div>
+
+            <div class="est-content-card">
+              <h3><svg class="i"><use href="#i-upload"/></svg> Mi entrega (archivos enviados)</h3>
+              <div>${filesStudentHtml}</div>
+            </div>
+          </div>
+
+          <!-- Panel de Retroalimentación del Docente -->
+          <aside class="est-feedback-card">
+            <h3 style="margin:0 0 14px;font:700 16px/1.2 var(--font-display);color:var(--ink);">
+              Retroalimentación del docente (RF041)
+            </h3>
+            ${feedbackHtml}
+            ${entrega.estado === 'Observada' ? `
+              <div style="margin-top:16px;">
+                <a href="#/tarea/${session.id}" class="btn btn--primary btn--sm" style="width:100%;">
+                  Volver a entregar tarea
+                </a>
+              </div>
+            ` : ''}
+          </aside>
+        </div>
+      </div>
+    `;
+
+    // Eventos de descarga
+    appContent.querySelectorAll('.est-btn-download-my-file').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const fn = btn.getAttribute('data-filename');
+        triggerRealDownload(fn, `Archivo de evidencia del estudiante: ${fn}`);
+      });
+    });
+
+    const dlDoc = appContent.querySelector('.est-btn-download-doc');
+    if (dlDoc) {
+      dlDoc.addEventListener('click', () => {
+        const fn = dlDoc.getAttribute('data-file');
+        triggerRealDownload(fn, `Consigna docente Dunamys.`);
+      });
+    }
+  }
+
+  // ===================================================================
+  // 10. UTILIDADES Y NAVEGACIÓN
+  // ===================================================================
+  function formatBytes(bytes) {
+    if (!bytes || bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+  }
+
+  // Eventos de barra lateral
+  navSesiones.addEventListener('click', () => {
+    window.location.hash = '#/sesiones';
+  });
+  navTareas.addEventListener('click', () => {
+    window.location.hash = '#/tareas';
+  });
+
+  // Reaccionar al cambio de URL hash
+  window.addEventListener('hashchange', render);
+
+  // Render inicial al cargar la página
+  render();
+})();
+</script>
+</body>
+</html>

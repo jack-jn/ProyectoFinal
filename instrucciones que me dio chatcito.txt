@@ -1,0 +1,58 @@
+========================================================
+  ACADEMIA DE MÚSICA DUNAMYS - INSTRUCCIONES DE USO
+========================================================
+
+REQUISITOS PREVIOS:
+- Tener encendido el servidor MySQL en el puerto 3306 (Laragon o XAMPP).
+- PHP 8.2+ y Composer instalados.
+- Nota: Si tu MySQL tiene contraseña en el usuario "root", agrégala en la línea
+  DB_PASSWORD= dentro del archivo .env antes de ejecutar los comandos.
+
+--------------------------------------------------------
+1. PREPARAR Y LEVANTAR EL PROYECTO
+--------------------------------------------------------
+Abre una terminal dentro de esta carpeta y ejecuta los siguientes comandos en orden:
+
+1) Solo si no existe la carpeta "vendor":
+   composer install
+
+2) Crear la base de datos, tablas y usuarios de prueba automáticamente:
+   php artisan migrate --seed
+   (Si Laravel pregunta si deseas crear la base de datos "db_dunamys",
+    escribe "yes" y presiona Enter).
+
+3) Enlazar el almacenamiento público (imágenes y comprobantes):
+   php artisan storage:link
+
+4) Limpiar caché de configuración y vistas:
+   php artisan optimize:clear
+
+5) Iniciar el servidor local (Puerto 8000):
+   php artisan serve
+
+Luego abre tu navegador en:
+http://127.0.0.1:8000
+
+--------------------------------------------------------
+2. CREDENCIALES DE PRUEBA
+--------------------------------------------------------
+Contraseña para todas las cuentas: 12345678
+
+- Docente / Admin: docente@dunamys.edu.pe
+- Secretaría:      secretaria@dunamys.edu.pe
+- Estudiante:      estudiante@dunamys.edu.pe
+
+--------------------------------------------------------
+3. CORREO ELECTRÓNICO (OPCIONAL)
+--------------------------------------------------------
+Por defecto el proyecto está en modo local (MAIL_MAILER=log), por lo que
+los correos generados (recuperación de clave, credenciales, reclamos) se
+guardan en el archivo: storage/logs/laravel.log
+
+Si deseas probar envíos reales con Gmail, edita el archivo .env:
+  MAIL_MAILER=smtp
+  MAIL_USERNAME=tu_correo@gmail.com
+  MAIL_PASSWORD=tu_contrasena_de_aplicacion_de_16_letras
+  MAIL_FROM_ADDRESS="tu_correo@gmail.com"
+
+Después ejecuta "php artisan config:clear" y reinicia "php artisan serve".
